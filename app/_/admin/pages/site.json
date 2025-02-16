@@ -1,0 +1,77 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "pages": [
+      {
+        "label": "Home",
+        "url": "/",
+        "redirect": "/main"
+      },
+      {
+        "children": [
+          {
+            "label": "仪表盘",
+            "url": "/main",
+            "schemaApi": "jsonp:/_/admin/pages/main.js?callback=jsonpCallback",
+            "icon": "fa fa-tachometer"
+          },
+          {
+            "label": "防火墙",
+            "url": "/firewall",
+            "schemaApi": "jsonp:/_/admin/pages/firewall.js?callback=jsonpCallback",
+            "icon": "fa fa-shield"
+          },
+          {
+            "label": "网站管理",
+            "url": "/website",
+            "schemaApi": "jsonp:/_/admin/pages/website.js?callback=jsonpCallback",
+            "icon": "fa fa-globe"
+          },
+          {
+            "label": "缓存管理",
+            "url": "/cache",
+            "schemaApi": "jsonp:/_/admin/pages/cache.js?callback=jsonpCallback",
+            "icon": "fa fa-cubes"
+          },
+          {
+            "label": "目标管理",
+            "url": "/target",
+            "schemaApi": "jsonp:/_/admin/pages/target.js?callback=jsonpCallback",
+            "icon": "fa fa-database"
+          },
+          {
+            "label": "内容管理",
+            "url": "/doc",
+            "schemaApi": "jsonp:/_/admin/pages/doc.js?callback=jsonpCallback",
+            "icon": "fa fa-file-text"
+          },
+          {
+            "label": "Minio后台",
+            "url": "/minio",
+            "schemaApi": "jsonp:/_/admin/pages/minio.js?callback=jsonpCallback",
+            "icon": "fa fa-bug"
+          },
+          {
+            "label": "蜘蛛日志",
+            "url": "/spider",
+            "schemaApi": "jsonp:/_/admin/pages/spider.js?callback=jsonpCallback",
+            "icon": "fa fa-spider"
+          },
+          {
+            "label": "查询工具",
+            "url": "/tool",
+            "schemaApi": "jsonp:/_/admin/pages/tool.js?callback=jsonpCallback",
+            "icon": "fa fa-magnifying-glass"
+          },
+          {
+            "label": "设置",
+            "url": "/config",
+            "schemaApi": "jsonp:/_/admin/pages/config.js?callback=jsonpCallback",
+            "icon": "fa fa-cog"
+          }
+        ]
+      }
+    ]
+  }
+}
