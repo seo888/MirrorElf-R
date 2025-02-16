@@ -3,3 +3,4 @@ app/log
 app/src
 app/.gitignore
 app/Cargo*
+minio
