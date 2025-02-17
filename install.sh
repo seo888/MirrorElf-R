@@ -59,15 +59,8 @@ fi
 
 echo "'镜像精灵 MirrorElf $(echo "$RELEASE_JSON" | jq -r .tag_name) 下载成功'"
 
-# 设置项目根目录
-PROJECT_DIR="/www/MirrorElf"
-
-# 切换到项目目录
-cd "$PROJECT_DIR" || exit 1
-
-
 # 定义输出文件
-IPS_TXT="MirrorElf/app/config/IPS.txt"
+IPS_TXT="./MirrorElf/app/config/IPS.txt"
 
 # 获取所有 IP 地址并排除 127.0.0.1 和局域网 IP 地址
 ips=$(ip addr | grep 'inet ' | awk '{print $2}' | cut -d/ -f1 | \
@@ -76,6 +69,15 @@ ips=$(ip addr | grep 'inet ' | awk '{print $2}' | cut -d/ -f1 | \
     
 # 将 IP 地址写入文件
 echo "$ips" > "$IPS_TXT"
+
+# 设置项目根目录
+PROJECT_DIR="/www/MirrorElf"
+
+# 切换到项目目录
+cd "$PROJECT_DIR" || exit 1
+
+
+
 
 # 启动容器
 docker compose up -d || exit 1
