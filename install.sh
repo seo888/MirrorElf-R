@@ -67,7 +67,7 @@ cd "$PROJECT_DIR" || exit 1
 
 
 # 定义输出文件
-IPS_TXT="./config/IPS.txt"
+IPS_TXT="./app/config/IPS.txt"
 
 # 获取所有 IP 地址并排除 127.0.0.1 和局域网 IP 地址
 ips=$(ip addr | grep 'inet ' | awk '{print $2}' | cut -d/ -f1 | \
