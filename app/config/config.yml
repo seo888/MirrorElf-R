@@ -22,7 +22,7 @@ SEOFunctions:
 AccessPolicy:
   forced_domain_binding: False # 强制域名绑定
   ip_site_referrer: False # IP来路
-  pan_site_referrer: False # 泛站来路
+  pan_site_referrer: True # 泛站来路
   ua_banlist: ["Scrapy", "Curl", "HttpClient", "UniversalFeedParser", "lightDeckReports Bot", "heritrix", "Java", "Bytespider", "YandexBot", "FlightDeckReports", "Indy Library", "BOT/0.1", "DigExt", "Feedly", "Swiftbot", "oBot", "Python-urllib", "CrawlDaddy", "YYSpider", "JikeSpider", "ZmEu", "MJ12bot", "WebZIP", "Apache-HttpAsyncClient", "HttpClient", "WinHttp", "jaunty", "Alexa Toolbar", "LinkpadBot", "Microsoft URL Control", "node-superagent", "Ezooms", "Jullo", "SemrushBot", "FetchURL", "AhrefsBot", "EasouSpider", "java/", "CoolpadWebkit", "Linguee Bot", "ApacheBench", "AskTbFXTV", "FeedDemon"]
   ip_banlist: ['888.888.888.888','88.8.8.8','10.240.2.131']
 
