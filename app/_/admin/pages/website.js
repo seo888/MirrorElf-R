@@ -11,16 +11,16 @@
 				"type": "crud",
 				"id": "crud-table",
 				"syncLocation": false,
-				"quickSaveApi": "/_api_/website/update?id=${id}",  // 更新 API 地址
+				// "quickSaveApi": "/_api_/website/update?id=${id}",  // 更新 API 地址
+				// "deferApi": "/_api_/website/query?parentId=${id}",
 				// "draggable": true,
 				"api": "/_api_/website/query",
 				// "checkOnItemClick": true,
 				"perPageAvailable": [
 					10,
 					20,
-					50,
+					100,
 					500,
-					1000
 				],
 				"perPage": 20,
 				"keepItemSelectionOnPageChange": true,
@@ -32,7 +32,7 @@
 						"label": "批量删除",
 						"level": "danger",
 						"actionType": "ajax",
-						"api": "delete:/_api_/website/delete?ids=${ids|raw}",
+						"api": "delete:/_api_/website/delete?files=${ids|raw}",
 						"confirmText": "确认批量删除网站【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
 					},
 					{
@@ -42,8 +42,8 @@
 					}
 
 				],
-				"quickSaveApi": "/amis/api/sample/bulkUpdate",
-				"quickSaveItemApi": "/amis/api/sample/$id",
+				// "quickSaveApi": "/amis/api/sample/bulkUpdate",
+				// "quickSaveItemApi": "/amis/api/sample/$id",
 				"filterTogglable": true,
 				"headerToolbar": [
 					"bulkActions",
@@ -114,19 +114,6 @@
 									},
 									{
 										"type": "input-text",
-										"name": "target",
-										"label": "目标站",
-										"required": true,
-										"validations": {
-											"matchRegexp": ".*\\|.*"
-										},
-										"validationErrors": {
-											"matchRegexp": "请使用间隔符“|” 指定目标站语言 如: en|www.english.com  或  zh|www.chinese.com"
-										},
-										"placeholder": "目标站格式: en|www.english.com"
-									},
-									{
-										"type": "input-text",
 										"name": "title",
 										"label": "网站标题",
 										"placeholder": "请输入网站标题",
@@ -149,35 +136,66 @@
 										"required": true
 									},
 									{
+										"type": "input-text",
+										"name": "target",
+										"label": "目标站",
+										"required": true,
+										"validations": {
+											"matchRegexp": ".*\\|.*"
+										},
+										"validationErrors": {
+											"matchRegexp": "请使用间隔符“|” 指定目标站语言 如: en|www.english.com  或  zh|www.chinese.com"
+										},
+										"placeholder": "目标站格式: en|www.english.com"
+									},
+									// 插入新的 service，用于加载 target_replace 数据
+									{
+										"type": "service",
+										"api": "/_api_/replace/query?domain=$target",  // 动态加载 target_replace 数据的 API
+										"body": [
+											{
+												"type": "editor",
+												"language": "yaml",
+												"name": "target_replace",
+												"label": "目标站替换词",
+												"value": "全局替换:\n  - '待替换字符串 -> {关键词}'\n首页替换:\n  - '待替换字符串 -> {关键词2}'\n内页替换:\n  - '待替换字符串 -> 替换词'"
+											}
+										]
+									},
+									{
+										"type": "alert",
+										"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
+									},
+									{
 										"type": "select",
 										"name": "replace_mode",
 										"label": "替换模式",
 										"options": [
 											{
-												"label": "仅目标站替换",
+												"label": "0. 仅目标站替换",
 												"value": 0
 											},
 											{
-												"label": "先 目标站替换 后 本站替换",
+												"label": "1. 先 目标站替换 后 本站替换",
 												"value": 1
 											},
 											{
-												"label": "仅本站替换",
+												"label": "2. 仅本站替换",
 												"value": 2
 											},
 											{
-												"label": "先 本站替换 后 目标站替换",
+												"label": "3. 先 本站替换 后 目标站替换",
 												"value": 3
 											},
 										],
-										"value": 2,  // 设置默认值为 zh
+										"value": 0,  // 设置默认值为 zh
 										// "placeholder": "是否开启链接映射"
 									},
 									{
 										"type": "editor",
 										"language": "yaml",
 										"name": "replace_string",
-										"label": "网站替换词",
+										"label": "本站替换词",
 										"value": "全局替换:\n  - '待替换字符串 -> 替换词'\n首页替换:\n  - '待替换字符串 -> 替换词'\n内页替换:\n  - '待替换字符串 -> 替换词'"
 									}
 								]
@@ -197,35 +215,53 @@
 							"body": {
 								"type": "form",
 								"name": "sample-edit-form",
-								"api": "/_api_/website/update?id=$id",
+								"api": "/_api_/website/create",
 								"reload": "crud-table", // 在提交后重新加载特定的组件
 								"body": [
 									{
 										"type": "select",
-										"name": "link_mapping",
+										"name": "over_write",
 										"label": "建站模式",
 										// "required": true,
 										"options": [
 											{
 												"label": "覆盖已有网站",
-												"value": "true"
+												"value": true
 											},
 											{
 												"label": "跳过已有网站",
-												"value": "false"
+												"value": false
 											}
 										],
-										"value": "false",  // 设置默认值为 zh
+										"value": false,
+										"placeholder": "是否覆盖"
+									},
+									{
+										"type": "select",
+										"name": "target_replace_over_write",
+										"label": "目标站替换词",
+										// "required": true,
+										"options": [
+											{
+												"label": "覆盖",
+												"value": true
+											},
+											{
+												"label": "存在则跳过",
+												"value": false
+											}
+										],
+										"value": false,
 										"placeholder": "是否覆盖"
 									},
 									// 插入新的 service，用于加载 预建站文档 数据
 									{
 										"type": "service",
-										"api": "/_api_/doc?file_path=website.txt",  // 动态加载 预建站文档
+										"api": "/_api_/doc/query?file_path=website.txt",  // 动态加载 预建站文档
 										"body": [
 											{
 												"type": "alert",
-												"body": "格式：<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<网站替换词(可留空)>",
+												"body": "格式：<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>",
 											},
 											{
 												"type": "alert",
@@ -234,9 +270,9 @@
 											{
 												"type": "editor",
 												"language": "yaml",
-												"name": "target_replace",
+												"name": "content",
 												"label": "建站信息",
-												"placeholder": "<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<网站替换词(可留空)>",
+												"placeholder": "<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>",
 												"value": ""
 											},
 											{
@@ -257,7 +293,7 @@
 					},
 					{
 						"type": "tpl",
-						"tpl": "网站总数: ${web_count} | 主站: ${www_count} | 泛站: ${web_count-www_count} ",
+						"tpl": "主站: ${www_count} | 泛站: ${web_count} | 共: ${www_count+web_count}",
 						"className": "v-middle"
 					},
 					"reload",
@@ -290,13 +326,20 @@
 						"searchable": {
 							"type": "textarea",
 							"name": "search_term",
-							"label": "🔍模糊搜索",
+							"label": "🔍搜索",
 							"clearable": true,
 							"maxLength": 10000,
 							"showCounter": true,
 						},
 						"fixed": "left",
-						"sortable": true,  // 启用排序功能
+						// "sortable": true,  // 启用排序功能
+						"visible": false // 隐藏第一列
+					},
+					{
+						"name": "index",
+						"label": "序号",
+						"fixed": "left",
+						// "sortable": true,  // 启用排序功能
 					},
 					{
 						"type": "static-mapping",
@@ -306,28 +349,28 @@
 							"true": "主站",
 							"false": "泛站"
 						},
-						"sortable": true,
-						"searchable": {
-							"type": "select",
-							"name": "is_www",
-							"label": "站点类型",
-							"options": [
-								{
-									"label": "主站+泛站",
-									"value": 0
-								},
-								{
-									"label": "主站",
-									"value": 1
-								},
-								{
-									"label": "泛站",
-									"value": 2
-								}
-							],
-							"value": 1,  // 默认值设置为 "主站"
-							"placeholder": "选择站点类型"
-						}
+						// "sortable": true,
+						// "searchable": {
+						// 	"type": "select",
+						// 	"name": "is_www",
+						// 	"label": "站点类型",
+						// 	"options": [
+						// 		{
+						// 			"label": "主站+泛站",
+						// 			"value": 0
+						// 		},
+						// 		{
+						// 			"label": "主站",
+						// 			"value": 1
+						// 		},
+						// 		{
+						// 			"label": "泛站",
+						// 			"value": 2
+						// 		}
+						// 	],
+						// 	"value": 0,  // 默认值设置为 "主站+泛站"
+						// 	"placeholder": "选择站点类型"
+						// }
 					},
 					{
 						"type": "tpl",
@@ -335,27 +378,27 @@
 						"name": "domain",
 						"label": "域名",
 						"fixed": "left",
-						"searchable": true,
-						"sortable": true
+						// "searchable": true,
+						// "sortable": true
 					},
 					{
 						"name": "lang",
 						"label": "语言",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
+						// "sortable": true,  // 启用排序功能
+						// "searchable": true,
 					},
 					{
 						"name": "root_domain",
 						"label": "根域名",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
+						// "sortable": true,  // 启用排序功能
+						// "searchable": true,
 					},
 					{
 						"type": "tpl",
 						"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
 						"name": "target",
 						"label": "目标站",
-						"sortable": true,
+						// "sortable": true,
 						"searchable": true,
 						"onEvent": {
 							"click": {
@@ -371,14 +414,14 @@
 					{
 						"name": "title",
 						"label": "网站标题",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
+						// "sortable": true,  // 启用排序功能
+						// "searchable": true,
 					},
 					{
 						"name": "keywords",
 						"label": "关键词",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
+						// "sortable": true,  // 启用排序功能
+						// "searchable": true,
 					},
 					{
 						"name": "description",
@@ -386,7 +429,7 @@
 					},
 					{
 						"name": "replace_string",
-						"label": "网站替换词",
+						"label": "本站替换词",
 						"hidden": true  // 隐藏该字段
 					},
 					{
@@ -429,20 +472,18 @@
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
-										"api": "/_api_/website/update?id=$id",
+										"api": "put:/_api_/website/update?file=$id",
 										"reload": "crud-table", // 在提交后重新加载特定的组件
 										"body": [
 											{
 												"type": "static",
 												"name": "domain",
 												"label": "域名",
-
 											},
 											{
-												"type": "input-text",
+												"type": "static",
 												"name": "lang",
 												"label": "语言",
-												"required": true
 											},
 											{
 												"type": "static",
@@ -465,11 +506,11 @@
 												"options": [
 													{
 														"label": "开启",
-														"value": "true"
+														"value": true
 													},
 													{
 														"label": "关闭",
-														"value": "false"
+														"value": false
 													}
 												],
 												// "value": "false",  // 设置默认值为 zh
@@ -528,7 +569,7 @@
 												"label": "替换模式",
 												"options": [
 													{
-														"label": "仅目标站替换",
+														"label": "仅 目标站替换",
 														"value": 0
 													},
 													{
@@ -536,7 +577,7 @@
 														"value": 1
 													},
 													{
-														"label": "仅本站替换",
+														"label": "仅 本站替换",
 														"value": 2
 													},
 													{
@@ -551,7 +592,7 @@
 												"type": "editor",
 												"language": "yaml",
 												"name": "replace_string",
-												"label": "网站替换词"
+												"label": "本站替换词"
 											},
 											{
 												"type": "static-datetime",
@@ -568,7 +609,7 @@
 								"actionType": "ajax",
 								"tooltip": "清空缓存",
 								"confirmText": "确认清空【${id}】${domain} 所有页面缓存",
-								"api": "delete:/_api_/website_cache/delete?domain=$domain",
+								"api": "delete:/_api_/cache/delete?domain=$domain",
 								"reload": "none"
 							},
 							{
@@ -577,7 +618,7 @@
 								"actionType": "ajax",
 								"tooltip": "删除",
 								"confirmText": "确认删除【${id}】${domain}",
-								"api": "delete:/_api_/website/delete?ids=$id"
+								"api": "delete:/_api_/website/delete?files=$id"
 							}
 						],
 						"toggled": true

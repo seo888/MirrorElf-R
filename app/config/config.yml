@@ -24,7 +24,7 @@ AccessPolicy:
   ip_site_referrer: False # IP来路
   pan_site_referrer: True # 泛站来路
   ua_banlist: ["Scrapy", "Curl", "HttpClient", "UniversalFeedParser", "lightDeckReports Bot", "heritrix", "Java", "Bytespider", "YandexBot", "FlightDeckReports", "Indy Library", "BOT/0.1", "DigExt", "Feedly", "Swiftbot", "oBot", "Python-urllib", "CrawlDaddy", "YYSpider", "JikeSpider", "ZmEu", "MJ12bot", "WebZIP", "Apache-HttpAsyncClient", "HttpClient", "WinHttp", "jaunty", "Alexa Toolbar", "LinkpadBot", "Microsoft URL Control", "node-superagent", "Ezooms", "Jullo", "SemrushBot", "FetchURL", "AhrefsBot", "EasouSpider", "java/", "CoolpadWebkit", "Linguee Bot", "ApacheBench", "AskTbFXTV", "FeedDemon"]
-  ip_banlist: ['888.888.888.888','88.8.8.8','10.240.2.131']
+  ip_banlist: ['888.888.888.888','88.8.8.8']
 
 AdPolicy:
   ad_url: "<url id=\"cuq48fu4bbjj8n8g45ug\" type=\"url\" status=\"parsed\" title=\"百度一下，你就知道\" wc=\"1190\">http://www.baidu.com</url> "

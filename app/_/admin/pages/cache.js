@@ -11,9 +11,9 @@
 				"type": "crud",
 				"id": "crud-table",
 				"syncLocation": false,
-				// "quickSaveApi": "/_api_/website_cache/update?id=${id}",  // 更新 API 地址
+				// "quickSaveApi": "/_api_/cache/update?id=${id}",  // 更新 API 地址
 				// "draggable": true,
-				"api": "/_api_/website_cache/query?is_mapping=false",
+				"api": "/_api_/cache/query?is_mapping=false",
 				"perPageAvailable": [
 					10,
 					20,
@@ -31,7 +31,7 @@
 						"label": "批量删除",
 						"level": "danger",
 						"actionType": "ajax",
-						"api": "delete:/_api_/website_cache/delete?ids=${ids|raw}",
+						"api": "delete:/_api_/cache/delete?ids=${ids|raw}",
 						"confirmText": "确认批量删除【缓存】URL【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
 					}
 				],
@@ -40,7 +40,7 @@
 					"bulkActions",
 					{
 						"type": "tpl",
-						"tpl": "【缓存】URL 共: ${total_count}条",
+						"tpl": "【缓存】站点数量: ${site_count} | URL: ${total_count}条",
 						"className": "v-middle"
 					},
 					"reload",
@@ -67,92 +67,75 @@
 				],
 				"columns": [
 					{
+						"name": "index",
+						"label": "序号",
+						"fixed": "left",
+						// "sortable": true,  // 启用排序功能
+					},
+					{
 						"name": "id",
-						"label": "ID",
+						"label": "文件路径",
 						"searchable": {
 							"type": "input-text",
 							"name": "search_term",
-							"label": "🔍模糊搜索",
+							"label": "🔍搜索",
 						},
 						"fixed": "left",
-						"sortable": true,  // 启用排序功能
+						// "sortable": true,  // 启用排序功能
 					},
-
 					{
 						"type": "tpl",
-						"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${url}</a>",
+						"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
 						"name": "url",
 						"label": "URL",
-						"sortable": true,
-						"searchable": true,
-						"onEvent": {
-							"click": {
-								"actions": [
-									{
-										"actionType": "custom",
-										"script": "const parts = event.data.url.split('['); if(parts.length > 0) { const linkTarget = parts[0]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
-									}
-								]
-							}
-						}
-					},
-					{
-						"name": "lang",
-						"label": "语言",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
-					},
-					{
-						"type": "tpl",
-						"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
-						"name": "target",
-						"label": "目标站",
-						"sortable": true,
-						"searchable": true,
-						"onEvent": {
-							"click": {
-								"actions": [
-									{
-										"actionType": "custom",
-										"script": "const parts = event.data.target.split('['); if(parts.length > 0) { const linkTarget = parts[0]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
-									}
-								]
-							}
-						}
-					},
-					{
-						"name": "title",
-						"label": "标题",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
-					},
-					{
-						"name": "keywords",
-						"label": "关键词",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
-					},
-					{
-						"name": "description",
-						"label": "描述",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
-					},
-					{
-						"type": "tpl",
-						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
-						"name": "domain",
-						"label": "域名",
 						"fixed": "left",
-						"searchable": true,
-						"sortable": true
+						// "searchable": true,
+						// "sortable": true
 					},
-					{
-						"name": "root_domain",
-						"label": "根域名",
-						"sortable": true,  // 启用排序功能
-						"searchable": true,
-					},
+					// {
+					// 	"name": "lang",
+					// 	"label": "语言",
+					// 	"sortable": true,  // 启用排序功能
+					// 	"searchable": true,
+					// },
+					// {
+					// 	"type": "tpl",
+					// 	"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
+					// 	"name": "target",
+					// 	"label": "目标url",
+					// 	"sortable": true,
+					// 	"searchable": true,
+					// 	"onEvent": {
+					// 		"click": {
+					// 			"actions": [
+					// 				{
+					// 					"actionType": "custom",
+					// 					"script": "const parts = event.data.target.split('['); if(parts.length > 0) { const linkTarget = parts[0]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
+					// 				}
+					// 			]
+					// 		}
+					// 	}
+					// },
+					// {
+					// 	"name": "title",
+					// 	"label": "标题",
+					// 	"sortable": true,  // 启用排序功能
+					// 	"searchable": true,
+					// },
+					// {
+					// 	"name": "keywords",
+					// 	"label": "关键词",
+					// 	"sortable": true,  // 启用排序功能
+					// 	"searchable": true,
+					// },
+					// {
+					// 	"name": "description",
+					// 	"label": "描述",
+					// 	"sortable": true,  // 启用排序功能
+					// 	"searchable": true,
+					// },
+					
+					
 					{
 						"type": "static-mapping",
 						"name": "is_mapping",
@@ -161,7 +144,6 @@
 							"true": "映射链接",
 							"false": "正常"
 						},
-						"sortable": true,
 						"searchable": {
 							"type": "select",
 							"name": "is_mapping",
@@ -169,7 +151,7 @@
 							"options": [
 								{
 									"label": "正常",
-									"value": false
+									"value": "false"
 								},
 								{
 									"label": "正常+映射链接",
@@ -177,12 +159,23 @@
 								},
 								{
 									"label": "映射链接",
-									"value": true
+									"value": "true"
 								},
 							],
-							"value": '正常',  // 默认值设置为 "正常"
+							"value": '',  // 默认值设置为 "正常"
 							"placeholder": "选择站点类型"
 						}
+					},
+					{
+						"name": "domain",
+						"label": "域名",
+					},
+					{
+						"type": "tpl",
+						"tpl": "<a href='http://${domain}${mapping_url}' target='_blank' class='link-style'>${mapping_url}</a>",
+						"name": "mapping_url",
+						"label": "映射",
+						"fixed": "left",
 					},
 					{
 						"type": "datetime",  // 显示为日期时间类型
@@ -201,7 +194,7 @@
 								"actionType": "ajax",
 								"tooltip": "清空域名所有缓存",
 								"confirmText": "确认清空 根域名: ${root_domain} 泛域名: *.${root_domain} 所有页面缓存",
-								"api": "delete:/_api_/website_cache/delete?root_domain=$root_domain",
+								"api": "delete:/_api_/cache/delete?root_domain=$root_domain",
 							},
 							{
 								"icon": "fa fa-pencil",
@@ -214,7 +207,7 @@
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
-										"api": "/_api_/website_cache/update?id=$id",
+										"api": "/_api_/cache/update?id=$id",
 										"reload": "crud-table", // 在提交后重新加载特定的组件
 										"body": [
 											{
@@ -270,7 +263,7 @@
 											},
 											{
 												"type": "service",
-												"api": "/_api_/website_cache/get_source?url=$url",  // 动态加载 target_replace 数据的 API
+												"api": "/_api_/cache/get_source?url=$url",  // 动态加载 target_replace 数据的 API
 												"body": [
 													{
 														"type": "editor",
@@ -299,14 +292,14 @@
 								"actionType": "ajax",
 								"tooltip": "清空缓存",
 								"confirmText": "确认清空 域名: ${domain} 所有页面缓存",
-								"api": "delete:/_api_/website_cache/delete?domain=$domain",
+								"api": "delete:/_api_/cache/delete?domain=$domain",
 							},
 							{
 								"icon": "fa fa-trash text-danger",
 								"actionType": "ajax",
 								"tooltip": "删除",
 								"confirmText": "确认删除缓存【${id}】${url}",
-								"api": "delete:/_api_/website_cache/delete?ids=$id"
+								"api": "delete:/_api_/cache/delete?ids=$id"
 							}
 						],
 						"toggled": true
