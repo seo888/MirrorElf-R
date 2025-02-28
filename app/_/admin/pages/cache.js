@@ -44,8 +44,8 @@
 						"label": "批量删除",
 						"level": "danger",
 						"actionType": "ajax",
-						"api": "delete:/_api_/cache/delete?ids=${ids|raw}",
-						"confirmText": "确认批量删除【缓存】URL【${ids|raw}】（注意：操作不可逆，请谨慎操作）",
+						"api": "delete:/_api_/cache/delete?domain=${ids|raw}",
+						"confirmText": "批量删除【缓存】URL【${ids|raw}】（注意：操作不可逆，请谨慎操作）",
 						"onEvent": {
 							"click": {
 								"actions": [
@@ -357,8 +357,8 @@
 								"icon": "fa fa-trash text-danger",
 								"actionType": "ajax",
 								"tooltip": "删除",
-								"confirmText": "确认删除缓存【${id}】${url}",
-								"api": "delete:/_api_/cache/delete?ids=$id",
+								"confirmText": "删除缓存【${id}】",
+								"api": "delete:/_api_/cache/delete?domain=$id",
 								"onEvent": {
 									"click": {
 										"actions": [
@@ -376,7 +376,6 @@
 								}
 							}
 						],
-						"toggled": true
 					}
 				]
 			}
