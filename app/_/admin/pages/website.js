@@ -9,6 +9,18 @@
 
 			"body": {
 				"type": "crud",
+				"onEvent": {
+					"selectedChange": {
+						"actions": [
+						{
+							"actionType": "toast",
+							"args": {
+							"msg": "已选择${event.data.selectedItems.length}条记录"
+							}
+						}
+						]
+					}
+				},
 				"id": "crud-table",
 				"syncLocation": false,
 				// "quickSaveApi": "/_api_/website/update?id=${id}",  // 更新 API 地址

@@ -9,11 +9,22 @@
 
 			"body": {
 				"type": "crud",
+				"onEvent": {
+					"selectedChange": {
+						"actions": [
+							{
+								"actionType": "toast",
+								"args": {
+									"msg": "已选择${event.data.selectedItems.length}条记录"
+								}
+							}
+						]
+					}
+				},
 				"id": "crud-table",
 				"syncLocation": false,
-				// "quickSaveApi": "/_api_/target_cache/update?id=${id}",  // 更新 API 地址
-				// "draggable": true,
 				"api": "/_api_/target/query",
+				"deferApi": "/_api_/target/query?target_lib=${target_lib}&file=${id}",
 				"perPageAvailable": [
 					10,
 					20,
@@ -31,7 +42,22 @@
 						"level": "danger",
 						"actionType": "ajax",
 						"api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-						"confirmText": "确认批量删除【${target_lib}】${ids|raw}（注意：操作不可逆，请谨慎操作）"
+						"confirmText": "确认批量删除【${target_lib}】${ids|raw}（注意：操作不可逆，请谨慎操作）",
+						"onEvent": {
+							"click": {
+								"actions": [
+									{
+										"actionType": "setValue",
+										"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
+										"args": {
+											"value": {
+												"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
+											}
+										}
+									}
+								]
+							}
+						}
 					}
 				],
 				"filterTogglable": true,
@@ -42,7 +68,31 @@
 						"tpl": "【${target_lib}】站点数量: ${site_count} | URL: ${total_count}条",
 						"className": "v-middle"
 					},
-					"reload",
+					// "reload",
+					{
+						"type": "button",
+						"label": "",
+						"icon": "fa fa-sync",
+						"onEvent": {
+							"click": {
+								"actions": [
+									{
+										"actionType": "setValue",
+										"componentId": "crud-table",  // 替换为你的表格组件 ID
+										"args": {
+											"value": {
+												"rows": []  // 将数据设置为空数组
+											}
+										}
+									},
+									{
+										"actionType": "reload",
+										"componentId": "crud-table",  // 替换为你的表格组件 ID
+									}
+								]
+							}
+						}
+					},
 					{
 						"type": "columns-toggler",
 						"align": "right"
@@ -69,7 +119,6 @@
 						"name": "index",
 						"label": "序号",
 						"fixed": "left",
-						// "sortable": true,  // 启用排序功能
 					},
 					{
 						"name": "id",
@@ -80,7 +129,6 @@
 							"label": "🔍搜索",
 						},
 						"fixed": "left",
-						// "sortable": true,  // 启用排序功能
 					},
 					{
 						"type": "static-mapping",
@@ -119,88 +167,70 @@
 							"placeholder": "选择目标库"
 						}
 					},
-					// {
-					// 	"type": "tpl",
-					// 	"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${url}</a>",
-					// 	"name": "url",
-					// 	"label": "URL",
-					// 	"sortable": true,
-					// 	"searchable": true,
-					// 	"onEvent": {
-					// 		"click": {
-					// 			"actions": [
-					// 				{
-					// 					"actionType": "custom",
-					// 					"script": "const parts = event.data.url.split('['); if(parts.length > 0) { const linkTarget = parts[0]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
-					// 				}
-					// 			]
-					// 		}
-					// 	}
-					// },
 					{
 						"type": "tpl",
 						"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
 						"name": "url",
 						"label": "URL",
 						"fixed": "left",
-						// "searchable": true,
-						// "sortable": true
 					},
-					// {
-					// 	"name": "lang",
-					// 	"label": "语言",
-					// 	"sortable": true,  // 启用排序功能
-					// 	"searchable": true,
-					// },
 					{
+						"type": "static-mapping",
 						"name": "status_code",
 						"label": "状态码",
-						// "sortable": true,  // 启用排序功能
-						// "searchable": true,
+						"map": {
+							"200": "<span class='label label-success'>200</span>",
+							"*": "<span class='label label-danger'>${status_code}</span>"
+						}
 					},
-					// {
-					// 	"name": "content_type",
-					// 	"label": "内容类型",
-					// 	"sortable": true,  // 启用排序功能
-					// 	"searchable": true,
-					// },
-					// {
-					// 	"name": "title",
-					// 	"label": "标题",
-					// 	"sortable": true,  // 启用排序功能
-					// 	"searchable": true,
-					// },
 					{
 						"type": "tpl",
 						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
 						"name": "domain",
 						"label": "域名",
 						"fixed": "left",
-						// "searchable": true,
-						// "sortable": true
 					},
-					// {
-					// 	"name": "root_domain",
-					// 	"label": "根域名",
-					// 	"sortable": true,  // 启用排序功能
-					// 	"searchable": true,
-					// },
-					// {
-					// 	"type": "datetime",  // 显示为日期时间类型
-					// 	"name": "created_at",
-					// 	"label": "创建于",
-					// 	"sortable": true,  // 启用排序功能
-					// },
 					{
 						"type": "datetime",  // 显示为日期时间类型
 						"name": "updated_at",
 						"label": "更新于",
 						"sortable": true,  // 启用排序功能
 					},
+					// {
+					// 	"type": "operation",
+					// 	"label": "操作",
+					// 	"width": 60,
+					// 	"buttons": [
+					// 		{
+					// 			"icon": "fa fa-trash text-danger",
+					// 			"actionType": "ajax",
+					// 			"tooltip": "删除",
+					// 			"confirmText": "确认删除【${target_lib}】${id}",
+					// 			"api": "delete:/_api_/target/delete?bucket=$target_lib&files=$id",
+					// 			"onEvent": {
+					// 				"success": {
+					// 					"actions": [
+					// 						{
+					// 							"actionType": "dialog", // 弹出弹窗
+					// 							"args": {
+					// 								"title": "删除成功", // 弹窗标题
+					// 								"body": "成功删除文件：${id}", // 弹窗内容
+					// 								"confirm": true // 显示确认按钮
+					// 							}
+					// 						},
+					// 						{
+					// 							"componentId": "crud-table",
+					// 							"actionType": "reload" // 刷新表格
+					// 						}
+					// 					]
+					// 				}
+					// 			}
+					// 		},
+					// 	],
+					// 	"toggled": true
+					// }
 					{
 						"type": "operation",
-						"label": "操作",
-						"width": 60,
 						"buttons": [
 							{
 								"icon": "fa fa-trash text-danger",
@@ -208,9 +238,56 @@
 								"tooltip": "删除",
 								"confirmText": "确认删除【${target_lib}】${id}",
 								"api": "delete:/_api_/target/delete?bucket=$target_lib&files=$id",
-							},
-						],
-						"toggled": true
+
+								"onEvent": {
+									"click": {
+										"actions": [
+											// {
+											// 	"actionType": "setValue",
+											// 	"componentId": "crud-table",  // 替换为你的表格组件 ID
+											// 	"args": {
+											// 		"value": {
+											// 			"rows": []  // 将数据设置为空数组
+											// 		}
+											// 	}
+											// }
+											{
+												"actionType": "setValue",
+												"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
+												"args": {
+													"value": {
+														"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
+													}
+												}
+											}
+										]
+									}
+								}
+
+								// "onEvent": {
+								// 	"success": {
+								// 		"actions": [
+								// {
+								// 	"actionType": "dialog",
+								// 	"args": {
+								// 		"title": "删除成功",
+								// 		"body": "成功删除文件：${id}",
+								// 		"confirm": true
+								// 	}
+								// },
+								// 			{
+								// 				"componentId": "crud-table",
+								// 				"actionType": "reload" // 刷新主表格
+								// 			},
+								// 			{
+								// 				"componentId": "nestedComponentId", // 嵌套组件的 ID
+								// 				"actionType": "reload" // 刷新嵌套组件
+								// 			}
+								// 		]
+								// 	}
+								// }
+							}
+						]
 					}
 				]
 			}

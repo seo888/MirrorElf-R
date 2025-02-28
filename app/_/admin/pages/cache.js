@@ -9,11 +9,24 @@
 
 			"body": {
 				"type": "crud",
+				"onEvent": {
+					"selectedChange": {
+						"actions": [
+						{
+							"actionType": "toast",
+							"args": {
+							"msg": "已选择${event.data.selectedItems.length}条记录"
+							}
+						}
+						]
+					}
+				},
 				"id": "crud-table",
 				"syncLocation": false,
 				// "quickSaveApi": "/_api_/cache/update?id=${id}",  // 更新 API 地址
 				// "draggable": true,
-				"api": "/_api_/cache/query?is_mapping=false",
+				"api": "/_api_/cache/query",
+				"deferApi": "/_api_/cache/query?file=${id}",
 				"perPageAvailable": [
 					10,
 					20,
@@ -32,7 +45,22 @@
 						"level": "danger",
 						"actionType": "ajax",
 						"api": "delete:/_api_/cache/delete?ids=${ids|raw}",
-						"confirmText": "确认批量删除【缓存】URL【${ids|raw}】（注意：操作不可逆，请谨慎操作）"
+						"confirmText": "确认批量删除【缓存】URL【${ids|raw}】（注意：操作不可逆，请谨慎操作）",
+						"onEvent": {
+							"click": {
+								"actions": [
+									{
+										"actionType": "setValue",
+										"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
+										"args": {
+											"value": {
+												"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
+											}
+										}
+									}
+								]
+							}
+						}
 					}
 				],
 				"filterTogglable": true,
@@ -43,7 +71,31 @@
 						"tpl": "【缓存】站点数量: ${site_count} | URL: ${total_count}条",
 						"className": "v-middle"
 					},
-					"reload",
+					// "reload",
+					{
+						"type": "button",
+						"label": "",
+						"icon": "fa fa-sync",
+						"onEvent": {
+							"click": {
+								"actions": [
+									{
+										"actionType": "setValue",
+										"componentId": "crud-table",  // 替换为你的表格组件 ID
+										"args": {
+											"value": {
+												"rows": []  // 将数据设置为空数组
+											}
+										}
+									},
+									{
+										"actionType": "reload",
+										"componentId": "crud-table",  // 替换为你的表格组件 ID
+									}
+								]
+							}
+						}
+					},
 					{
 						"type": "columns-toggler",
 						"align": "right"
@@ -140,31 +192,38 @@
 						"type": "static-mapping",
 						"name": "is_mapping",
 						"label": "状态",
+						// "map": {
+						// 	"true": "映射链接",
+						// 	"false": "正常",
+						// },
 						"map": {
-							"true": "映射链接",
-							"false": "正常"
-						},
-						"searchable": {
-							"type": "select",
-							"name": "is_mapping",
-							"label": "状态",
-							"options": [
-								{
-									"label": "正常",
-									"value": "false"
-								},
-								{
-									"label": "正常+映射链接",
-									"value": ''
-								},
-								{
-									"label": "映射链接",
-									"value": "true"
-								},
-							],
-							"value": '',  // 默认值设置为 "正常"
-							"placeholder": "选择站点类型"
+						"false": "<span class='label label-success'>正常</span>",
+						"true": "<span class='label label-info'>映射</span>",
+						// "3": "<span class='label label-danger'>惊吓</span>",
+						// "4": "<span class='label label-warning'>紧张</span>",
+						// "*": "其他：${type}"
 						}
+						// "searchable": {
+						// 	"type": "select",
+						// 	"name": "is_mapping",
+						// 	"label": "状态",
+						// 	"options": [
+						// 		{
+						// 			"label": "正常",
+						// 			"value": "false"
+						// 		},
+						// 		{
+						// 			"label": "正常+映射链接",
+						// 			"value": ''
+						// 		},
+						// 		{
+						// 			"label": "映射链接",
+						// 			"value": "true"
+						// 		},
+						// 	],
+						// 	"value": 'false',  // 默认值设置为 "正常"
+						// 	"placeholder": "选择站点类型"
+						// }
 					},
 					{
 						"name": "domain",
@@ -299,7 +358,22 @@
 								"actionType": "ajax",
 								"tooltip": "删除",
 								"confirmText": "确认删除缓存【${id}】${url}",
-								"api": "delete:/_api_/cache/delete?ids=$id"
+								"api": "delete:/_api_/cache/delete?ids=$id",
+								"onEvent": {
+									"click": {
+										"actions": [
+											{
+												"actionType": "setValue",
+												"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
+												"args": {
+													"value": {
+														"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
+													}
+												}
+											}
+										]
+									}
+								}
 							}
 						],
 						"toggled": true
