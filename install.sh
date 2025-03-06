@@ -76,8 +76,5 @@ PROJECT_DIR="/www/MirrorElf"
 # 切换到项目目录
 cd "$PROJECT_DIR" || exit 1
 
-
-
-
 # 启动容器
 docker compose up -d || exit 1

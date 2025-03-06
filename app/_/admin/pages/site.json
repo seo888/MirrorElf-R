@@ -17,12 +17,6 @@
             "icon": "fa fa-tachometer"
           },
           {
-            "label": "防火墙",
-            "url": "/firewall",
-            "schemaApi": "jsonp:/_/admin/pages/firewall.js?callback=jsonpCallback",
-            "icon": "fa fa-shield"
-          },
-          {
             "label": "网站管理",
             "url": "/website",
             "schemaApi": "jsonp:/_/admin/pages/website.js?callback=jsonpCallback",
@@ -47,7 +41,13 @@
             "icon": "fa fa-file-text"
           },
           {
-            "label": "Minio后台",
+            "label": "防火墙管理",
+            "url": "/firewall",
+            "schemaApi": "jsonp:/_/admin/pages/firewall.js?callback=jsonpCallback",
+            "icon": "fa fa-shield"
+          },
+          {
+            "label": "Minio管理",
             "url": "/minio",
             "schemaApi": "jsonp:/_/admin/pages/minio.js?callback=jsonpCallback",
             "icon": "fa fa-bug"
