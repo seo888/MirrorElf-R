@@ -38,12 +38,12 @@
         status: 0
     };
     // 检查是否已经打开了目标页面
-    if (window.minioAdminWindow) {
+    if (window.firewallAdminWindow) {
         // 如果已经存在窗口引用，则切换到该窗口
-        window.minioAdminWindow.focus();
+        window.firewallAdminWindow.focus();
     } else {
         // 如果不存在窗口引用，则在新标签页中打开
-        window.minioAdminWindow = window.open(targetUrl, "_blank");
+        window.firewallAdminWindow = window.open(targetUrl, "_blank");
     }
     // 调用 JSONP 回调
     window.jsonpCallback && window.jsonpCallback(response);

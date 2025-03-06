@@ -6,10 +6,9 @@
             body: [
                 {
                     type: "form",
-                    title: "设置",
+                    title: " ",
                     name: "set_form",
                     mode: "horizontal",
-
                     horizontal: {
                         "leftFixed": true
                         // "left": 2,
@@ -141,26 +140,36 @@
                                                 {
                                                     name: "WebsiteSettings.auto_site_building",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "自动建站"
                                                 },
                                                 {
                                                     name: "WebsiteSettings.auto_https_certificate",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "自动https证书"
                                                 },
                                                 {
                                                     name: "WebsiteSettings.pan_site_auto_site_building",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "泛站自动建站"
                                                 },
                                                 {
                                                     name: "WebsiteSettings.pan_site_crawler_target",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "泛站爬取目标"
                                                 },
                                                 {
                                                     name: "WebsiteSettings.link_mapping",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "链接映射"
                                                 },
                                                 {
@@ -237,11 +246,15 @@
                                                 {
                                                     name: "SEOFunctions.random_class_attributes",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "随机class属性"
                                                 },
                                                 {
                                                     name: "SEOFunctions.random_meta_and_link",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "随机meta&link"
                                                 },
                                             ]
@@ -259,16 +272,22 @@
                                                 {
                                                     name: "AccessPolicy.forced_domain_binding",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "强制域名绑定"
                                                 },
                                                 {
                                                     name: "AccessPolicy.pan_site_referrer",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "泛站来路"
                                                 },
                                                 {
                                                     name: "AccessPolicy.ip_site_referrer",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "IP与非域名来路"
                                                 },
 
@@ -329,11 +348,15 @@
                                                 {
                                                     name: "AdPolicy.search_referrer_jump_ad",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "搜索来路跳广告"
                                                 },
                                                 {
                                                     name: "AdPolicy.regular_ua_jump_ad",
                                                     type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
                                                     label: "普通用户跳广告"
                                                 },
                                                 {
@@ -419,16 +442,22 @@
                                                         {
                                                             name: "SpiderPolicy.google_spider",
                                                             type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
                                                             label: "谷歌蜘蛛"
                                                         },
                                                         {
                                                             name: "SpiderPolicy.baidu_spider",
                                                             type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
                                                             label: "百度蜘蛛"
                                                         },
                                                         {
                                                             name: "SpiderPolicy.bing_spider",
                                                             type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
                                                             label: "必应蜘蛛"
                                                         }]
                                                 }

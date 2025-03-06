@@ -5,7 +5,7 @@
 			"title": "内容管理",
 			"body": [{
 				"type": "crud",
-				"api": "/_api_/files",
+				"api": "/_api_/file/query",
 				"mode": "list",
 				"placeholder": "当前组内, 还没有配置任何权限.",
 				"syncLocation": false,
@@ -21,11 +21,12 @@
 								"title": "【$filename】",
 								"resizable": true,
 								"size": "lg",
+								"width": "90%",
 								"body": [
 									{
 										"type": "form",
-										"api": "/_api_/file",
-										"initApi": "/_api_/file/$filepath",
+										"api": "/_api_/file/query",
+										"initApi": "/_api_/file/query?path=$filepath",
 										"controls": [
 											{
 												"type": "hidden",
@@ -34,7 +35,7 @@
 											{
 												"type": "editor",  // 文件内容编辑器
 												"name": "content",
-												"label": "内容",
+												"label": "编辑内容",
 												"size": "xxl",
 												"mode": "code",
 												"language": "text",

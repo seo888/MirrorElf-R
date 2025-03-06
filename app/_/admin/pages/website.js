@@ -9,6 +9,17 @@
 
 			"body": {
 				"type": "crud",
+				"itemBadge": {
+					"text": "${is_www ? '主站' : '泛站'}",
+					// "variations": {
+					// 	"true": "primary",
+					// 	"false": "danger"
+					// },
+					"mode": "ribbon",
+					"position": "top-left",
+					"level": "${is_www ? 'info' : 'danger'}",
+					// "visibleOn": "this.is_www"
+				},
 				"onEvent": {
 					"selectedChange": {
 						"actions": [
@@ -222,7 +233,7 @@
 						"drawer": {
 							"resizable": true,
 							"size": "lg",
-							"width": "80%",
+							"width": "90%",
 							"title": "批量建站",
 							"body": {
 								"type": "form",
@@ -269,7 +280,7 @@
 									// 插入新的 service，用于加载 预建站文档 数据
 									{
 										"type": "service",
-										"api": "/_api_/doc/query?file_path=website.txt",  // 动态加载 预建站文档
+										"api": "/_api_/file/query?path=doc/website.txt",  // 动态加载 预建站文档
 										"body": [
 											{
 												"type": "alert",
@@ -333,6 +344,12 @@
 				],
 				"columns": [
 					{
+						"name": "index",
+						"label": "序号",
+						"fixed": "left",
+						// "sortable": true,  // 启用排序功能
+					},
+					{
 						"name": "id",
 						"label": "文件路径",
 						"searchable": {
@@ -345,13 +362,7 @@
 						},
 						"fixed": "left",
 						// "sortable": true,  // 启用排序功能
-						"visible": false // 隐藏第一列
-					},
-					{
-						"name": "index",
-						"label": "序号",
-						"fixed": "left",
-						// "sortable": true,  // 启用排序功能
+						"visible": false
 					},
 					{
 						"type": "static-mapping",
@@ -361,6 +372,7 @@
 							"true": "主站",
 							"false": "泛站"
 						},
+						"visible": false
 						// "sortable": true,
 						// "searchable": {
 						// 	"type": "select",
