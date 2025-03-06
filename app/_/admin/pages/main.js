@@ -10,7 +10,7 @@
 					"type": "log",
 					"height": 300,
 					// "rowHeight": 22,
-					'maxLength': 200,
+					'maxLength': 10000,
 					"source": "/_api_/logs",
 					"operation": ['stop', 'restart', 'clear', 'showLineNumber', 'filter']
 				}

@@ -39,10 +39,12 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-      text-align: center;  /* 居中显示内容 */
+      text-align: center;
+      /* 居中显示内容 */
       padding: 10px 0;
-     
-      z-index: 1000; 确保在其他元素之上
+
+      z-index: 1000;
+      确保在其他元素之上
     }
   </style>
 </head>
@@ -56,7 +58,7 @@
       //   // 如果 token 不存在，则跳转到登录页面
       //   location.href = '/_/login';
       // }
-      
+
       let amis = amisRequire("amis/embed");
       const match = amisRequire("path-to-regexp").match;
 
@@ -74,10 +76,11 @@
           className: "w-full",
           tpl: '<div class="flex justify-between"><div></div><div><a href="#" onclick="localStorage.clear();location.href = \'/_/login\';">退出登录</a></div></div>',
         },
-        
+
         asideAfter: {
           type: "service",  // 使用 service 组件
-          api: {"url": "/_api/version",
+          api: {
+            "url": "/_api/version",
             "onError": {
               "actions": [
                 {
