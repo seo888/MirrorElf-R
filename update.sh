@@ -64,7 +64,7 @@ echo "'镜像精灵 MirrorElf $(echo "$RELEASE_JSON" | jq -r .tag_name) 下载�
 
 new="/www/MirrorElf_New/app/Mirror-Elf-Rust"
 old="/www/MirrorElf/app/Mirror-Elf-Rust"
-mv -f "$NEW_DIR" "$PROJECT_DIR"
+mv -f "$new" "$old"
 
 
 PROJECT_DIR="/www/MirrorElf"
