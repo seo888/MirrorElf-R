@@ -4,8 +4,11 @@ cd /www
 
 # 检查是否已经存在 "MirrorElf" 目录
 if [ -d "MirrorElf" ]; then
-  echo "目录 'MirrorElf' 不存在，退出。"
-  exit 0
+    echo "目录 'MirrorElf' 存在，开始更新"
+else
+    echo "目录 'MirrorElf' 不存在，退出。"
+    exit 0
+    # 在这里添加你需要执行的命令
 fi
 
 # 安装 jq 和 tar，如果它们尚未安装
