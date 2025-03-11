@@ -67,7 +67,7 @@ old="/www/MirrorElf/app/Mirror-Elf-Rust"
 mv -f "$new" "$old"
 
 new="/www/MirrorElf_New/app/_"
-old="/www/MirrorElf/app/_"
+old="/www/MirrorElf/app"
 mv -f "$new" "$old"
 
 PROJECT_DIR="/www/MirrorElf"
