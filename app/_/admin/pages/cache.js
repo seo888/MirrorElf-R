@@ -9,15 +9,27 @@
 
 			"body": {
 				"type": "crud",
+				// "itemBadge": {
+				// 	"text": "${is_mapping ? '映射' : '正常'}",
+				// 	// "variations": {
+				// 	// 	"true": "primary",
+				// 	// 	"false": "danger"
+				// 	// },
+				// 	// "mode": "text",
+				// 	"mode": "ribbon",
+				// 	"position": "top-left",
+				// 	"level": "${is_mapping ? 'info' : 'success'}",
+				// 	// "visibleOn": "this.is_www"
+				// },
 				"onEvent": {
 					"selectedChange": {
 						"actions": [
-						{
-							"actionType": "toast",
-							"args": {
-							"msg": "已选择${event.data.selectedItems.length}条记录"
+							{
+								"actionType": "toast",
+								"args": {
+									"msg": "已选择${event.data.selectedItems.length}条记录"
+								}
 							}
-						}
 						]
 					}
 				},
@@ -121,7 +133,7 @@
 					{
 						"name": "index",
 						"label": "序号",
-						"fixed": "left",
+						// "fixed": "left",
 						// "sortable": true,  // 启用排序功能
 					},
 					{
@@ -132,18 +144,34 @@
 							"name": "search_term",
 							"label": "🔍搜索",
 						},
-						"fixed": "left",
+						// "fixed": "left",
+						"visible": false
 						// "sortable": true,  // 启用排序功能
 					},
 					{
 						"type": "tpl",
 						"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
+						
 						"name": "url",
 						"label": "URL",
-						"fixed": "left",
+						// "fixed": "left",
+						// "width": "300px",
 						// "searchable": true,
 						// "sortable": true
 					},
+					// {
+					// 	"type": "tpl",
+					// 	"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
+					// 	"name": "url",
+					// 	"label": "URL",
+						// "style": {
+						// 	"wordWrap": "break-word",
+						// 	"whiteSpace": "normal",
+						// 	"overflowWrap": "break-word",
+						// 	"display": "inline-block",
+						// 	"width": "200px"  // 设置宽度限制
+						// }
+					// }
 					// {
 					// 	"name": "lang",
 					// 	"label": "语言",
@@ -186,22 +214,20 @@
 					// 	"sortable": true,  // 启用排序功能
 					// 	"searchable": true,
 					// },
-					
-					
+
+
 					{
 						"type": "static-mapping",
 						"name": "is_mapping",
 						"label": "状态",
+						// "visible": false,
 						// "map": {
 						// 	"true": "映射链接",
 						// 	"false": "正常",
 						// },
 						"map": {
-						"false": "<span class='label label-success'>正常</span>",
-						"true": "<span class='label label-info'>映射</span>",
-						// "3": "<span class='label label-danger'>惊吓</span>",
-						// "4": "<span class='label label-warning'>紧张</span>",
-						// "*": "其他：${type}"
+							"false": "<span class='label label-success'>正常</span>",
+							"true": "<span class='label label-info'>映射</span>",
 						}
 						// "searchable": {
 						// 	"type": "select",
@@ -228,23 +254,51 @@
 					{
 						"name": "domain",
 						"label": "域名",
+						"visible": false
 					},
 					{
 						"type": "tpl",
 						"tpl": "<a href='http://${domain}${mapping_url}' target='_blank' class='link-style'>${mapping_url}</a>",
 						"name": "mapping_url",
-						"label": "映射",
-						"fixed": "left",
+						"label": "映射链接",
+						// "fixed": "left",
 					},
+					// {
+					// 	"type": "container",
+					// 	"name": "mapping_url",
+					// 	"label": "映射链接",
+					// 	"fixed": "left",
+					// 	"style": {
+					// 	  "display": "inline-block"
+					// 	},
+					// 	"body": {
+					// 	  "type": "tpl",
+					// 	  "tpl": "<a href='http://${domain}${mapping_url}' target='_blank' class='link-style'>${mapping_url}</a>",
+					// 	  "name": "mapping_url",
+					// 	//   "label": "URL",
+					// 	  "className": "text-ellipsis",
+					// 	  "style": {
+					// 		"max-width": "400px"
+					// 	  }
+					// 	},
+					// 	"popOver": {
+					// 	  "body": {
+					// 		"type": "tpl",
+					// 		"tpl": "${mapping_url}"
+					// 	  }
+					// 	}
+					//   },
 					{
 						"type": "datetime",  // 显示为日期时间类型
 						"name": "updated_at",
 						"label": "更新于",
+						"width": 150,
 						"sortable": true,  // 启用排序功能
 					},
 					{
 						"type": "operation",
 						"label": "操作",
+						"fixed": "right",
 						"width": 130,
 						"buttons": [
 							{
@@ -262,13 +316,26 @@
 								"drawer": {
 									"resizable": true,
 									"size": "lg",
+									"width": "90%",
 									"title": "编辑源码",
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
-										"api": "/_api_/cache/update?id=$id",
+										// "api": "/_api_/cache/update?file=$id",
+										"api": {
+											"method": "put",
+											"url": "/_api_/cache/update?file=$id",
+											"data": {
+												"source": "${source}",
+											}
+										},
 										"reload": "crud-table", // 在提交后重新加载特定的组件
 										"body": [
+											{
+												"type": "static",
+												"name": "id",
+												"label": "文件路径",
+											},
 											{
 												"type": "static",
 												"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${url}</a>",
@@ -288,57 +355,48 @@
 												}
 											},
 											{
-												"type": "static",
-												"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
-												"name": "target",
-												"label": "目标站",
-												"sortable": true,
-												"searchable": true,
-												"onEvent": {
-													"click": {
-														"actions": [
-															{
-																"actionType": "custom",
-																"script": "const parts = event.data.url.split('['); if(parts.length > 0) { const linkTarget = parts[0]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
-															}
-														]
-													}
-												}
-											},											
-											{
-												"type": "static",
-												"name": "title",
-												"label": "网站标题",
+												"type": "static-mapping",
+												"name": "is_mapping",
+												"map": {
+													"false": "<span class='label label-success'>正常</span>",
+													"true": "<span class='label label-info'>映射</span>",
+												},
+												"label": "状态"
 											},
 											{
 												"type": "static",
-												"name": "keywords",
-												"label": "关键词"
+												"name": "domain",
+												"label": "域名",
 											},
 											{
 												"type": "static",
-												"name": "description",
-												"label": "描述"
+												"name": "mapping_url",
+												"tpl": "<a href='http://${domain}${mapping_url}' target='_blank' class='link-style'>${mapping_url}</a>",
+												"label": "映射链接",
+												"visibleOn": "this.is_mapping == true"
 											},
 											{
 												"type": "service",
-												"api": "/_api_/cache/get_source?url=$url",  // 动态加载 target_replace 数据的 API
+												"visibleOn": "this.is_mapping == false",
+												"api": "/_api_/cache/source?file=$id",  // 动态加载 target_replace 数据的 API
 												"body": [
 													{
 														"type": "editor",
+														"size": "xxl",
 														"language": "html",
 														"name": "source",
 														"label": "网页源码",
+														"options": {
+															"wordWrap":"on",
+															"minimap": {
+																"enabled": true
+															},
+														}
 													}
 												]
 											},
 											{
-												"type": "static",
-												"name": "created_at",
-												"label": "创建于"
-											},
-											{
-												"type": "static",
+												"type": "static-datetime",
 												"name": "updated_at",
 												"label": "更新于"
 											}

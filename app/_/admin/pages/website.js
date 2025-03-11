@@ -346,7 +346,7 @@
 					{
 						"name": "index",
 						"label": "序号",
-						"fixed": "left",
+						// "fixed": "left",
 						// "sortable": true,  // 启用排序功能
 					},
 					{
@@ -360,7 +360,7 @@
 							"maxLength": 10000,
 							"showCounter": true,
 						},
-						"fixed": "left",
+						// "fixed": "left",
 						// "sortable": true,  // 启用排序功能
 						"visible": false
 					},
@@ -401,7 +401,7 @@
 						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
 						"name": "domain",
 						"label": "域名",
-						"fixed": "left",
+						// "fixed": "left",
 						// "searchable": true,
 						// "sortable": true
 					},
@@ -460,10 +460,12 @@
 						"type": "datetime",  // 显示为日期时间类型
 						"name": "updated_at",
 						"label": "更新于",
+						"width": 150,
 						"sortable": true,  // 启用排序功能
 					},
 					{
 						"type": "operation",
+						"fixed": "right",
 						"label": "操作",
 						"width": 155,
 						"buttons": [

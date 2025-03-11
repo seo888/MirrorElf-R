@@ -66,6 +66,10 @@ new="/www/MirrorElf_New/app/Mirror-Elf-Rust"
 old="/www/MirrorElf/app/Mirror-Elf-Rust"
 mv -f "$new" "$old"
 
+new="/www/MirrorElf_New/app/_"
+old="/www/MirrorElf/app/_"
+mv -f "$new" "$old"
+
 PROJECT_DIR="/www/MirrorElf"
 # 切换到项目目录
 cd "$PROJECT_DIR" || exit 1
