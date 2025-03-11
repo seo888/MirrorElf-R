@@ -67,8 +67,13 @@ old="/www/MirrorElf/app/Mirror-Elf-Rust"
 mv -f "$new" "$old"
 
 new="/www/MirrorElf_New/app/_"
-old="/www/MirrorElf/app"
-mv -f "$new" "$old"
+old="/www/MirrorElf/app/_"
+# 确保目标目录存在
+if [ -d "$old" ]; then
+    rm -rf "$old"/*  # 删除目标目录中的所有内容
+fi
+# 使用 cp 命令复制新目录的内容到目标目录
+cp -r "$new"/* "$old"/
 
 PROJECT_DIR="/www/MirrorElf"
 # 切换到项目目录
