@@ -401,7 +401,7 @@
 						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
 						"name": "domain",
 						"label": "域名",
-						// "fixed": "left",
+						"fixed": "left",
 						// "searchable": true,
 						// "sortable": true
 					},

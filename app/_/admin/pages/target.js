@@ -118,7 +118,7 @@
 					{
 						"name": "index",
 						"label": "序号",
-						"fixed": "left",
+						// "fixed": "left",
 					},
 					{
 						"name": "id",
@@ -128,7 +128,8 @@
 							"name": "search_term",
 							"label": "🔍搜索",
 						},
-						"fixed": "left",
+						"visible": false
+						// "fixed": "left",
 					},
 					{
 						"type": "static-mapping",
@@ -172,7 +173,7 @@
 						"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
 						"name": "url",
 						"label": "URL",
-						"fixed": "left",
+						// "fixed": "left",
 					},
 					{
 						"type": "static-mapping",
@@ -188,7 +189,8 @@
 						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
 						"name": "domain",
 						"label": "域名",
-						"fixed": "left",
+						// "visible": false
+						// "fixed": "left",
 					},
 					{
 						"type": "datetime",  // 显示为日期时间类型
@@ -231,6 +233,7 @@
 					// }
 					{
 						"type": "operation",
+						"fixed": "right",
 						"buttons": [
 							{
 								"icon": "fa fa-trash text-danger",
