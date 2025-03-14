@@ -119,30 +119,30 @@
                                     ]
                                 },
                                 {
-                                    title: "网站设置",
+                                    title: "建站设置",
                                     body: [
                                         {
                                             type: "fieldSet",
                                             collapsable: true,
-                                            title: "网站设置",
+                                            title: "建站设置",
                                             body: [
-                                                {
-                                                    name: "WebsiteSettings.language",
-                                                    type: "radios",
-                                                    label: "语言",
-                                                    value: "zh",
-                                                    options: [
-                                                        { label: "中文", value: "zh" },
-                                                        { label: "英文", value: "en" },
-                                                        { label: "葡萄牙文", value: "pt" }
-                                                    ]
-                                                },
                                                 {
                                                     name: "WebsiteSettings.auto_site_building",
                                                     type: "switch",
                                                     onText: "开启",
                                                     offText: "关闭",
                                                     label: "自动建站"
+                                                },
+                                                {
+                                                    name: "WebsiteSettings.language",
+                                                    type: "radios",
+                                                    label: "自动建站语言",
+                                                    value: "zh",
+                                                    options: [
+                                                        { label: "中文", value: "zh" },
+                                                        { label: "英文", value: "en" },
+                                                        { label: "葡萄牙文", value: "pt" }
+                                                    ]
                                                 },
                                                 {
                                                     name: "WebsiteSettings.auto_https_certificate",
@@ -369,26 +369,24 @@
                                     ]
                                 },
                                 {
-                                    title: "JS代码插入",
+                                    title: "全局JS代码",
                                     body: [
                                         {
                                             type: "fieldSet",
                                             collapsable: true,
-                                            title: "JS代码插入",
+                                            title: "全局JS代码",
                                             body: [
                                                 {
                                                     "type": "input-array",
                                                     "name": "GlobalCodeInsertion.filter_ip",
                                                     "label": "过滤地址",
                                                     "items": {
-                                                        "type": "group",
-                                                        "body": [{
-                                                            "type": "input-text",
-                                                            "name": "ip",
-                                                            "label": "ip",
-                                                            "maxLength": 15,
-                                                        }]
-                                                    },
+                                                        "type": "input-text",
+                                                        "name": "ip",
+                                                        "label": "ip",
+                                                        "maxLength": 15,
+                                                    }
+                                                    ,
                                                     "addButtonText": "添加 IP",
                                                     "minItems": 0,
                                                     "unique": true,
@@ -447,6 +445,13 @@
                                                             label: "谷歌蜘蛛"
                                                         },
                                                         {
+                                                            name: "SpiderPolicy.google_img_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "谷歌图片蜘蛛"
+                                                        },
+                                                        {
                                                             name: "SpiderPolicy.baidu_spider",
                                                             type: "switch",
                                                             onText: "允许",
@@ -454,12 +459,69 @@
                                                             label: "百度蜘蛛"
                                                         },
                                                         {
+                                                            name: "SpiderPolicy.sogou_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "搜狗蜘蛛"
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.yisou_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "神马蜘蛛"
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.byte_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "头条蜘蛛"
+                                                        },
+                                                        {
                                                             name: "SpiderPolicy.bing_spider",
                                                             type: "switch",
                                                             onText: "允许",
                                                             offText: "禁止",
                                                             label: "必应蜘蛛"
-                                                        }]
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.so_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "360蜘蛛"
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.quark_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "夸克蜘蛛"
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.yahoo_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "雅虎蜘蛛"
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.other_spider",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "其它蜘蛛"
+                                                        },
+                                                        {
+                                                            name: "SpiderPolicy.user",
+                                                            type: "switch",
+                                                            onText: "允许",
+                                                            offText: "禁止",
+                                                            label: "普通用户"
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         }

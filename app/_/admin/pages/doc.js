@@ -25,22 +25,32 @@
 								"body": [
 									{
 										"type": "form",
-										"api": "/_api_/file/query",
+										"api": "put:/_api_/file/update",
 										"initApi": "/_api_/file/query?path=$filepath",
-										"controls": [
-											{
-												"type": "hidden",
-												"name": "filepath"
-											},
-											{
-												"type": "editor",  // 文件内容编辑器
-												"name": "content",
-												"label": "编辑内容",
-												"size": "xxl",
-												"mode": "code",
-												"language": "text",
-											},
+										"body": [{
+											"type": "static",
+											"label": "文件路径:",
+											"name": "filepath"
+										},
+										{
+											"type": "editor",  // 文件内容编辑器
+											"name": "content",
+											"label": "",
+											"size": "xxl",
+											"mode": "code",
+											"language": "text",
+										}
 										],
+										// "controls": [
+										// 	{
+										// 		"type": "editor",  // 文件内容编辑器
+										// 		"name": "content",
+										// 		"label": "",
+										// 		"size": "xxl",
+										// 		"mode": "code",
+										// 		"language": "text",
+										// 	},
+										// ],
 										"actions": [
 											{
 												"type": "submit",

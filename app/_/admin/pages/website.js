@@ -402,6 +402,7 @@
 						"name": "domain",
 						"label": "域名",
 						"fixed": "left",
+						"copyable": true
 						// "searchable": true,
 						// "sortable": true
 					},
