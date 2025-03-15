@@ -66,6 +66,14 @@ new="/www/MirrorElf_New/app/Mirror-Elf-Rust"
 old="/www/MirrorElf/app/Mirror-Elf-Rust"
 mv -f "$new" "$old"
 
+new="/www/MirrorElf_New/docker-compose.yml"
+old="/www/MirrorElf/docker-compose.yml"
+mv -f "$new" "$old"
+
+new="/www/MirrorElf_New/update.sh"
+old="/www/MirrorElf/update.sh"
+mv -f "$new" "$old"
+
 new="/www/MirrorElf_New/app/_"
 old="/www/MirrorElf/app/_"
 # 确保目标目录存在
