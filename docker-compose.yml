@@ -4,8 +4,8 @@ services:
     build: ./app
     container_name: mirror_elf_r
     depends_on:
-      - minio # 依赖 MinIO 服务
-    # restart: unless-stopped # 容器自动重启策略
+      minio:
+        condition: service_healthy # 确保 minio 健康后再启动
     volumes:
       - ./app:/app
 
@@ -15,8 +15,8 @@ services:
     ports:
       - "9000:9000" # API 端口
       - "9001:9001" # 控制台端口
-    network_mode: host # 使用 host 网络模式
-    restart: always # 容器自动重启策略
+    network_mode: host
+    restart: always
     environment:
       MINIO_ACCESS_KEY: minio # 访问密钥
       MINIO_SECRET_KEY: minio123 # 秘密密钥
@@ -24,3 +24,8 @@ services:
       - ./minio/data:/data # 数据存储目录
       - ./minio/config:/root/.minio # 配置文件目录
     command: server /data --console-address ":9001" -address ":9000" # 启动命令
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"] # 检查 MinIO 健康状态
+      interval: 10s # 每 10 秒检查一次
+      timeout: 5s # 超时时间
+      retries: 10 # 重试次数

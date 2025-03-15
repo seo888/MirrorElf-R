@@ -68,7 +68,7 @@ AccessPolicy:
   ip_banlist: []
 AdPolicy:
   ad_url: http://www.baidu.com
-  search_referrer_jump_ad: true
+  search_referrer_jump_ad: false
   regular_ua_jump_ad: false
 GlobalCodeInsertion:
   filter_ip:
