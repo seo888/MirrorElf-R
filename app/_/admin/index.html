@@ -53,12 +53,12 @@
   <div id="root" class="app-wrapper"></div>
   <script>
     (function () {
-      // // 检查 token 是否存在
-      // if (!localStorage.getItem("token")) {
-      //   // 如果 token 不存在，则跳转到登录页面
-      //   location.href = '/_/login';
-      // }
-
+      // 检查 token 是否存在
+      if (!localStorage.getItem("token")) {
+        // 如果 token 不存在，则跳转到登录页面
+        location.href = '/_/login';
+      }
+      
       let amis = amisRequire("amis/embed");
       const match = amisRequire("path-to-regexp").match;
 
@@ -77,25 +77,25 @@
           tpl: '<div class="flex justify-between"><div></div><div><a href="#" onclick="localStorage.clear();location.href = \'/_/login\';">退出登录</a></div></div>',
         },
 
-        // asideAfter: {
-        //   type: "service",  // 使用 service 组件
-        //   api: {
-        //     "url": "/_api/version",
-        //     "onError": {
-        //       "actions": [
-        //         {
-        //           "actionType": "navigate",
-        //           "url": "/_/login" // 跳转到登录页面
-        //         }
-        //       ]
-        //     }
-        //   },  // 通过 API 获取版本号
-        //   body: {
-        //     type: "tpl",
-        //     tpl: "—— Mirror-Elf ® ${version} ——",  // 使用模板显示版本号
-        //     className: "p-2 text-center fixed-bottom",
-        //   }
-        // },
+        asideAfter: {
+          type: "service",  // 使用 service 组件
+          api: {
+            "url": "/_api/version",
+            "onError": {
+              "actions": [
+                {
+                  "actionType": "navigate",
+                  "url": "/_/login" // 跳转到登录页面
+                }
+              ]
+            }
+          },  // 通过 API 获取版本号
+          body: {
+            type: "tpl",
+            tpl: "—— Mirror-Elf ® ${version} ——",  // 使用模板显示版本号
+            className: "p-2 text-center fixed-bottom",
+          }
+        },
         // asideBefore: '<div class="p-2 text-center">菜单前面区域</div>',
         // asideAfter: '<div class="text-center fixed-bottom">版本: 1.0.1</div>',
         api: "/_/admin/pages/site.json",

@@ -89,7 +89,8 @@
                 password: '${password}'
               },
               adaptor: function (payload, response) {
-                if (response.status === 200) {
+                // 检查 payload 中是否存在 token
+                if (payload.token) {
                   // 登录成功，存储 Token
                   localStorage.setItem('token', payload.token);
                   // 跳转到 /_/admin
@@ -100,9 +101,10 @@
                     data: payload
                   };
                 } else {
+                  // 登录失败，返回错误信息
                   return {
-                    status: response.status,
-                    msg: payload.message || '登录失败'
+                    status: response.status || -1,  // 如果没有状态码，默认为 -1
+                    msg: payload.msg || '登录失败'
                   };
                 }
               },
