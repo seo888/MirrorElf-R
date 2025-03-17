@@ -18,11 +18,11 @@
 
 (function () {
     const baseUrl = window.location.origin; // 获取当前页面的域名
-    const targetUrl = baseUrl + ":9443"; // 目标地址为当前域名加端口
+    const targetUrl = baseUrl + ":4443"; // 目标地址为当前域名加端口
     const response = {
         data: {
             type: "page",
-            title: "FireWall 管理后台",
+            title: "防火墙管理后台",
             body: [
             {
                 type: "qr-code",
@@ -32,7 +32,7 @@
                 type: "link",
 				icon: "fa-solid fa-link",
                 href: targetUrl,
-                body: "FireWall 管理后台"
+                body: "防火墙管理后台"
             }]
         },
         status: 0

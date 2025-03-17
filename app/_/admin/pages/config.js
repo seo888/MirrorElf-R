@@ -112,7 +112,7 @@
                                                     name: "WebsiteInfo.safeline_token",
                                                     type: "input-text",
                                                     label: "雷池Token",
-                                                    desc: "与防火墙通信，展示网站数据、自动https证书，请务必正确填写"
+                                                    desc: "与防火墙通信，展示网站数据、强制https证书，请务必正确填写"
                                                 }
                                             ]
                                         }
@@ -149,7 +149,7 @@
                                                     type: "switch",
                                                     onText: "开启",
                                                     offText: "关闭",
-                                                    label: "自动https证书"
+                                                    label: "强制https"
                                                 },
                                                 {
                                                     name: "WebsiteSettings.pan_site_auto_site_building",
