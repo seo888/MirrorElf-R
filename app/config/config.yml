@@ -18,7 +18,7 @@ SEOFunctions:
   random_meta_and_link: false
   random_class_attributes: false
 AccessPolicy:
-  forced_domain_binding: true
+  forced_domain_binding: false
   ip_site_referrer: true
   pan_site_referrer: true
   ua_banlist:
