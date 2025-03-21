@@ -1,10 +1,9 @@
 WebsiteInfo:
   program_name: web1 - Mirror-Elf by TG@seo898
-  authorization_code: '888'
+  authorization_code: ER-pDnJsQQkgc134zGeuAETnQnyvG2Ly0Mk-1a5vl2XddqWxnCiY7KKVBmXTe3O48dYb6KGkDOUQqnj-auIseudKuga1
   login_account: admin
   login_password: admin
   amazon_s3_api: minio:minio123@localhost:9000
-  safeline_token: ''
 WebsiteSettings:
   auto_site_building: false
   auto_https_certificate: true
@@ -62,9 +61,6 @@ AccessPolicy:
   - java/
   - CoolpadWebkit
   - Linguee Bot
-  - ApacheBench
-  - AskTbFXTV
-  - FeedDemon
   ip_banlist: []
 AdPolicy:
   ad_url: http://www.baidu.com

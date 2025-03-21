@@ -45,7 +45,7 @@
 					100,
 					500,
 				],
-				"perPage": 20,
+				"perPage": 10,
 				"keepItemSelectionOnPageChange": true,
 				"autoFillHeight": true,
 				"labelTpl": "【${id}】${domain}",

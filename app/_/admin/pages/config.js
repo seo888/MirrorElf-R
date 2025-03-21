@@ -37,22 +37,47 @@
                         // 	"tpl": "<a href='https://t.me/MirrorElf' target='_blank'>续费</a>"
                         // },
                         {
-                            "label": "设备机器码：${machine_id}",
-                            "type": "button",
-                            "level": "link",
-                            "actionType": "copy",
-                            "content": "${machine_id}",
-                            "tooltip": "点击复制",
-                            "tooltipPlacement": "top"
+                            "type": "service",
+                            "api": "/_api/version",  // 动态加载 预建站文档
+                            "body": [
+                                {
+                                    "label": "设备机器码：${machine_id}",
+                                    "type": "button",
+                                    "level": "link",
+                                    "actionType": "copy",
+                                    "content": "${machine_id}",
+                                    "tooltip": "点击复制",
+                                    "tooltipPlacement": "top"
+                                },
+                                {
+                                    "type": "submit",
+                                    "level": "info",
+                                    "icon": "fa fa-save",
+                                    "label": "保存设置"  // 修改提交按钮文本
+                                },
+                            ]
                         },
-                        {
-                            "type": "submit",
-                            "level": "info",
-                            "icon": "fa fa-save",
-                            "label": "保存设置"  // 修改提交按钮文本
-                        },],
+                    ],
                     reload: "set_form",
                     body: [
+                        {
+                            "label": "${authorization_end_info}",
+                            "type": "tag",
+                            "color": "error",
+                            "displayMode": "status",
+                            "visibleOn": "this.authorization_end_info",
+                            "style": {
+                                "display": "inline-block",
+                                "width": "100%",
+                                "text-align": "center"
+                            }
+                        },
+                        // {
+                        //     "type": "tag",
+                        //     "label": "error",
+                        //     "displayMode": "normal",
+                        //     "color": "error"
+                        // },
                         {
                             type: "anchor-nav",
                             direction: "horizontal",
@@ -93,14 +118,18 @@
                                                     ]
                                                 },
                                                 {
-                                                    name: "WebsiteInfo.authorization_code",
-                                                    type: "input-text",
-                                                    label: "授权码",
-                                                    required: true,
-                                                    desc: "新服务器赠送1天时间的授权码，发送“右下角-设备机器码”至 https://t.me/MirrorElf 领取免费授权码"
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "WebsiteInfo.authorization_code",
+                                                            type: "input-text",
+                                                            label: "授权码${WebsiteSettings.auto_https_certificate ? '✅' : '⛔'}",
+                                                            required: true,
+                                                            "status": "pending",
+                                                            desc: "${authorization_info} 新服务器赠送1天时间的授权码，发送“右下角-设备机器码”至 https://t.me/MirrorElf 领取免费授权码"
+                                                        },
+                                                    ]
                                                 },
-
-
                                                 {
                                                     name: "WebsiteInfo.amazon_s3_api",
                                                     type: "input-text",
@@ -108,12 +137,12 @@
                                                     disabled: true,  // 设置为只读
                                                     desc: "amazon_s3_api分布式文件系统接口信息，如需更改请于服务器文件中修改。(重启程序生效)"
                                                 },
-                                                {
-                                                    name: "WebsiteInfo.safeline_token",
-                                                    type: "input-text",
-                                                    label: "雷池Token",
-                                                    desc: "与防火墙通信，展示网站数据、自动https证书，请务必正确填写"
-                                                }
+                                                // {
+                                                //     name: "WebsiteInfo.safeline_token",
+                                                //     type: "input-text",
+                                                //     label: "雷池Token",
+                                                //     desc: "与防火墙通信，展示网站数据、自动https证书，请务必正确填写"
+                                                // }
                                             ]
                                         }
                                     ]
@@ -144,13 +173,13 @@
                                                         { label: "葡萄牙文", value: "pt" }
                                                     ]
                                                 },
-                                                {
-                                                    name: "WebsiteSettings.auto_https_certificate",
-                                                    type: "switch",
-                                                    onText: "开启",
-                                                    offText: "关闭",
-                                                    label: "自动https"
-                                                },
+                                                // {
+                                                //     name: "WebsiteSettings.auto_https_certificate",
+                                                //     type: "switch",
+                                                //     onText: "开启",
+                                                //     offText: "关闭",
+                                                //     label: "自动https"
+                                                // },
                                                 {
                                                     name: "WebsiteSettings.pan_site_auto_site_building",
                                                     type: "switch",
