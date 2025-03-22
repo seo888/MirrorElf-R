@@ -1,201 +1,265 @@
 (function () {
 	const response = {
 		data:
-		// {
-		// 	type: "page",
-		// 	title: "仪表盘",
-		// 	body: [{
-		// 		"type": "panel",
-		// 		"title": "网站实时日志",
-		// 		"body": {
-		// 			"type": "log",
-		// 			"height": 300,
-		// 			// "rowHeight": 22,
-		// 			'maxLength': 10000,
-		// 			"source": "/_api_/logs",
-		// 			"operation": ['stop', 'restart', 'clear', 'showLineNumber', 'filter']
-		// 		}
-		// 	},]
-		// }
-		// {
-		// 	"type": "page",
-		// 	"body": [
-		// 	  {
-		// 		"type": "log",
-		// 		"id": "logComponent",
-		// 		"height": 300,
-		// 		"maxLength": 10000,
-		// 		"source":'/_api_/logs',
-		// 		"operation": ["stop", "restart", "clear", "showLineNumber", "filter"]
-		// 	  },
-		// 	],
-
-		// }
 		{
 			"title": "图表示例",
 			"body": [
 				{
 					"type": "grid",
+					// "width": "450px",
 					"columns": [
 						{
-							"type": "panel",
-							"title": "本地配置示例 支持交互",
-							"name": "chart-local",
-							"body": [
-								{
-									"type": "chart",
-									"config": {
-										"title": {
-											"text": "极坐标双数值轴"
-										},
-										"legend": {
-											"data": [
-												"line"
-											]
-										},
-										"polar": {
-											"center": [
-												"50%",
-												"54%"
-											]
-										},
-										"tooltip": {
-											"trigger": "axis",
-											"axisPointer": {
-												"type": "cross"
-											}
-										},
-										"angleAxis": {
-											"type": "value",
-											"startAngle": 0
-										},
-										"radiusAxis": {
-											"min": 0
-										},
-										"series": [
-											{
-												"coordinateSystem": "polar",
-												"name": "line",
-												"type": "line",
-												"showSymbol": false,
-												"data": [
-													[
-														0,
-														0
-													],
-													[
-														0.03487823687206265,
-														1
-													],
-													[
-														0.06958655048003272,
-														2
-													],
-													[
-														0.10395584540887964,
-														3
-													],
-													[
-														0.13781867790849958,
-														4
-													],
-													[
-														0.17101007166283433,
-														5
-													],
-													[
-														0.2033683215379001,
-														6
-													],
-													[
-														0.2347357813929454,
-														7
-													],
-													[
-														0.26495963211660245,
-														8
-													],
-													[
-														0.2938926261462365,
-														9
-													],
-													[
-														0.3213938048432697,
-														10
-													]
-												]
-											}
-										],
-										"animationDuration": 2000
-									},
-									"clickAction": {
-										"actionType": "dialog",
-										"dialog": {
-											"title": "详情",
-											"body": [
-												{
-													"type": "tpl",
-													"tpl": "<span>当前选中值 ${value|json}<span>"
-												},
-												{
-													"type": "chart",
-													"api": "/amis/api/mock2/chart/chart1"
-												}
-											]
-										}
+							"type": "chart",
+							"api": "/_api_/info/qps?count=5",
+							"interval": 5000,
+							"tracker": true,
+							
+							xs:7,
+							"height": "500px",
+							"config":
+							{
+								tooltip: {
+									trigger: 'item',
+									formatter: '{a} <br/>{b}: {c} ({d}%)'
+								},
+								legend: {
+									data: [
+										'Direct',
+										'Marketing',
+										'Search Engine',
+										'Email',
+										'Union Ads',
+										'Video Ads',
+										'Baidu',
+										'Google',
+										'Bing',
+										'Others'
+									]
+								},
+								graphic: [
+									{
+									  type: 'text',
+									  z:100,
+									  left: 'center',
+									  top: 'center',
+									  style: {
+										text: '${qps}', // 标题内容
+										textAlign: 'center',
+										fill: '#FFFFFF', // 文字颜色
+										fontSize: 18, // 文字大小
+										fontWeight: 'bold' // 文字加粗
+									  }
 									}
-								}
-							]
+								  ],
+								series: [
+									{
+										name: 'QPS',
+										type: 'pie',
+										// selectedMode: 'single',
+										radius: [0, '30%'],
+										label: {
+											position: 'inner',
+											fontSize: 14
+										},
+										labelLine: {
+											show: true
+										},
+										data: [
+											{ value: "${qps}", name: '访问 / 秒' },
+										]
+									},
+									{
+										name: 'QPS',
+										type: 'pie',
+										radius: ['45%', '60%'],
+										labelLine: {
+											length: 30
+										},
+										label: {
+											formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+											backgroundColor: '#F6F8FC',
+											borderColor: '#8C8D8E',
+											borderWidth: 1,
+											borderRadius: 4,
+											rich: {
+												a: {
+													color: '#6E7079',
+													lineHeight: 22,
+													align: 'center'
+												},
+												hr: {
+													borderColor: '#8C8D8E',
+													width: '100%',
+													borderWidth: 1,
+													height: 0
+												},
+												b: {
+													color: '#4C5058',
+													fontSize: 14,
+													fontWeight: 'bold',
+													lineHeight: 33
+												},
+												per: {
+													color: '#fff',
+													backgroundColor: '#4C5058',
+													padding: [3, 4],
+													borderRadius: 4
+												}
+											}
+										},
+										data: "${spider_data}"
+									}
+								]
+							}
 						},
 						{
-							"type": "panel",
-							"title": "远程图表示例(返回值带function)",
-							"name": "chart-remote",
-							"body": [
-								{
-									"type": "chart",
-									"api": "/amis/api/mock2/chart/chart1"
-								}
-							]
-						}
+							"type": "chart",
+							align: "right",
+							"height": "455px",
+							"width": "450px",
+							// "style": {
+							// 	"flex": "2" // 占据 8 份
+							// },
+							"config": {
+								series: [
+									{
+										type: 'gauge',
+										startAngle: 90,
+										endAngle: -270,
+										pointer: {
+											show: false
+										},
+										progress: {
+											show: true,
+											overlap: true,
+											roundCap: true,
+											clip: false,
+											itemStyle: {
+												borderWidth: 1,
+												borderColor: '#464646'
+											}
+										},
+										// axisLine: {
+										// 	lineStyle: {
+										// 		width: 40
+										// 	}
+										// },
+										axisLine: {
+											lineStyle: {
+												width: 50,
+												// color: [
+												// 	[0.00, '#008000'], // 0% 为深绿色
+												// 	[0.05, '#0d8c0d'], // 5% 为稍浅的绿色
+												// 	[0.10, '#1a991a'], // 10% 为更浅的绿色
+												// 	[0.15, '#26a626'], // 15% 为浅绿色
+												// 	[0.20, '#33b333'], // 20% 为更浅的绿色
+												// 	[0.25, '#40bf40'], // 25% 为浅绿色
+												// 	[0.30, '#4dcc4d'], // 30% 为更浅的绿色
+												// 	[0.35, '#59d959'], // 35% 为浅绿色
+												// 	[0.40, '#66e566'], // 40% 为更浅的绿色
+												// 	[0.45, '#73f273'], // 45% 为浅绿色
+												// 	[0.50, '#80ff80'], // 50% 为非常浅的绿色
+												// 	[0.55, '#8cff8c'], // 55% 为接近白色的浅绿色
+												// 	[0.60, '#99ff99'], // 60% 为极浅的绿色
+												// 	[0.65, '#ff9999'], // 65% 为浅红色
+												// 	[0.70, '#ff6666'], // 70% 为稍深的浅红色
+												// 	[0.75, '#ff3333'], // 75% 为明亮的红色
+												// 	[0.80, '#ff0000'], // 80% 为标准红色
+												// 	[0.85, '#cc0000'], // 85% 为深红色
+												// 	[0.90, '#990000'], // 90% 为更深的红色
+												// 	[0.95, '#660000'], // 95% 为暗红色
+												// 	[1.00, '#330000']  // 100% 为接近黑色的深红色
+												// ]
+											}
+										},
+										splitLine: {
+											show: false,
+											distance: 0,
+											length: 10
+										},
+										axisTick: {
+											show: false
+										},
+										axisLabel: {
+											show: false,
+											distance: 50
+										},
+										data: [
+											{
+												value: 20,
+												name: 'CPU',
+												title: {
+													offsetCenter: ['0%', '-40%']
+												},
+												detail: {
+													valueAnimation: true,
+													offsetCenter: ['0%', '-25%']
+												}
+											},
+											{
+												value: 40,
+												name: '内存',
+												title: {
+													offsetCenter: ['0%', '-7.5%']
+												},
+												detail: {
+													valueAnimation: true,
+													offsetCenter: ['0%', '7.5%']
+												}
+											},
+											{
+												value: 10,
+												name: '硬盘',
+												title: {
+													offsetCenter: ['0%', '25%']
+												},
+												detail: {
+													valueAnimation: true,
+													offsetCenter: ['0%', '40%']
+												}
+											}
+										],
+										title: {
+											fontSize: 14
+										},
+										detail: {
+											width: 50,
+											height: 14,
+											fontSize: 14,
+											color: 'inherit',
+											borderColor: 'inherit',
+											borderRadius: 20,
+											borderWidth: 1,
+											formatter: '{value}%'
+										}
+									}
+								]
+							},
+							// "api": {
+							// 	"method": "GET",
+							// 	"url": "/_api_/info/spider_count?days=5",
+							// 	"autoLoad": true,
+							// 	// "adaptor": "function (payload) { return { data: payload.data }; }"
+							// }
+						},
+						// {
+						// 	"title": "QPS",
+						// 	"type": "chart",
+						// 	"height": "450px",
+						// 	"api": "/_api_/info/qps?count=5",
+						// 	"interval": 1000,
+						// 	"xs": 7
+						// },
+						
 					]
 				},
 				{
-					"type": "service",
-					// "api": {
-					//   "method": "get",
-					//   "url": "/_api_/logs",
-					//   "autoRefresh": false,
-					//   "concatDataFields": "log"
-					// },
-					// "silentPolling": true,
-					// "interval": 1000,
-					// "stopAutoRefreshWhen": "${finished}",
-					"body": [
-						{
-							"type": "log",
-							"height": 300,
-							"maxLength": 10000,
-							"source": {
-							  "method": "get",
-							  "url": "/_api_/logs",
-							  "adaptor": "(payload) => { return { ...payload, status: 0 }; }"
-							},
-							"interval": 5000, // 每隔 5 秒重新加载日志
-							"operation": ["stop", "restart", "clear", "showLineNumber", "filter"],
-							"onEvent": {
-							  "restart": {
-								"actions": [
-								  {
-									"actionType": "reload", // 重新加载日志
-									"componentId": "logComponent" // 替换为你的 log 组件 ID
-								  }
-								]
-							  }
-							}
-						  }
-					]
-				}
+					"title": "蜘蛛概况",
+					"height": "450px",
+					"type": "chart",
+					"api": "/_api_/info/spider_count?days=5",
+					// "interval": 5000
+				},
 
 			]
 		}
