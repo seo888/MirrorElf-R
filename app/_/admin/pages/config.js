@@ -38,7 +38,7 @@
                         // },
                         {
                             "type": "service",
-                            "api": "/_api/version",  // 动态加载 预建站文档
+                            "api": "/_api/version?mode=0",  // 动态加载
                             "body": [
                                 {
                                     "label": "设备机器码：${machine_id}",
