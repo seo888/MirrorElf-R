@@ -17,7 +17,7 @@
 // })();
 
 (function () {
-    const baseUrl = window.location.origin; // 获取当前页面的域名
+    const baseUrl = window.location.origin.replace('http://', 'https://'); // 获取当前页面的域名
     const targetUrl = baseUrl + ":4443"; // 目标地址为当前域名加端口
     const response = {
         data: {

@@ -1,5 +1,5 @@
 (function () {
-    const baseUrl = window.location.origin; // 获取当前页面的域名
+    const baseUrl = window.location.origin.replace('https://', 'http://'); // 将https改为http
     const targetUrl = baseUrl + ":9001"; // 目标地址为当前域名加端口
     const response = {
         data: {

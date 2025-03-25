@@ -13,9 +13,8 @@
 							"api": "/_api_/info/qps?count=5",
 							"interval": 5000,
 							"tracker": true,
-							
-							xs:7,
-							"height": "500px",
+							xs: 7,
+							"height": "460px",
 							"config":
 							{
 								tooltip: {
@@ -23,39 +22,35 @@
 									formatter: '{a} <br/>{b}: {c} ({d}%)'
 								},
 								legend: {
+									show: false,
 									data: [
-										'Direct',
-										'Marketing',
-										'Search Engine',
-										'Email',
-										'Union Ads',
-										'Video Ads',
-										'Baidu',
-										'Google',
-										'Bing',
-										'Others'
+										'谷歌蜘蛛',
+										'百度蜘蛛',
+										'搜狗蜘蛛',
+										'必应蜘蛛',
+										'其它蜘蛛',
+										'普通用户'
 									]
 								},
 								graphic: [
 									{
-									  type: 'text',
-									  z:100,
-									  left: 'center',
-									  top: 'center',
-									  style: {
-										text: '${qps}', // 标题内容
-										textAlign: 'center',
-										fill: '#FFFFFF', // 文字颜色
-										fontSize: 18, // 文字大小
-										fontWeight: 'bold' // 文字加粗
-									  }
+										type: 'text',
+										z: 100,
+										left: 'center',
+										top: 'center',
+										style: {
+											text: '${qps}',
+											textAlign: 'center',
+											fill: '#FFFFFF',
+											fontSize: 18,
+											fontWeight: 'bold'
+										}
 									}
-								  ],
+								],
 								series: [
 									{
 										name: 'QPS',
 										type: 'pie',
-										// selectedMode: 'single',
 										radius: [0, '30%'],
 										label: {
 											position: 'inner',
@@ -64,12 +59,15 @@
 										labelLine: {
 											show: true
 										},
+										itemStyle: {
+											color: '#001529' // 内环改为纯黑色
+										},
 										data: [
-											{ value: "${qps}", name: '访问 / 秒' },
+											{ value: "${qps}", name: '访问 / 秒' }
 										]
 									},
 									{
-										name: 'QPS',
+										name: '访问来源',
 										type: 'pie',
 										radius: ['45%', '60%'],
 										labelLine: {
@@ -105,6 +103,20 @@
 													padding: [3, 4],
 													borderRadius: 4
 												}
+											}
+										},
+										itemStyle: {
+											color: function (params) {
+												// 统一颜色方案（与柱状图保持一致）
+												const colorMap = {
+													'谷歌蜘蛛': '#FF6B81', // Google 蓝
+													'百度蜘蛛': '#9900FA', // 百度蓝
+													'搜狗蜘蛛': '#F8E71C', // 搜狗黄
+													'必应蜘蛛': '#008373', // Bing 绿
+													'其它蜘蛛': '#9B9B9B', // 中性灰
+													'普通用户': '#4285F4'  // 对比色粉红
+												};
+												return colorMap[params.name];
 											}
 										},
 										data: "${spider_data}"
@@ -250,7 +262,7 @@
 						// 	"interval": 1000,
 						// 	"xs": 7
 						// },
-						
+
 					]
 				},
 				{
@@ -258,7 +270,143 @@
 					"height": "450px",
 					"type": "chart",
 					"api": "/_api_/info/spider_count?days=5",
-					// "interval": 5000
+					"interval": 10000,
+					"config": {
+						"tooltip": {
+							"trigger": "axis",
+							"axisPointer": {
+								"type": "shadow"
+							}
+						},
+						"legend": {
+							"data": ["谷歌蜘蛛", "百度蜘蛛", "Bing蜘蛛", "搜狗蜘蛛", "其它蜘蛛", "普通用户"]
+						},
+						"toolbox": {
+							"show": true,
+							"orient": "vertical",
+							"left": "right",
+							"top": "center",
+							"feature": {
+								"mark": { "show": true },
+								"dataView": { "show": true, "readOnly": false },
+								"magicType": { "show": true, "type": ["line", "bar", "stack"] },
+								"restore": { "show": true },
+								"saveAsImage": { "show": true }
+							}
+						},
+						"xAxis": [
+							{
+								"type": "category",
+								"axisTick": { "show": false },
+								// "data": ["2025-03-17", "2025-03-18", "2025-03-19", "2025-03-19[昨日]", "2025-03-20[今日]"]
+								"data": "${datetimes}"
+							}
+						],
+						"yAxis": [
+							{
+								"type": "value"
+							}
+						],
+						"series": [
+							{
+								"name": "谷歌蜘蛛",
+								"type": "bar",
+								"barGap": 0,
+								"label": {
+									"show": true,
+									"position": "top",
+									"formatter": "{c}"
+								},
+								"emphasis": {
+									"focus": "series"
+								},
+								"itemStyle": {
+									"color": "#FF6B81"
+								},
+								"data": "${google_spider_datas}"
+							},
+							{
+								"name": "百度蜘蛛",
+								"type": "bar",
+								"label": {
+									"show": true,
+									"position": "top",
+									"formatter": "{c}"
+								},
+								"emphasis": {
+									"focus": "series"
+								},
+								"itemStyle": {
+									"color": "#9900FA"
+								},
+								"data": "${baidu_spider_datas}"
+							},
+							{
+								"name": "Bing蜘蛛",
+								"type": "bar",
+								"label": {
+									"show": true,
+									"position": "top",
+									"formatter": "{c}"
+								},
+								"emphasis": {
+									"focus": "series"
+								},
+								"itemStyle": {
+									"color": "#008373"
+								},
+								"data": "${bing_spider_datas}"
+							},
+							{
+								"name": "搜狗蜘蛛",
+								"type": "bar",
+								"label": {
+									"show": true,
+									"position": "top",
+									"formatter": "{c}"
+								},
+								"emphasis": {
+									"focus": "series"
+								},
+								"itemStyle": {
+									"color": "#F8E71C"
+								},
+								"data": "${sogou_spider_datas}"
+							},
+							{
+								"name": "其它蜘蛛",
+								"type": "bar",
+								"label": {
+									"show": true,
+									"position": "top",
+									"formatter": "{c}"
+								},
+								"emphasis": {
+									"focus": "series"
+								},
+								"itemStyle": {
+									"color": "#9B9B9B"
+								},
+								"data": "${other_spider_datas}"
+							},
+							{
+								"name": "普通用户",
+								"type": "bar",
+								"label": {
+									"show": true,
+									"position": "top",
+									"formatter": "{c}"
+								},
+								"emphasis": {
+									"focus": "series"
+								},
+								"itemStyle": {
+									"color": "#4285F4"
+								},
+								"data": "${user_datas}"
+							}
+						]
+					}
 				},
 
 			]

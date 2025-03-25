@@ -1,6 +1,7 @@
 services:
   mirror_elf_r:
     network_mode: host
+    restart: always
     build: ./app
     container_name: mirror_elf_r
     depends_on:
