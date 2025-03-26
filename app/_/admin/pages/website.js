@@ -23,12 +23,12 @@
 				"onEvent": {
 					"selectedChange": {
 						"actions": [
-						{
-							"actionType": "toast",
-							"args": {
-							"msg": "已选择${event.data.selectedItems.length}条记录"
+							{
+								"actionType": "toast",
+								"args": {
+									"msg": "已选择${event.data.selectedItems.length}条记录"
+								}
 							}
-						}
 						]
 					}
 				},
@@ -224,7 +224,8 @@
 								]
 							}
 						}
-					}, {
+					},
+					{
 						"type": "button",
 						"label": "批量建站",
 						"icon": "fa fa-plus pull-left",
@@ -239,76 +240,163 @@
 								"type": "form",
 								"name": "sample-edit-form",
 								"api": "/_api_/website/create",
-								"reload": "crud-table", // 在提交后重新加载特定的组件
+								"reload": "crud-table",
 								"body": [
 									{
-										"type": "select",
-										"name": "over_write",
-										"label": "建站模式",
-										// "required": true,
-										"options": [
-											{
-												"label": "覆盖已有网站",
-												"value": true
-											},
-											{
-												"label": "跳过已有网站",
-												"value": false
-											}
-										],
-										"value": false,
-										"placeholder": "是否覆盖"
-									},
-									{
-										"type": "select",
-										"name": "target_replace_over_write",
-										"label": "目标站替换词",
-										// "required": true,
-										"options": [
-											{
-												"label": "覆盖",
-												"value": true
-											},
-											{
-												"label": "存在则跳过",
-												"value": false
-											}
-										],
-										"value": false,
-										"placeholder": "是否覆盖"
-									},
-									// 插入新的 service，用于加载 预建站文档 数据
-									{
-										"type": "service",
-										"api": "/_api_/file/query?path=doc/website.txt",  // 动态加载 预建站文档
+										"type": "group",
 										"body": [
 											{
-												"type": "alert",
-												"body": "格式：<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>",
+												"type": "select",
+												"name": "lang",
+												"label": "语言",
+												// "required": true,
+												"options": [
+													{
+														"label": "中文",
+														"value": "zh"
+													},
+													{
+														"label": "英文",
+														"value": "en"
+													}
+												],
+												"value": "zh",  // 设置默认值为 zh
+												"placeholder": "请选择语言"
 											},
 											{
-												"type": "alert",
-												"body": "例子：www.domain.com__en|www.target.com__true__网站标题__网站关键词__网站描述__1__关于我们----------{keyword}##########公司名称----------【关键词】__关于我们 -> {keyword} ; 公司名称 -> 【关键词】",
+												"type": "select",
+												"name": "over_write",
+												"label": "建站模式",
+												"options": [
+													{
+														"label": "覆盖已有网站",
+														"value": true
+													},
+													{
+														"label": "跳过已有网站",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否覆盖"
 											},
 											{
-												"type": "editor",
-												"language": "yaml",
-												"name": "content",
-												"label": "建站信息",
-												"placeholder": "<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>",
-												"value": ""
+												"type": "select",
+												"name": "target_replace_over_write",
+												"label": "目标站替换词",
+												"options": [
+													{
+														"label": "覆盖",
+														"value": true
+													},
+													{
+														"label": "存在则跳过",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否覆盖"
 											},
 											{
-												"type": "alert",
-												"body": "替换词 标准格式： 被替换词与替换词的间隔符为“ -> ”，多组分隔符为“ ; ”，如：关于我们 -> {keyword} ; 公司名称 -> 【关键词】",
+												"type": "select",
+												"name": "link_mapping",
+												"label": "链接映射",
+												"options": [
+													{
+														"label": "开启",
+														"value": true
+													},
+													{
+														"label": "关闭",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否开启链接映射"
 											},
 											{
-												"type": "alert",
-												"body": "替换词 兼容格式(为兼容之前版本格式)： 被替换词与替换词的间隔符为“----------”，多组分隔符为“##########”，如：关于我们----------{keyword}##########公司名称----------【关键词】",
-											},
-											
-											
-										]
+												"type": "select",
+												"name": "replace_mode",
+												"label": "替换模式",
+												"options": [
+													{
+														"label": "0. 仅目标站替换",
+														"value": 0
+													},
+													{
+														"label": "1. 先 目标站替换 后 本站替换",
+														"value": 1
+													},
+													{
+														"label": "2. 仅本站替换",
+														"value": 2
+													},
+													{
+														"label": "3. 先 本站替换 后 目标站替换",
+														"value": 3
+													},
+												],
+												"value": 0,  // 设置默认值为 zh
+												// "placeholder": "是否开启链接映射"
+											}]
+									},
+
+									// {
+									// 	"type": "alert",
+									// 	"body": "格式：<域名>__<目标站>__<链接映射(true/false)>__<标题>__<关键词>__<描述>__<替换模式(0/1/2/3)>__<目标站替换词(可留空)>__<本站替换词(可留空)>"
+									// },
+									{
+										"type": "alert",
+										"body": "例子：www.domain.com___en|www.target.com___网站标题___网站关键词___网站描述___关于我们----------{keyword}##########公司名称----------【关键词】___关于我们 -> {keyword} ; 公司名称 -> 【关键词】"
+									},
+
+									{
+										"type": "button",
+										"className": "pull-right",
+										"label": "清空",
+										"onEvent": {
+											"click": {
+												"actions": [
+													{
+														"actionType": "clear",
+														"componentId": "content"
+													}
+												]
+											}
+										}
+									},
+									{
+										"type": "button",
+										"icon": "fa fa-plus",
+										"level": "link",
+										"label": "加载预建站文档",
+										"actionType": "ajax",
+										"api": "get:/_api_/file/query?path=doc/website.txt",
+										"messages": {
+											"success": "加载成功",
+											"failed": "加载失败"
+										},
+									},
+									{
+										"type": "editor",
+										"language": "yaml",
+										"name": "content",
+										"id": "content",
+										"label": "建站信息",
+										"placeholder": "<域名>___<目标站>___<标题>___<关键词>___<描述>___<目标站替换词(可留空)>___<本站替换词(可留空)>",
+										"value": "",
+									},
+									{
+										"type": "alert",
+										"level": "info",
+										"showIcon": true,
+										"body": "标准格式： 间隔符为\" -> \"，多组分隔符为\" ; \"，如：关于我们 -> {keyword} ; 公司名称 -> 【关键词】"
+									},
+									{
+										"type": "alert",
+										"level": "info",
+										"showIcon": true,
+										"body": "兼容格式： 间隔符为\"----------\"，多组分隔符为\"##########\"，如：关于我们----------{keyword}##########公司名称----------【关键词】"
 									}
 								]
 							}
@@ -495,6 +583,7 @@
 								"drawer": {
 									"resizable": true,
 									"size": "lg",
+									"width": "50%",
 									"title": "编辑",
 									"body": {
 										"type": "form",
@@ -503,46 +592,43 @@
 										"reload": "crud-table", // 在提交后重新加载特定的组件
 										"body": [
 											{
-												"type": "static",
-												"name": "domain",
-												"label": "域名",
-											},
-											{
-												"type": "static",
-												"name": "lang",
-												"label": "语言",
-											},
-											{
-												"type": "static",
-												"name": "root_domain",
-												"label": "根域名",
-											},
-											{
-												"type": "static-mapping",
-												"name": "is_www",
-												"label": "站点类型",
-												"map": {
-													"true": "主站",
-													"false": "泛站"
-												}
-											},
-											{
-												"type": "select",
-												"name": "link_mapping",
-												"label": "链接映射",
-												"options": [
+												"type": "group",
+												"body": [
+
 													{
-														"label": "开启",
-														"value": true
+														"type": "static",
+														"name": "domain",
+														"label": "域名",
 													},
 													{
-														"label": "关闭",
-														"value": false
-													}
-												],
-												// "value": "false",  // 设置默认值为 zh
-												// "placeholder": "是否开启链接映射"
+														"type": "static-mapping",
+														"name": "is_www",
+														"label": "站点类型",
+														"map": {
+															"true": "主站",
+															"false": "泛站"
+														}
+													},
+
+												]
 											},
+											{
+												"type": "group",
+												"body": [{
+													"type": "static",
+													"name": "root_domain",
+													"label": "根域名",
+												},
+												{
+													"type": "static",
+													"name": "lang",
+													"label": "语言",
+												},
+												]
+											},
+
+
+
 											{
 												"type": "input-text",
 												"name": "title",
@@ -560,6 +646,52 @@
 												"label": "描述"
 											},
 											{
+												"type": "group",
+												"body": [
+													{
+														"type": "select",
+														"name": "replace_mode",
+														"label": "替换模式",
+														"options": [
+															{
+																"label": "仅 目标站替换",
+																"value": 0
+															},
+															{
+																"label": "先 目标站替换 后 本站替换",
+																"value": 1
+															},
+															{
+																"label": "仅 本站替换",
+																"value": 2
+															},
+															{
+																"label": "先 本站替换 后 目标站替换",
+																"value": 3
+															},
+														],
+														// "value": "false",  // 设置默认值为 zh
+														// "placeholder": "是否开启链接映射"
+													},
+													{
+														"type": "select",
+														"name": "link_mapping",
+														"label": "链接映射",
+														"options": [
+															{
+																"label": "开启",
+																"value": true
+															},
+															{
+																"label": "关闭",
+																"value": false
+															}
+														],
+														// "value": "false",  // 设置默认值为 zh
+														// "placeholder": "是否开启链接映射"
+													},]
+											},
+											{
 												"type": "input-text",
 												"name": "target",
 												"label": "目标站",
@@ -572,6 +704,7 @@
 													"matchRegexp": "请使用间隔符“|” 指定目标站语言 如: en|www.english.com  或  zh|www.chinese.com"  // 自定义错误提示信息
 												}
 											},
+
 											// 插入新的 service，用于加载 target_replace 数据
 											{
 												"type": "service",
@@ -588,33 +721,11 @@
 											},
 											{
 												"type": "alert",
+												"level": "info",
+												"showIcon": true,
 												"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
 											},
-											{
-												"type": "select",
-												"name": "replace_mode",
-												"label": "替换模式",
-												"options": [
-													{
-														"label": "仅 目标站替换",
-														"value": 0
-													},
-													{
-														"label": "先 目标站替换 后 本站替换",
-														"value": 1
-													},
-													{
-														"label": "仅 本站替换",
-														"value": 2
-													},
-													{
-														"label": "先 本站替换 后 目标站替换",
-														"value": 3
-													},
-												],
-												// "value": "false",  // 设置默认值为 zh
-												// "placeholder": "是否开启链接映射"
-											},
+
 											{
 												"type": "editor",
 												"language": "yaml",

@@ -6,7 +6,6 @@
 			"body": [
 				{
 					"type": "grid",
-					// "width": "450px",
 					"columns": [
 						{
 							"type": "chart",
@@ -14,7 +13,7 @@
 							"interval": 5000,
 							"tracker": true,
 							xs: 7,
-							"height": "460px",
+							"height": "450px",
 							"config":
 							{
 								tooltip: {
@@ -270,7 +269,7 @@
 					"height": "450px",
 					"type": "chart",
 					"api": "/_api_/info/spider_count?days=5",
-					"interval": 10000,
+					"interval": 60000,
 					"config": {
 						"tooltip": {
 							"trigger": "axis",
