@@ -31,6 +31,7 @@ fi
 
 # 定义基于版本标签的输出 tar 文件名
 TAR_FILE="MirrorElf-$(echo "$RELEASE_JSON" | jq -r .tag_name).tar.gz"
+TARGET_DIR="MirrorElf"
 
 # 使用 curl 下载 tarball
 echo "从 $TAR_URL 下载发布版本..."
@@ -44,14 +45,35 @@ else
   exit 1
 fi
 
-# 解压下载的 tar 文件，并将解压后的目录命名为 "MirrorElf"
-echo "正在解压 $TAR_FILE..."
-tar -xzf "$TAR_FILE" --one-top-level=MirrorElf --strip-components=1
+# # 解压下载的 tar 文件，并将解压后的目录命名为 "MirrorElf"
+# echo "正在解压 $TAR_FILE..."
+# tar -xzf "$TAR_FILE" --one-top-level=MirrorElf --strip-components=1
 
-# 检查解压是否成功
+# 检查文件是否存在
+if [ ! -f "$TAR_FILE" ]; then
+  echo "错误：文件 $TAR_FILE 不存在"
+  exit 1
+fi
+
+# 创建目标目录
+mkdir -p "$TARGET_DIR"
+
+# 尝试不同解压方式
+if tar --help | grep -q "one-top-level"; then
+  # 支持新语法
+  tar -xzf "$TAR_FILE" --one-top-level="$TARGET_DIR" --strip-components=1
+else
+  # 传统方式
+  TEMP_DIR=$(mktemp -d)
+  tar -xzf "$TAR_FILE" -C "$TEMP_DIR" --strip-components=1
+  mv "$TEMP_DIR"/* "$TARGET_DIR"/
+  rmdir "$TEMP_DIR"
+fi
+
+# 检查结果
 if [ $? -eq 0 ]; then
-  echo "解压成功！"
-  rm -rf $TAR_FILE
+  echo "解压成功到 $TARGET_DIR/"
+  rm -f "$TAR_FILE"
 else
   echo "解压失败！"
   exit 1
