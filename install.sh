@@ -67,7 +67,7 @@ else
   TEMP_DIR=$(mktemp -d)
   tar -xzf "$TAR_FILE" -C "$TEMP_DIR" --strip-components=1
   mv "$TEMP_DIR"/* "$TARGET_DIR"/
-  rmdir "$TEMP_DIR"
+  rm -rf "$TEMP_DIR"
 fi
 
 # 检查结果
