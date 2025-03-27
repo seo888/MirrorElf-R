@@ -35,7 +35,7 @@ fi
 # 定义基于版本标签的输出 tar 文件名
 TAR_FILE="MirrorElf-$(echo "$RELEASE_JSON" | jq -r .tag_name).tar.gz"
 
-TARGET_DIR="MirrorElf"
+TARGET_DIR="MirrorElf_New"
 
 # 使用 curl 下载 tarball
 echo "从 $TAR_URL 下载发布版本..."
@@ -48,10 +48,6 @@ else
   echo "下载失败！"
   exit 1
 fi
-
-# # 解压下载的 tar 文件，并将解压后的目录命名为 "MirrorElf"
-# echo "正在解压 $TAR_FILE..."
-# tar -xzf "$TAR_FILE" --one-top-level=MirrorElf --strip-components=1
 
 # 检查文件是否存在
 if [ ! -f "$TAR_FILE" ]; then

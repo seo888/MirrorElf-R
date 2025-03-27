@@ -1,6 +1,6 @@
 WebsiteInfo:
   program_name: web1 - Mirror-Elf by TG@seo898
-  authorization_code: aUGaOAvYkHtr0uMtK0d_HLl6QBUEOoBIq8AS5MLdLsLXc9B2l266nrfuWbK2y81BExNJpzqLWJLSabeGPJ0MA4uwdwJF
+  authorization_code: 888
   login_account: admin
   login_password: admin
   amazon_s3_api: minio:minio123@localhost:9000

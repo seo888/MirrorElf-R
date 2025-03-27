@@ -45,10 +45,6 @@ else
   exit 1
 fi
 
-# # 解压下载的 tar 文件，并将解压后的目录命名为 "MirrorElf"
-# echo "正在解压 $TAR_FILE..."
-# tar -xzf "$TAR_FILE" --one-top-level=MirrorElf --strip-components=1
-
 # 检查文件是否存在
 if [ ! -f "$TAR_FILE" ]; then
   echo "错误：文件 $TAR_FILE 不存在"
