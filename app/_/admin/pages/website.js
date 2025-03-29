@@ -503,6 +503,14 @@
 					{
 						"name": "root_domain",
 						"label": "根域名",
+						"copyable": true,
+						"popOver": {
+							"trigger": "hover",
+							"body": {
+								"type": "tpl",
+								"tpl": "<a href='https://www.google.com/search?q=site%3A${root_domain}' target='_blank' class='link-style'>谷歌site</a> | <a href='https://www.bing.com/search?q=site%3A${root_domain}' target='_blank' class='link-style'>必应site</a> | <a href='https://www.baidu.com/s?wd=site%3A${root_domain}' target='_blank' class='link-style'>百度site</a> | <a href='https://www.sogou.com/web?query=site%3A${root_domain}' target='_blank' class='link-style'>搜狗site</a>"
+							}
+						}
 						// "sortable": true,  // 启用排序功能
 						// "searchable": true,
 					},
@@ -556,12 +564,13 @@
 						"type": "operation",
 						"fixed": "right",
 						"label": "操作",
-						"width": 155,
+						"width": 160,
 						"buttons": [
 							{
 								"type": "button",
 								"icon": "fa fa-refresh text-danger",
 								"actionType": "ajax",
+								"tooltipPlacement": "top",
 								"tooltip": "换目标站",
 								"confirmText": "确认随机更换【${id}】${domain} 目标站: ${target}",
 								"api": "get:/_api_/website/random_target?id=$id"
@@ -570,6 +579,7 @@
 								"type": "button",
 								"icon": "fa fa-times text-danger",
 								"actionType": "ajax",
+								"tooltipPlacement": "top",
 								"tooltip": "删除目标站",
 								"confirmText": "确认删除 目标站库中的: ${target}",
 								"api": "delete:/_api_/file/config/target.txt?line=$target",
@@ -578,6 +588,7 @@
 							{
 								"type": "button",
 								"icon": "fa fa-pencil",
+								"tooltipPlacement": "top",
 								"tooltip": "编辑",
 								"actionType": "drawer",
 								"drawer": {
@@ -614,16 +625,17 @@
 											},
 											{
 												"type": "group",
-												"body": [{
-													"type": "static",
-													"name": "root_domain",
-													"label": "根域名",
-												},
-												{
-													"type": "static",
-													"name": "lang",
-													"label": "语言",
-												},
+												"body": [
+													{
+														"type": "static",
+														"name": "root_domain",
+														"label": "根域名",
+													},
+													{
+														"type": "static",
+														"name": "lang",
+														"label": "语言",
+													},
 												]
 											},
 
@@ -745,6 +757,7 @@
 								"type": "button",
 								"icon": "fa fa-eraser text-danger",
 								"actionType": "ajax",
+								"tooltipPlacement": "top",
 								"tooltip": "清空缓存",
 								"confirmText": "确认清空【${id}】${domain} 所有页面缓存",
 								"api": "delete:/_api_/cache/delete?domain=$domain",
@@ -754,6 +767,7 @@
 								"type": "button",
 								"icon": "fa fa-trash text-danger",
 								"actionType": "ajax",
+								"tooltipPlacement": "top",
 								"tooltip": "删除",
 								"confirmText": "确认删除【${id}】${domain}",
 								"api": "delete:/_api_/website/delete?files=$id"

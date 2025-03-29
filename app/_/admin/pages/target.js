@@ -14,39 +14,109 @@
 						"links": [
 							{
 								"label": "中文 [zh]",
-								"to": "?target_lib=zh",
+								"to": "?target_lib=zh&page=1",
 								"value": "zh",
 								"icon": "/_/admin/zh.svg"
 							},
 							{
 								"label": "英译中 [en2zh]",
-								"to": "?target_lib=en2zh",
+								"to": "?target_lib=en2zh&page=1",
 								"value": "en2zh",
 								"icon": "/_/admin/en2zh.svg"
 							},
 							{
 								"label": "英文 [en]",
-								"to": "?target_lib=en",
+								"to": "?target_lib=en&page=1",
 								"value": "en",
 								"icon": "/_/admin/en.svg"
 							},
 							{
 								"label": "中译英 [zh2en]",
-								"to": "?target_lib=zh2en",
+								"to": "?target_lib=zh2en&page=1",
 								"value": "zh2en",
 								"icon": "/_/admin/zh2en.svg"
 							}
 						],
-						"value": "?target_lib=zh"
+						"value": "?target_lib=zh&page=1"
 					},
 					"body": {
 						"type": "grid",
 						"columns": [
 							{
-								"md": 2,  // 左侧占 3 份宽度（25%）
+								"md": 3,  // 左侧占 3 份宽度（25%）
 								"body": {
 									// "title": "目标库【${target_lib}】",
+
 									"type": "crud",
+									"filter": {
+										// "mode": "inline",
+										// "debug": true,
+										"wrapWithPanel": false,
+										"title": "搜索",
+										"body": [
+											{
+												"type": "group",  // 使用 group 组件
+												"body": [
+													{
+														"type": "input-text",
+														"name": "domain",
+														"label": "🔍搜索",
+														"clearable": true
+													},
+													{
+														"type": "submit",  // 显式添加搜索按钮
+														"label": "搜索",
+														"level": "primary",
+													}
+												]
+											}
+										],
+									},
+									// "autoGenerateFilter": {
+									// 	// "columnsNum": 2,
+									// 	"showBtnToolbar": false
+									// },
+									"headerToolbar": [
+										"bulkActions",
+										{
+											"type": "tpl",
+											"tpl": "【${target_lib_full_name}】 | 目标站: ${count}个",
+											"className": "v-middle"
+										},],
+									"itemActions": [
+										{
+
+											"type": "button",
+											"icon": "fa fa-trash text-danger",
+											"tooltip": "清空",
+											"actionType": "ajax",
+											"confirmText": "确认清空【${target_lib}】${domain}的所有数据？",
+											"api": "delete:/_api_/target/delete?bucket=$target_lib&domain=$domain",
+										},
+										// {
+										// 	"icon": "fa fa-trash text-danger",
+										// 	"actionType": "ajax",
+										// 	"tooltip": "删除",
+										// 	"confirmText": "确认删除【${target_lib}】${id}",
+										// 	"api": "delete:/_api_/target/delete?bucket=$target_lib&files=$id",
+
+										// "onEvent": {
+										// 	"click": {
+										// 		"actions": [
+										// 			{
+										// 				"actionType": "setValue",
+										// 				"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
+										// 				"args": {
+										// 					"value": {
+										// 						"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
+										// 					}
+										// 				}
+										// 			}
+										// 		]
+										// 	}
+										// }
+										// }
+									],
 									"itemBadge": {
 										"text": "${target_lib_name}",
 										// "variations": {
@@ -76,25 +146,30 @@
 											"name": "domain",
 											"label": "目标域名",
 											"type": "text",
-											"searchable": true,
+											// "searchable": true,
+											// "searchable": {
+											// 	"type": "input-text",
+											// 	"name": "domain",
+											// 	"label": "🔍搜索",
+											// },
 										},
-										{
-											"type": "static-mapping",
-											"name": "target_lib",
-											"label": "目标库",
-											"visible": false
-											// "map": {
-											// 	"target-zh": "中文",
-											// 	"target-en2zh": "英译中",
-											// 	"target-en": "英文",
-											// 	"target-zh2en": "中译英",
-											// }
-										}
+										// {
+										// 	"type": "static-mapping",
+										// 	"name": "target_lib",
+										// 	"label": "目标库",
+										// 	"visible": false
+										// 	// "map": {
+										// 	// 	"target-zh": "中文",
+										// 	// 	"target-en2zh": "英译中",
+										// 	// 	"target-en": "英文",
+										// 	// 	"target-zh2en": "中译英",
+										// 	// }
+										// }
 									]
 								}
 							},
 							{
-								"md": 10,  // 右侧占 9 份宽度（75%）
+								"md": 9,  // 右侧占 9 份宽度（75%）
 								"body": {
 									"type": "crud",
 									"name": "detailCRUD",
@@ -124,7 +199,35 @@
 									"keepItemSelectionOnPageChange": true,
 									"autoFillHeight": true,
 									"labelTpl": "【${id}】",
-									"autoGenerateFilter": true,
+									// "autoGenerateFilter": true,
+									"filter": {
+										// "mode": "inline",
+										// "debug": true,
+										"wrapWithPanel": false,
+										"title": "搜索",
+										"body": [
+											{
+												"type": "group",  // 使用 group 组件
+												"body": [
+													{
+														"type": "input-text",
+														"name": "search_term",
+														"label": "🔍搜索",
+														"clearable": true
+													},
+													{
+														"type": "submit",  // 显式添加搜索按钮
+														"label": "搜索",
+														"level": "primary",
+													}
+												]
+											}
+										],
+									},
+									// "autoGenerateFilter": {
+									// 	// "columnsNum": 2,
+									// 	"showBtnToolbar": false
+									// },
 									"bulkActions": [
 										{
 											"label": "批量删除",
@@ -220,6 +323,7 @@
 										{
 											"type": "static-mapping",
 											"name": "target_lib",
+											"visible": false,
 											"label": "目标库",
 											"map": {
 												"target-zh": "中文",
@@ -230,6 +334,7 @@
 											"sortable": true,
 											"searchable": {
 												"type": "select",
+												"disabled": true,
 												"name": "target_lib",
 												"label": "目标库",
 												"options": [
@@ -263,6 +368,7 @@
 										{
 											"type": "static-mapping",
 											"name": "status_code",
+											"fixed": "right",
 											"label": "状态码",
 											"map": {
 												"200": "<span class='label label-success'>200</span>",
@@ -279,6 +385,7 @@
 											"type": "datetime",  // 显示为日期时间类型
 											"name": "updated_at",
 											"label": "更新于",
+											"fixed": "right",
 											"sortable": true,  // 启用排序功能
 										},
 										{
@@ -288,25 +395,10 @@
 												{
 													"icon": "fa fa-trash text-danger",
 													"actionType": "ajax",
-													"tooltip": "删除",
+													// "tooltipPlacement": "right",
+													// "tooltip": "删除",
 													"confirmText": "确认删除【${target_lib}】${id}",
 													"api": "delete:/_api_/target/delete?bucket=$target_lib&files=$id",
-
-													"onEvent": {
-														"click": {
-															"actions": [
-																{
-																	"actionType": "setValue",
-																	"componentId": "crud-table", // 替换为你的 CRUD 组件 ID
-																	"args": {
-																		"value": {
-																			"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
-																		}
-																	}
-																}
-															]
-														}
-													}
 												}
 											]
 										}
