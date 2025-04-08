@@ -54,4 +54,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /www/MirrorElf/postgres_data  # 指定外部的路径
+      device: /www/MirrorElf/pgsql_data  # 指定外部的路径
