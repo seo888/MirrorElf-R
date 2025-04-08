@@ -94,7 +94,7 @@
                                             title: "网站信息",
                                             body: [
                                                 {
-                                                    name: "WebsiteInfo.program_name",
+                                                    name: "ProgramInfo.program_name",
                                                     type: "input-text",
                                                     label: "程序名称"
                                                 },
@@ -102,13 +102,13 @@
                                                     "type": "group",
                                                     "body": [
                                                         {
-                                                            name: "WebsiteInfo.login_account",
+                                                            name: "ProgramInfo.login_account",
                                                             type: "input-text",
                                                             label: "登录账号",
                                                             required: true,
                                                         },
                                                         {
-                                                            name: "WebsiteInfo.login_password",
+                                                            name: "ProgramInfo.login_password",
                                                             type: "input-password",
                                                             label: "登录密码",
                                                             required: true,
@@ -121,7 +121,7 @@
                                                     "type": "group",
                                                     "body": [
                                                         {
-                                                            name: "WebsiteInfo.authorization_code",
+                                                            name: "ProgramInfo.authorization_code",
                                                             type: "input-text",
                                                             label: "授权码${WebsiteSettings.auto_https_certificate ? '✅' : '⛔'}",
                                                             required: true,
@@ -131,14 +131,14 @@
                                                     ]
                                                 },
                                                 {
-                                                    name: "WebsiteInfo.amazon_s3_api",
+                                                    name: "ProgramInfo.amazon_s3_api",
                                                     type: "input-text",
                                                     label: "amazon_s3_api",
                                                     disabled: true,  // 设置为只读
                                                     desc: "amazon_s3_api分布式文件系统接口信息，如需更改请于服务器文件中修改。(重启程序生效)"
                                                 },
                                                 // {
-                                                //     name: "WebsiteInfo.safeline_token",
+                                                //     name: "ProgramInfo.safeline_token",
                                                 //     type: "input-text",
                                                 //     label: "雷池Token",
                                                 //     desc: "与防火墙通信，展示网站数据、自动https证书，请务必正确填写"
@@ -207,7 +207,74 @@
                                                     label: "首页更新时间",
                                                     required: true,
                                                     desc: "单位：天 填写0则永不更新首页"
-                                                }
+                                                },
+                                                {
+                                                    name: "WebsiteSettings.target_static_save",
+                                                    type: "checkboxes",
+                                                    label: "静态资源本地化",
+                                                    checkAll: true,
+                                                    optionType: "button",
+                                                    options: [
+                                                        {
+                                                            "label": "文本资源",
+                                                            "children": [
+                                                                { "label": "js", "value": ".js" },
+                                                                { "label": "css", "value": ".css" },
+                                                                { "label": "txt", "value": ".txt" },
+                                                                { "label": "json", "value": ".json" },
+                                                                { "label": "pdf", "value": ".pdf" },
+                                                                { "label": "xml", "value": ".xml" }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "图片资源",
+                                                            "children": [
+                                                                { "label": "jpg", "value": ".jpg" },
+                                                                { "label": "png", "value": ".png" },
+                                                                { "label": "gif", "value": ".gif" },
+                                                                { "label": "svg", "value": ".svg" },
+                                                                { "label": "webp", "value": ".webp" },
+                                                                { "label": "ico", "value": ".ico" },
+                                                                { "label": "avif", "value": ".avif" }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "字体资源",
+                                                            "children": [
+                                                                { "label": "woff2", "value": ".woff2" },
+                                                                { "label": "woff", "value": ".woff" },
+                                                                { "label": "ttf", "value": ".ttf" },
+                                                                { "label": "otf", "value": ".otf" }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "媒体资源",
+                                                            "children": [
+                                                                { "label": "mp3", "value": ".mp3" },
+                                                                { "label": "mp4", "value": ".mp4" },
+                                                                { "label": "webm", "value": ".webm" },
+                                                                { "label": "wav", "value": ".wav" }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "压缩包",
+                                                            "children": [
+                                                                { "label": "zip", "value": ".zip" },
+                                                                { "label": "rar", "value": ".rar" },
+                                                                { "label": "7z", "value": ".7z" }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label": "开发资源",
+                                                            "children": [
+                                                                { "label": "ts", "value": ".ts" },
+                                                                { "label": "scss", "value": ".scss" },
+                                                                { "label": "map", "value": ".map" },
+                                                                { "label": "wasm", "value": ".wasm" }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
                                             ]
                                         }
                                     ]
@@ -262,14 +329,19 @@
                                             body: [
                                                 {
                                                     name: "SEOFunctions.external_link_strategy",
-                                                    type: "radios",
-                                                    label: "外链策略",
-                                                    value: "0",
+                                                    type: "checkboxes",
+                                                    label: "外链替换策略",
+                                                    checkAll: true,
+                                                    optionType: "button",
                                                     options: [
-                                                        { label: "不处理", value: "0" },
-                                                        { label: "转为本站内部链接", value: "1" },
-                                                        { label: "转为全站随机链接（主站+泛站）", value: "2" },
-                                                        { label: "转为链轮链接（服务器上所有站点）", value: "3" }
+                                                        { label: "当前域名·内链", value: "1" },
+                                                        { label: "主站·内链", value: "2" },
+                                                        { label: "泛站·首页", value: "3" },
+                                                        { label: "泛站·内链", value: "4" },
+                                                        { label: "【全服】主站·首页", value: "5" },
+                                                        { label: "【全服】主站·内链", value: "6" },
+                                                        { label: "【全服】泛站·首页", value: "7" },
+                                                        { label: "【全服】泛站·内链", value: "8" },
                                                     ]
                                                 },
                                                 {

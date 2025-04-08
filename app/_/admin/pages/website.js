@@ -16,6 +16,10 @@
 					// 	"false": "danger"
 					// },
 					"mode": "ribbon",
+					// "offset": [
+					// 			-20,
+					// 			0
+					// 		],
 					"position": "top-left",
 					"level": "${is_www ? 'info' : 'danger'}",
 					// "visibleOn": "this.is_www"
@@ -432,8 +436,23 @@
 				],
 				"columns": [
 					{
+						"type": "tpl",
 						"name": "index",
 						"label": "序号",
+						"width": 80,
+						"badge": {
+							"mode": "text",
+							// "animation": true,
+							"size": 12,
+							"offset": [
+								15,
+								0
+							],
+							"visibleOn": "this.children && this.children.length > 0",
+							"overflowCount": 999999,
+							"text": "${children.length}",
+						},
+
 						// "fixed": "left",
 						// "sortable": true,  // 启用排序功能
 					},
@@ -508,7 +527,7 @@
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "<a href='https://www.google.com/search?q=site%3A${root_domain}' target='_blank' class='link-style'>谷歌site</a> | <a href='https://www.bing.com/search?q=site%3A${root_domain}' target='_blank' class='link-style'>必应site</a> | <a href='https://www.baidu.com/s?wd=site%3A${root_domain}' target='_blank' class='link-style'>百度site</a> | <a href='https://www.sogou.com/web?query=site%3A${root_domain}' target='_blank' class='link-style'>搜狗site</a>"
+								"tpl": "${root_domain} 查收录：<a href='https://www.google.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>谷歌</a> | <a href='https://www.bing.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>必应</a> | <a href='https://www.baidu.com/s?wd=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>百度</a> | <a href='https://www.sogou.com/web?query=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>搜狗</a>"
 							}
 						}
 						// "sortable": true,  // 启用排序功能
@@ -535,14 +554,26 @@
 					{
 						"name": "title",
 						"label": "网站标题",
+						"popOver": {
+							"trigger": "hover",
+							"body": {
+								"type": "tpl",
+								"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${title}' target='_blank' class='link-style' title='${title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${title}' target='_blank' class='link-style' title='${title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${title}' target='_blank' class='link-style' title='${title}'>百度</a> | <a href='https://www.sogou.com/web?query=${title}' target='_blank' class='link-style' title='${title}'>搜狗</a>"
+							}
+						}
 						// "sortable": true,  // 启用排序功能
 						// "searchable": true,
 					},
 					{
 						"name": "keywords",
 						"label": "关键词",
-						// "sortable": true,  // 启用排序功能
-						// "searchable": true,
+						"popOver": {
+							"trigger": "hover",
+							"body": {
+								"type": "tpl",
+								"tpl": "${domain} 查关键词排名：<a href='https://www.google.com/search?q=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>谷歌</a> | <a href='https://www.bing.com/search?q=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>必应</a> | <a href='https://www.baidu.com/s?wd=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>百度</a> | <a href='https://www.sogou.com/web?query=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>搜狗</a>"
+							}
+						}
 					},
 					{
 						"name": "description",

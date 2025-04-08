@@ -7,7 +7,6 @@
 				{
 					"type": "page",
 					"aside": {
-						// "title": "fuck",
 						"type": "nav",
 						"name": "nav",
 						"stacked": true,
@@ -55,20 +54,15 @@
 										"title": "搜索",
 										"body": [
 											{
-												"type": "group",  // 使用 group 组件
-												"body": [
-													{
-														"type": "input-text",
-														"name": "domain",
-														"label": "🔍搜索",
-														"clearable": true
-													},
-													{
-														"type": "submit",  // 显式添加搜索按钮
-														"label": "搜索",
-														"level": "primary",
-													}
-												]
+												"type": "input-text",
+												"name": "domain",
+												"prefix": "${target_lib_full_name} 🔍",
+												"addOn": {
+													"type": "submit",  // 显式添加搜索按钮
+													"label": "搜索",
+													"level": "primary",
+												},
+												"clearable": true
 											}
 										],
 									},
@@ -203,6 +197,7 @@
 									"filter": {
 										// "mode": "inline",
 										// "debug": true,
+										"width": "600px",
 										"wrapWithPanel": false,
 										"title": "搜索",
 										"body": [
@@ -212,13 +207,13 @@
 													{
 														"type": "input-text",
 														"name": "search_term",
-														"label": "🔍搜索",
+														"prefix": "${domain} 🔍",
+														addOn: {
+															"type": "submit",  // 显式添加搜索按钮
+															"label": "搜索",
+															"level": "primary",
+														},
 														"clearable": true
-													},
-													{
-														"type": "submit",  // 显式添加搜索按钮
-														"label": "搜索",
-														"level": "primary",
 													}
 												]
 											}
@@ -257,7 +252,7 @@
 										"bulkActions",
 										{
 											"type": "tpl",
-											"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a> | URL: ${total_count}条",
+											"tpl": "【<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>】 | URL: ${total_count}条",
 											"className": "v-middle"
 										},
 										{
@@ -313,11 +308,11 @@
 										{
 											"name": "id",
 											"label": "文件路径",
-											"searchable": {
-												"type": "input-text",
-												"name": "search_term",
-												"label": "🔍搜索",
-											},
+											// "searchable": {
+											// 	"type": "input-text",
+											// 	"name": "search_term",
+											// 	"label": "🔍搜索",
+											// },
 											"visible": false
 										},
 										{
@@ -364,6 +359,11 @@
 											"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
 											"name": "url",
 											"label": "URL",
+											// "badge": {
+											// 	"mode": "text",
+											// 	"overflowCount": 999999,
+											// 	"text": 404
+											// }
 										},
 										{
 											"type": "static-mapping",

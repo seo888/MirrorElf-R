@@ -1,19 +1,21 @@
-WebsiteInfo:
+ProgramInfo:
   program_name: web1 - Mirror-Elf by TG@seo898
-  authorization_code: PIvoWJVFxieOgYGs4RGXPFFdt_8tvkaZWykcjvYX56Mu0c-RJu22GFFB8_D9roIHpCi1vnLKX_6KFGUZsjJWEXlu3RSs
+  authorization_code: lvZyfIaojUGpZMSktgtJv6auJ04zyCg4I2K3Zqk6uOpUkbA4RQ5sC9YHjliPSRKQjpCWkAFB0lVIboV5isLV0-4I8K1x
   login_account: admin
   login_password: admin
   amazon_s3_api: minio:minio123@localhost:9000
+  pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
 WebsiteSettings:
   auto_site_building: false
   auto_https_certificate: true
   pan_site_auto_site_building: true
   pan_site_crawler_target: true
   language: zh
-  homepage_update_time: 3
   link_mapping: true
+  homepage_update_time: 3
+  target_static_save: ''
 SEOFunctions:
-  external_link_strategy: '3'
+  external_link_strategy: '6'
   random_meta_and_link: false
   random_class_attributes: false
 AccessPolicy:

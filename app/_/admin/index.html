@@ -68,7 +68,7 @@
 
       const app = {
         type: "app",
-        brandName: "Mirror-Elf ®",  // 使用模板显示版本号
+        brandName: "镜像精灵 ®",  // 使用模板显示版本号
         logo: "/_/admin/logo.png",
         header: {
           type: "tpl",
@@ -91,10 +91,20 @@
             }
           },  // 通过 API 获取版本号
           body: {
-            type: "tpl",
-            tpl: "—— Mirror-Elf ® ${version} ——",  // 使用模板显示版本号
-            className: "p-1 fixed-bottom",
-          }
+      "type": "tpl",
+      "tpl": '<p title="${title}">— Mirror-Elf ® ${version}—</p>',
+      "className": "version-footer",
+      "style": {
+        "position": "fixed",
+        "left": "0",
+        "bottom": "0",
+        "textAlign": "center",
+        "width": "auto",
+        "margin": "0",
+        "padding": "16px",
+        "zIndex": 1000 // 确保在其他元素之上
+      }
+    }
         },
         // asideBefore: '<div class="p-2 fixed-bottom text-center">菜单前面区域</div>',
         // asideAfter: '<div class="text-center fixed-bottom">版本: 1.0.1</div>',
