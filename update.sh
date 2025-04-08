@@ -107,7 +107,7 @@ PROJECT_DIR="/www/MirrorElf"
 cd "$PROJECT_DIR" || exit 1
 
 # 检查并创建 postgres_data 目录（如果不存在）
-POSTGRES_DATA_DIR="/www/MirrorElf/pgsql_data"
+POSTGRES_DATA_DIR="/www/MirrorElf/postgres_data"
 if [ ! -d "$POSTGRES_DATA_DIR" ]; then
     echo "创建 PostgreSQL 数据目录: $POSTGRES_DATA_DIR"
     mkdir -p "$POSTGRES_DATA_DIR"
