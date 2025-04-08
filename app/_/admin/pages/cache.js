@@ -11,6 +11,21 @@
 							"md": 2,  // 左侧占 3 份宽度（25%）
 							"body": {
 								"type": "crud",
+								"itemBadge": {
+									"text": "${is_www? '主站' : '泛站'}",
+									// "variations": {
+									// 	"true": "primary",
+									// 	"false": "danger"
+									// },
+									"mode": "ribbon",
+									// "offset": [
+									// 			-20,
+									// 			0
+									// 		],
+									"position": "top-left",
+									"level": "${is_www? 'info' : 'danger'}",
+									// "visibleOn": "this.is_www"
+								},
 								// "filterTogglable": true,
 								"autoGenerateFilter": true,
 								"filter": {
@@ -23,11 +38,11 @@
 											"label": "",
 											"options": [
 												{
-													"label": "主站",
+													"label": "主",
 													"value": "true"
 												},
 												{
-													"label": "主站+泛站",
+													"label": "泛",
 													"value": ""
 												},
 											],
@@ -53,7 +68,8 @@
 									"bulkActions",
 									{
 										"type": "tpl",
-										"tpl": "主站缓存: 17 | 泛站缓存: 3 | 共: 20",
+										// "tpl": "主站缓存: 17 | 泛站缓存: 3 | 共: 20",
+										"tpl": "共: ${count}个站点",
 										"className": "v-middle"
 									},],
 								"itemActions": [
@@ -76,6 +92,7 @@
 								"columns": [
 									{
 										"name": "index",
+										"width": 50,
 										"label": "序号"
 									},
 									{
@@ -83,32 +100,33 @@
 										"label": "域名",
 										"type": "text",
 									},
-									{
-										"type": "static-mapping",
-										"name": "is_www",
-										"label": "站点类型",
-										"map": {
-											"true": "主站",
-											"false": "泛站"
-										},
-										"searchable": {
-											"type": "select",
-											"name": "is_www",
-											"label": "站点类型",
-											"options": [
-												{
-													"label": "主站+泛站",
-													"value": ""
-												},
-												{
-													"label": "主站",
-													"value": "true"
-												}
-											],
-											"value": "true",  // 默认值设置为 "主站+泛站"
-											"placeholder": "选择站点类型"
-										}
-									},
+									// {
+									// 	"type": "static-mapping",
+									// 	"name": "is_www",
+									// 	"label": "站点类型",
+									// 	"visible": false,
+									// 	"map": {
+									// 		"true": "<span class='label label-success'>主站</span>",
+									// 		"false": "<span class='label label-danger'>泛站</span>",
+									// 	},
+									// 	"searchable": {
+									// 		"type": "select",
+									// 		"name": "is_www",
+									// 		"label": "站点类型",
+									// 		"options": [
+									// 			{
+									// 				"label": "主站+泛站",
+									// 				"value": ""
+									// 			},
+									// 			{
+									// 				"label": "主站",
+									// 				"value": "true"
+									// 			}
+									// 		],
+									// 		"value": "true",  // 默认值设置为 "主站+泛站"
+									// 		"placeholder": "选择站点类型"
+									// 	}
+									// },
 								]
 							}
 						},
@@ -202,7 +220,7 @@
 									"bulkActions",
 									{
 										"type": "tpl",
-										"tpl": "【<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>】 | URL: ${total_count}条",
+										"tpl": "【<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>】 | URL: ${count}条",
 										"className": "v-middle"
 									},
 									{
