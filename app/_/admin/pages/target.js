@@ -47,9 +47,19 @@
 									// "title": "目标库【${target_lib}】",
 
 									"type": "crud",
+									"perPageAvailable": [
+										10,
+										20,
+										100,
+										500,
+									],
+									"perPage": 10,
+									"keepItemSelectionOnPageChange": true,
+									"autoFillHeight": true,
 									"filter": {
 										// "mode": "inline",
 										// "debug": true,
+										"name": "filter_form1",
 										"wrapWithPanel": false,
 										"title": "搜索",
 										"body": [
@@ -62,7 +72,28 @@
 													"label": "搜索",
 													"level": "primary",
 												},
-												"clearable": true
+												"clearable": true,
+												"onEvent": {
+													"clear": {
+														"actions": [
+															// {
+															// 	"actionType": "reset",  // 可选：同时重置表单
+															// 	"componentName": "domain"
+															// },
+															{
+																"actionType": "setValue",
+																"componentName": "domain",
+																"args": {
+																  "value": ""
+																}
+															},
+															{
+																"actionType": "submit",
+																"componentName": "filter_form1",
+															},
+														]
+													}
+												}
 											}
 										],
 									},
@@ -197,25 +228,43 @@
 									"filter": {
 										// "mode": "inline",
 										// "debug": true,
+										"name": "filter_form2",
 										"width": "600px",
 										"wrapWithPanel": false,
 										"title": "搜索",
 										"body": [
+
 											{
-												"type": "group",  // 使用 group 组件
-												"body": [
-													{
-														"type": "input-text",
-														"name": "search_term",
-														"prefix": "${domain} 🔍",
-														addOn: {
-															"type": "submit",  // 显式添加搜索按钮
-															"label": "搜索",
-															"level": "primary",
-														},
-														"clearable": true
+												"type": "input-text",
+												"name": "search_term",
+												"prefix": "${domain} 🔍",
+												addOn: {
+													"type": "submit",  // 显式添加搜索按钮
+													"label": "搜索",
+													"level": "primary",
+												},
+												"clearable": true,
+												"onEvent": {
+													"clear": {
+														"actions": [
+															// {
+															// 	"actionType": "reset",  // 可选：同时重置表单
+															// 	"componentName": "search_term"
+															// },
+															{
+																"actionType": "setValue",
+																"componentName": "search_term",
+																"args": {
+																  "value": ""
+																}
+															},
+															{
+																"actionType": "submit",
+																"componentName": "filter_form2",
+															},
+														]
 													}
-												]
+												}
 											}
 										],
 									},

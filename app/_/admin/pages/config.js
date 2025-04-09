@@ -2,7 +2,7 @@
     const response = {
         data: {
             type: "page",
-            title: "设置",
+            // title: "设置",
             body: [
                 {
                     type: "form",
@@ -82,7 +82,8 @@
                             type: "anchor-nav",
                             direction: "horizontal",
                             style: {
-                                height: "65vh",
+                                height: "95vh",
+                                // height: "95%",
                             },
                             links: [
                                 {

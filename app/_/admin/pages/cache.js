@@ -3,14 +3,24 @@
 		data: {
 			"type": "grid",
 			"title": "缓存管理",
-			"columns": [
-				{
+			"columns": [{
+				"type": "page",
+				"body": {
 					"type": "grid",
 					"columns": [
 						{
 							"md": 2,  // 左侧占 3 份宽度（25%）
 							"body": {
 								"type": "crud",
+								"perPageAvailable": [
+									10,
+									20,
+									100,
+									500,
+								],
+								"perPage": 10,
+								"keepItemSelectionOnPageChange": true,
+								"autoFillHeight": true,
 								"itemBadge": {
 									"text": "${is_www? '主站' : '泛站'}",
 									// "variations": {
@@ -29,6 +39,7 @@
 								// "filterTogglable": true,
 								"autoGenerateFilter": true,
 								"filter": {
+									"name": "filter_form1",
 									"wrapWithPanel": false,
 									"title": "搜索",
 									"body": [
@@ -38,11 +49,11 @@
 											"label": "",
 											"options": [
 												{
-													"label": "主",
+													"label": "主站",
 													"value": "true"
 												},
 												{
-													"label": "泛",
+													"label": "主站+泛站",
 													"value": ""
 												},
 											],
@@ -58,10 +69,22 @@
 												"label": "搜索",
 												"level": "primary",
 											},
-											"clearable": true
+											"clearable": true,
+											"onEvent": {
+												"clear": {
+													"actions": [
+														{
+															"actionType": "reset",  // 可选：同时重置表单
+															"componentName": "domain"
+														},
+														{
+															"actionType": "submit",
+															"componentName": "filter_form1",
+														},
+													]
+												}
+											}
 										},
-
-
 									],
 								},
 								"headerToolbar": [
@@ -75,11 +98,11 @@
 								"itemActions": [
 									{
 										"type": "button",
-										"icon": "fa fa-trash text-danger",
+										"icon": "fa fa-eraser text-danger",
 										"tooltip": "清空",
 										"actionType": "ajax",
-										"confirmText": "确认清空【${target_lib}】${domain}的所有数据？",
-										"api": "delete:/_api_/target/delete?bucket=$target_lib&domain=$domain",
+										"confirmText": "确认清空【${domain}】所有缓存数据？",
+										"api": "delete:/_api_/cache/delete?domain=$domain",
 									},
 								],
 								"api": {
@@ -165,39 +188,113 @@
 								"filter": {
 									// "mode": "inline",
 									// "debug": true,
+									"name": "filter_form",
 									"width": "600px",
 									"wrapWithPanel": false,
 									"title": "搜索",
 									"body": [
+
 										{
 											"type": "group",  // 使用 group 组件
 											"body": [
 												{
+													"type": "select",
+													"name": "page_type",
+													"label": "页面类型",
+													"options": [
+														{
+															"label": "所有",
+															"value": ""
+														},
+														{
+															"label": "缓存",
+															"value": "缓存"
+														},
+														{
+															"label": "映射",
+															"value": "映射"
+														},
+														{
+															"label": "目录",
+															"value": "目录"
+														},
+														{
+															"label": "静态",
+															"value": "静态"
+														},
+													],
+													"value": "",  // 默认值设置为 "所有页面"
+													"placeholder": "选择页面类型"
+												},
+												{
 													"type": "input-text",
 													"name": "search_term",
-													"prefix": "${domain} 🔍",
+													"prefix": "${domain}🔍",
 													addOn: {
+														"id": "search_button",
 														"type": "submit",  // 显式添加搜索按钮
 														"label": "搜索",
 														"level": "primary",
 													},
-													"clearable": true
+													"clearable": true,
+													"onEvent": {
+														"clear": {
+															"actions": [
+																{
+																	"actionType": "reset",  // 可选：同时重置表单
+																	"componentName": "search_term"
+																},
+																{
+																	"actionType": "submit",
+																	"componentName": "filter_form",
+																},
+															]
+														}
+													}
+												},
+												{
+													"type": "input-text",
+													"name": "uri",
+													"prefix": "真实路径 ： ",
+													addOn: {
+														"type": "submit",  // 显式添加搜索按钮
+														"label": "🔍",
+														// "level": "primary",
+													},
+													"clearable": true,
+													"onEvent": {
+														"clear": {
+															"actions": [
+																{
+																	"actionType": "reset",  // 可选：同时重置表单
+																	"componentName": "uri"
+																},
+																{
+																	"actionType": "submit",
+																	"componentName": "filter_form",
+																},
+															]
+														}
+													}
 												}
+
 											]
 										}
 									],
 								},
 								// "autoGenerateFilter": {
-								// 	// "columnsNum": 2,
-								// 	"showBtnToolbar": false
+								// 	"columnsNum": 2,
+								// 	"showBtnToolbar": false,
+								// 	defaultCollapsed: false
 								// },
 								"bulkActions": [
 									{
 										"label": "批量删除",
 										"level": "danger",
 										"actionType": "ajax",
-										"api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-										"confirmText": "确认批量删除【${target_lib}】${ids|raw}（注意：操作不可逆，请谨慎操作）",
+										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
+										"api": "delete:/_api_/cache/delete?domain=$domain&ids=${ids|raw}",
+										"confirmText": "确认批量删除缓存${ids|raw}（注意：操作不可逆，请谨慎操作）",
 										"onEvent": {
 											"click": {
 												"actions": [
@@ -272,17 +369,22 @@
 									{
 										"name": "id",
 										"label": "ID",
-									},
-									{
-										"name": "id",
-										"label": "文件路径",
 										// "searchable": {
 										// 	"type": "input-text",
 										// 	"name": "search_term",
 										// 	"label": "🔍搜索",
 										// },
-										"visible": false
 									},
+									// {
+									// 	"name": "id",
+									// 	"label": "文件路径",
+									// 	// "searchable": {
+									// 	// 	"type": "input-text",
+									// 	// 	"name": "search_term",
+									// 	// 	"label": "🔍搜索",
+									// 	// },
+									// 	"visible": false
+									// },
 									{
 										"type": "tpl",
 										"tpl": "<a href='${url}' target='_blank' class='link-style'>${url}</a>",
@@ -294,11 +396,21 @@
 										"tpl": "<a href='http://${domain}${uri}' target='_blank' class='link-style'>${uri}</a>",
 										"name": "uri",
 										"label": "真实路径",
+										// "searchable": true,
 									},
 									{
 										name: "title",
 										label: "标题",
-									}, {
+									},
+									{
+										name: "keywords",
+										label: "关键词",
+									},
+									{
+										name: "description",
+										label: "描述",
+									},
+									{
 										name: "domain",
 										label: "域名",
 										"visible": false
@@ -314,6 +426,36 @@
 											"目录": "<span class='label label-info'>目录</span>",
 											"静态": "<span class='label label-danger'>静态</span>",
 										},
+										// "sortable": true,
+										// "searchable": {
+										// 	"type": "select",
+										// 	"name": "page_type",
+										// 	"label": "页面类型",
+										// 	"options": [
+										// 		{
+										// 			"label": "所有",
+										// 			"value": ""
+										// 		},
+										// 		{
+										// 			"label": "缓存",
+										// 			"value": "缓存"
+										// 		},
+										// 		{
+										// 			"label": "映射",
+										// 			"value": "映射"
+										// 		},
+										// 		{
+										// 			"label": "目录",
+										// 			"value": "目录"
+										// 		},
+										// 		{
+										// 			"label": "静态",
+										// 			"value": "静态"
+										// 		},
+										// 	],
+										// 	"value": "",  // 默认值设置为 "所有页面"
+										// 	"placeholder": "选择页面类型"
+										// }
 
 									},
 									// {
@@ -334,7 +476,7 @@
 												"actions": [
 													{
 														"actionType": "custom",
-														"script": "const parts = event.data.target.split('://'); if(parts.length > 1) { const linkTarget = parts[1]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
+														"script": "const parts = event.data.target.split('://'); if(parts.length > 1) { let linkTarget = parts[1];if (!event.data.uri.endsWith('.html')) {linkTarget = linkTarget.replace(/index\\.html$/, '').replace(/\\.html$/, '');}; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
 													}
 												]
 											}
@@ -356,8 +498,8 @@
 												"actionType": "ajax",
 												// "tooltipPlacement": "right",
 												// "tooltip": "删除",
-												"confirmText": "确认删除【${target_lib}】${id}",
-												"api": "delete:/_api_/target/delete?bucket=$target_lib&files=$id",
+												"confirmText": "确认删除 ${id}.${url} 缓存数据？",
+												"api": "delete:/_api_/cache/delete?domain=$domain&ids=$id",
 											}
 										]
 									}
@@ -366,6 +508,7 @@
 						}
 					]
 				}
+			}
 			]
 		},
 		status: 0

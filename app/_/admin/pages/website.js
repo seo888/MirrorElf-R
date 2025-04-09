@@ -2,10 +2,10 @@
 	const response = {
 		data: {
 			"type": "page",
-			"title": "网站管理",
-			"toolbar": [
+			// "title": "网站管理",
+			// "toolbar": [
 
-			],
+			// ],
 
 			"body": {
 				"type": "crud",
@@ -595,27 +595,28 @@
 						"type": "operation",
 						"fixed": "right",
 						"label": "操作",
-						"width": 160,
+						// "width": 160,
+						"width": 110,
 						"buttons": [
-							{
-								"type": "button",
-								"icon": "fa fa-refresh text-danger",
-								"actionType": "ajax",
-								"tooltipPlacement": "top",
-								"tooltip": "换目标站",
-								"confirmText": "确认随机更换【${id}】${domain} 目标站: ${target}",
-								"api": "get:/_api_/website/random_target?id=$id"
-							},
-							{
-								"type": "button",
-								"icon": "fa fa-times text-danger",
-								"actionType": "ajax",
-								"tooltipPlacement": "top",
-								"tooltip": "删除目标站",
-								"confirmText": "确认删除 目标站库中的: ${target}",
-								"api": "delete:/_api_/file/config/target.txt?line=$target",
-								"reload": "none"
-							},
+							// {
+							// 	"type": "button",
+							// 	"icon": "fa fa-refresh text-danger",
+							// 	"actionType": "ajax",
+							// 	"tooltipPlacement": "top",
+							// 	"tooltip": "换目标站",
+							// 	"confirmText": "确认随机更换【${id}】${domain} 目标站: ${target}",
+							// 	"api": "get:/_api_/website/random_target?id=$id"
+							// },
+							// {
+							// 	"type": "button",
+							// 	"icon": "fa fa-times text-danger",
+							// 	"actionType": "ajax",
+							// 	"tooltipPlacement": "top",
+							// 	"tooltip": "删除目标站",
+							// 	"confirmText": "确认删除 目标站库中的: ${target}",
+							// 	"api": "delete:/_api_/file/config/target.txt?line=$target",
+							// 	"reload": "none"
+							// },
 							{
 								"type": "button",
 								"icon": "fa fa-pencil",
@@ -790,7 +791,7 @@
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
 								"tooltip": "清空缓存",
-								"confirmText": "确认清空【${id}】${domain} 所有页面缓存",
+								"confirmText": "确认清空【${domain}】 所有缓存数据？",
 								"api": "delete:/_api_/cache/delete?domain=$domain",
 								"reload": "none"
 							},
@@ -799,7 +800,7 @@
 								"icon": "fa fa-trash text-danger",
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
-								"tooltip": "删除",
+								// "tooltip": "删除",
 								"confirmText": "确认删除【${id}】${domain}",
 								"api": "delete:/_api_/website/delete?files=$id"
 							}

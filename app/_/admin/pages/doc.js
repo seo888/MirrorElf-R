@@ -2,7 +2,7 @@
 	const response = {
 		data: {
 			"type": "page",
-			"title": "内容管理",
+			// "title": "内容管理",
 			"body": [{
 				"type": "crud",
 				"api": "/_api_/file/query",
