@@ -46,7 +46,7 @@ else
 fi
 
 # 检查文件是否存在
-if [ ! -f "$TAR_FILE" ]; then+
+if [ ! -f "$TAR_FILE" ]; then
 
   echo "错误：文件 $TAR_FILE 不存在"
   exit 1
