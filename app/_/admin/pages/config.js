@@ -82,8 +82,7 @@
                             type: "anchor-nav",
                             direction: "horizontal",
                             style: {
-                                height: "95vh",
-                                // height: "95%",
+                                height: "70vh",
                             },
                             links: [
                                 {
