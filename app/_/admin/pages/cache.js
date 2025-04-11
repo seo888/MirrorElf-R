@@ -12,6 +12,8 @@
 							"md": 2,  // 左侧占 3 份宽度（25%）
 							"body": {
 								"type": "crud",
+								"id": "crud-table0",
+								"primaryField":"domain",
 								"perPageAvailable": [
 									10,
 									20,
@@ -87,6 +89,32 @@
 										},
 									],
 								},
+								"bulkActions": [
+									{
+										"label": "批量删除",
+										"level": "danger",
+										"actionType": "ajax",
+
+										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
+										"api": "delete:/_api_/cache/delete?domains==${ids|raw}",
+										"confirmText": "确认批量删除缓存${ids|raw}（注意：操作不可逆，请谨慎操作）",
+										"onEvent": {
+											"click": {
+												"actions": [
+													{
+														"actionType": "setValue",
+														"componentId": "crud-table0", // 替换为你的 CRUD 组件 ID
+														"args": {
+															"value": {
+																"rows": "${rows.map(row => row.id === event.data.current.id ? { ...row, children: [] } : row)}"
+															}
+														}
+													}
+												]
+											}
+										}
+									}
+								],
 								"headerToolbar": [
 									"bulkActions",
 									{
@@ -102,7 +130,7 @@
 										"tooltip": "清空",
 										"actionType": "ajax",
 										"confirmText": "确认清空【${domain}】所有缓存数据？",
-										"api": "delete:/_api_/cache/delete?domain=$domain",
+										"api": "delete:/_api_/cache/delete?domains=$domain",
 									},
 								],
 								"api": {
@@ -293,7 +321,7 @@
 										"level": "danger",
 										"actionType": "ajax",
 										// "api": "delete:/_api_/target/delete?bucket=$target_lib&files=${ids|raw}",
-										"api": "delete:/_api_/cache/delete?domain=$domain&ids=${ids|raw}",
+										"api": "delete:/_api_/cache/delete?domains=$domain&ids=${ids|raw}",
 										"confirmText": "确认批量删除缓存${ids|raw}（注意：操作不可逆，请谨慎操作）",
 										"onEvent": {
 											"click": {
@@ -499,7 +527,7 @@
 												// "tooltipPlacement": "right",
 												// "tooltip": "删除",
 												"confirmText": "确认删除 ${id}.${url} 缓存数据？",
-												"api": "delete:/_api_/cache/delete?domain=$domain&ids=$id",
+												"api": "delete:/_api_/cache/delete?domains=$domain&ids=$id",
 											}
 										]
 									}
