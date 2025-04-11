@@ -117,4 +117,4 @@ if [ ! -d "$POSTGRES_DATA_DIR" ]; then
 fi
 
 # 重启容器
-docker-compose down && docker-compose up -d || exit 1
+docker compose down && docker compose up -d || exit 1
