@@ -54,6 +54,8 @@ fi
 #   echo "错误：文件 $TAR_FILE 不存在"
 #   exit 1
 # fi
+            
+rm -rf "$TARGET_DIR"
 
 # 创建目标目录
 mkdir -p "$TARGET_DIR"
