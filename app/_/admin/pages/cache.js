@@ -231,7 +231,7 @@
 													"label": "页面类型",
 													"options": [
 														{
-															"label": "所有",
+															"label": "全部",
 															"value": ""
 														},
 														{
@@ -397,6 +397,7 @@
 									{
 										"name": "id",
 										"label": "ID",
+										"fixed": "left",
 										// "searchable": {
 										// 	"type": "input-text",
 										// 	"name": "search_term",
@@ -429,19 +430,40 @@
 									{
 										name: "title",
 										label: "标题",
+										width:"25%"
 									},
 									{
 										name: "keywords",
 										label: "关键词",
+										width:"15%"
 									},
 									{
 										name: "description",
 										label: "描述",
+										width:"30%"
 									},
 									{
 										name: "domain",
 										label: "域名",
 										"visible": false
+									},
+									{
+										"type": "tpl",
+										"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
+										"name": "target",
+										"label": "目标站",
+										// "sortable": true,
+										// "searchable": true,
+										"onEvent": {
+											"click": {
+												"actions": [
+													{
+														"actionType": "custom",
+														"script": "const parts = event.data.target.split('://'); if(parts.length > 1) { let linkTarget = parts[1];if (!event.data.uri.endsWith('.html')) {linkTarget = linkTarget.replace(/index\\.html$/, '').replace(/\\.html$/, '');}; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
+													}
+												]
+											}
+										}
 									},
 									{
 										"type": "static-mapping",
@@ -492,29 +514,12 @@
 									// 	"name": "target",
 									// 	"label": "目标路径",
 									// },
-									{
-										"type": "tpl",
-										"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
-										"name": "target",
-										"label": "目标站",
-										// "sortable": true,
-										// "searchable": true,
-										"onEvent": {
-											"click": {
-												"actions": [
-													{
-														"actionType": "custom",
-														"script": "const parts = event.data.target.split('://'); if(parts.length > 1) { let linkTarget = parts[1];if (!event.data.uri.endsWith('.html')) {linkTarget = linkTarget.replace(/index\\.html$/, '').replace(/\\.html$/, '');}; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
-													}
-												]
-											}
-										}
-									},
+									
 									{
 										"type": "datetime",  // 显示为日期时间类型
 										"name": "updated_at",
 										"label": "更新于",
-										"fixed": "right",
+										// "fixed": "right",
 										"sortable": true,  // 启用排序功能
 									},
 									{
