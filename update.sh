@@ -95,14 +95,39 @@ new="/www/MirrorElf_New/update.sh"
 old="/www/MirrorElf/update.sh"
 mv -f "$new" "$old"
 
+# new="/www/MirrorElf_New/app/_"
+# old="/www/MirrorElf/app/_"
+# # 确保目标目录存在
+# if [ -d "$old" ]; then
+#     rm -rf "$old"/*  # 删除目标目录中的所有内容
+# fi
+# # 使用 cp 命令复制新目录的内容到目标目录
+# cp -r "$new"/* "$old"/
+
 new="/www/MirrorElf_New/app/_"
 old="/www/MirrorElf/app/_"
-# 确保目标目录存在
-if [ -d "$old" ]; then
-    rm -rf "$old"/*  # 删除目标目录中的所有内容
+backup_dir="/tmp/js_backup"  # 临时备份目录
+
+# 1. 备份原 js 目录
+if [ -d "$old/static/js" ]; then
+    mkdir -p "$backup_dir"
+    cp -r "$old/static/js" "$backup_dir/"
 fi
-# 使用 cp 命令复制新目录的内容到目标目录
-cp -r "$new"/* "$old"/
+
+# 2. 完全清空目标目录
+if [ -d "$old" ]; then
+    find "$old" -mindepth 1 -delete
+fi
+
+# 3. 复制新内容
+cp -r "$new"/* "$old/"
+
+# 4. 恢复原 js 目录
+if [ -d "$backup_dir/js" ]; then
+    mkdir -p "$old/static/"
+    cp -r "$backup_dir/js" "$old/static/"
+    rm -rf "$backup_dir"  # 清理备份
+fi
 
 PROJECT_DIR="/www/MirrorElf"
 # 切换到项目目录
