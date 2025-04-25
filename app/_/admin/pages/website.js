@@ -10,7 +10,7 @@
 			"body": {
 				"type": "crud",
 				"itemBadge": {
-					"text": "${is_www ? '主站' : '泛站'}",
+					"text": "${website_info.subdomain == 'www' ? '主站' : '泛站'}",
 					// "variations": {
 					// 	"true": "primary",
 					// 	"false": "danger"
@@ -21,7 +21,7 @@
 					// 			0
 					// 		],
 					"position": "top-left",
-					"level": "${is_www ? 'info' : 'danger'}",
+					"level": "${website_info.subdomain == 'www' ? 'info' : 'danger'}",
 					// "visibleOn": "this.is_www"
 				},
 				"onEvent": {
@@ -53,7 +53,10 @@
 				"keepItemSelectionOnPageChange": true,
 				"autoFillHeight": true,
 				"labelTpl": "【${id}】${domain}",
-				"autoGenerateFilter": true,
+				"autoGenerateFilter": {
+					"columnsNum": 6,
+					"showBtnToolbar": true
+				},
 				"bulkActions": [
 					{
 						"label": "批量删除",
@@ -82,6 +85,8 @@
 						"icon": "fa fa-plus pull-left",
 						"primary": true,
 						"dialog": {
+							"resizable": true,
+							"size": "lg",
 							"title": "新建网站",
 							"body": {
 								"type": "form",
@@ -91,53 +96,56 @@
 								"reload": "crud-table", // 在提交后重新加载特定的组件
 								"body": [
 									{
-										"type": "input-text",
-										"name": "domain",
-										"label": "域名",
-										"required": true,
-										"validations": {
-											"matchRegexp": "^(?!https?://)([\\w-]+\\.)+[\\w-]{2,}$"  // 正则表达式，确保不包含 http 头
-										},
-										"validationErrors": {
-											"matchRegexp": "请输入有效的纯域名，不带http头"
-										},
-										"placeholder": "请输入纯域名，不带http头 例如: www.abc.com"
+										"type": "divider",
+										"title": "【网站设置】",
+										"titlePosition": "center"
 									},
 									{
-										"type": "select",
-										"name": "lang",
-										"label": "语言",
-										// "required": true,
-										"options": [
+										"type": "group",
+										"body": [
 											{
-												"label": "中文",
-												"value": "zh"
+												"type": "input-text",
+												"name": "domain",
+												"label": "域名",
+												"required": true,
+												"validations": {
+													"matchRegexp": "^(?!https?://)([\\w-]+\\.)+[\\w-]{2,}$"  // 正则表达式，确保不包含 http 头
+												},
+												"validationErrors": {
+													"matchRegexp": "请输入有效的纯域名，不带http头"
+												},
+												"placeholder": "请输入纯域名，不带http头 例如: www.abc.com"
 											},
 											{
-												"label": "英文",
-												"value": "en"
-											}
-										],
-										"value": "zh",  // 设置默认值为 zh
-										"placeholder": "请选择语言"
-									},
-									{
-										"type": "select",
-										"name": "link_mapping",
-										"label": "链接映射",
-										// "required": true,
-										"options": [
-											{
-												"label": "开启",
-												"value": "true"
-											},
-											{
-												"label": "关闭",
-												"value": "false"
-											}
-										],
-										"value": "false",  // 设置默认值为 zh
-										"placeholder": "是否开启链接映射"
+												"type": "group",
+												"body": [
+													{
+														"type": "select",
+														"name": "lang",
+														"label": "语言",
+														"options": [
+															{
+																"label": "中文",
+																"value": "zh"
+															},
+															{
+																"label": "英文",
+																"value": "en"
+															}
+														],
+														"value": "zh",  // 设置默认值为 zh
+														"placeholder": "请选择语言"
+													},
+													{
+														name: "homepage_update_time",
+														type: "input-number",
+														label: "首页更新时间",
+														width: "80px",
+														value: 0,
+														required: true,
+														desc: "单位：天 填0关闭"
+													}]
+											}]
 									},
 									{
 										"type": "input-text",
@@ -163,161 +171,8 @@
 										"required": true
 									},
 									{
-										"type": "input-text",
-										"name": "target",
-										"label": "目标站",
-										"required": true,
-										"validations": {
-											"matchRegexp": ".*\\|.*"
-										},
-										"validationErrors": {
-											"matchRegexp": "请使用间隔符“|” 指定目标站语言 如: en|www.english.com  或  zh|www.chinese.com"
-										},
-										"placeholder": "目标站格式: en|www.english.com"
-									},
-									// 插入新的 service，用于加载 target_replace 数据
-									{
-										"type": "service",
-										"api": "/_api_/replace/query?domain=$target",  // 动态加载 target_replace 数据的 API
-										"body": [
-											{
-												"type": "editor",
-												"language": "yaml",
-												"name": "target_replace",
-												"label": "目标站替换词",
-												"value": "全局替换:\n  - '待替换字符串 -> {关键词}'\n首页替换:\n  - '待替换字符串 -> {关键词2}'\n内页替换:\n  - '待替换字符串 -> 替换词'"
-											}
-										]
-									},
-									{
-										"type": "alert",
-										"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
-									},
-									{
-										"type": "select",
-										"name": "replace_mode",
-										"label": "替换模式",
-										"options": [
-											{
-												"label": "0. 仅目标站替换",
-												"value": 0
-											},
-											{
-												"label": "1. 先 目标站替换 后 本站替换",
-												"value": 1
-											},
-											{
-												"label": "2. 仅本站替换",
-												"value": 2
-											},
-											{
-												"label": "3. 先 本站替换 后 目标站替换",
-												"value": 3
-											},
-										],
-										"value": 0,  // 设置默认值为 zh
-										// "placeholder": "是否开启链接映射"
-									},
-									{
-										"type": "editor",
-										"language": "yaml",
-										"name": "replace_string",
-										"label": "本站替换词",
-										"value": "全局替换:\n  - '待替换字符串 -> 替换词'\n首页替换:\n  - '待替换字符串 -> 替换词'\n内页替换:\n  - '待替换字符串 -> 替换词'"
-									}
-								]
-							}
-						}
-					},
-					{
-						"type": "button",
-						"label": "批量建站",
-						"icon": "fa fa-plus pull-left",
-						"primary": true,
-						"actionType": "drawer",
-						"drawer": {
-							"resizable": true,
-							"size": "lg",
-							"width": "90%",
-							"title": "批量建站",
-							"body": {
-								"type": "form",
-								"name": "sample-edit-form",
-								"api": "/_api_/website/create",
-								"reload": "crud-table",
-								"body": [
-									{
 										"type": "group",
 										"body": [
-											{
-												"type": "select",
-												"name": "lang",
-												"label": "语言",
-												// "required": true,
-												"options": [
-													{
-														"label": "中文",
-														"value": "zh"
-													},
-													{
-														"label": "英文",
-														"value": "en"
-													}
-												],
-												"value": "zh",  // 设置默认值为 zh
-												"placeholder": "请选择语言"
-											},
-											{
-												"type": "select",
-												"name": "over_write",
-												"label": "建站模式",
-												"options": [
-													{
-														"label": "覆盖已有网站",
-														"value": true
-													},
-													{
-														"label": "跳过已有网站",
-														"value": false
-													}
-												],
-												"value": false,
-												"placeholder": "是否覆盖"
-											},
-											{
-												"type": "select",
-												"name": "target_replace_over_write",
-												"label": "目标站替换词",
-												"options": [
-													{
-														"label": "覆盖",
-														"value": true
-													},
-													{
-														"label": "存在则跳过",
-														"value": false
-													}
-												],
-												"value": false,
-												"placeholder": "是否覆盖"
-											},
-											{
-												"type": "select",
-												"name": "link_mapping",
-												"label": "链接映射",
-												"options": [
-													{
-														"label": "开启",
-														"value": true
-													},
-													{
-														"label": "关闭",
-														"value": false
-													}
-												],
-												"value": false,
-												"placeholder": "是否开启链接映射"
-											},
 											{
 												"type": "select",
 												"name": "replace_mode",
@@ -342,8 +197,312 @@
 												],
 												"value": 0,  // 设置默认值为 zh
 												// "placeholder": "是否开启链接映射"
+											},
+											{
+												"type": "select",
+												"name": "link_mapping",
+												"label": "链接映射",
+												// "required": true,
+												"options": [
+													{
+														"label": "开启",
+														"value": true
+													},
+													{
+														"label": "关闭",
+														"value": false
+													}
+												],
+												"value": false,  // 设置默认值为 zh
+												"placeholder": "是否开启链接映射"
 											}]
 									},
+									{
+										"type": "divider",
+										"title": "【替换规则】",
+										"titlePosition": "center"
+									},
+									{
+										"type": "input-text",
+										"name": "target",
+										"label": "目标站",
+										"required": true,
+										"validations": {
+											"matchRegexp": ".*\\|.*"
+										},
+										"validationErrors": {
+											"matchRegexp": "请使用间隔符“|” 指定目标站语言 如: en|www.english.com  或  zh|www.chinese.com"
+										},
+										"placeholder": "目标站格式: en|www.english.com"
+									},
+									// 插入新的 service，用于加载 target_replace 数据
+									{
+										"type": "service",
+										"api": "/_api_/replace/query?domain=$target",  // 动态加载 target_replace 数据的 API
+										"body": [
+											{
+												"type": "editor",
+												"language": "yaml",
+												"name": "target_replace",
+												"label": "目标站替换",
+												"value": "全局替换:\n  - '待替换字符串 -> {关键词}'\n首页替换:\n  - '待替换字符串 -> {关键词2}'\n内页替换:\n  - '待替换字符串 -> 替换词'"
+											}
+										]
+									},
+									{
+										"type": "alert",
+										"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
+									},
+
+									{
+										"type": "input-array",
+										"name": "replace_rules_all",
+										"label": "全局替换",
+										"items": {
+											"type": "input-text",
+											"name": "-",
+											"label": "-",
+											"unique": true
+										},
+										"addButtonText": "规则",
+										"scaffold": "待替换字符串 -> {keyword}",
+										"minItems": 0,
+									},
+									{
+										"type": "input-array",
+										"name": "replace_rules_index",
+										"label": "首页替换",
+										"items": {
+											"type": "input-text",
+											"name": "-",
+											"label": "-",
+											"unique": true
+										},
+										"addButtonText": "规则",
+										"minItems": 0,
+									},
+									{
+										"type": "input-array",
+										"name": "replace_rules_page",
+										"label": "内页替换",
+										"items": {
+											"type": "input-text",
+											"name": "-",
+											"label": "-",
+											"unique": true
+										},
+										"addButtonText": "规则",
+										"minItems": 0,
+									},
+									{
+										"type": "divider",
+										"title": "【泛目录配置】",
+										"titlePosition": "center"
+									},
+									{
+										name: "mulu_tem_max",
+										type: "input-number",
+										label: "生成模板数量",
+										required: true,
+										"value": 0,
+										desc: "填写0则不会自动生成模板"
+									},
+									{
+										"type": "select",
+										"name": "mulu_static",
+										"label": "泛目录模式",
+										"options": [
+											{
+												"label": "静态",
+												"value": true
+											},
+											{
+												"label": "动态（蜘蛛池）",
+												"value": false
+											}
+										],
+										"value": true,
+									},
+									{
+										type: "checkboxes",
+										name: "mulu_mode",
+										label: "泛目录路由",
+										checkAll: true,
+										optionType: "button",
+										options: [
+											{ label: "404页面", value: "404" },
+											{ label: "非首页（所有页面）", value: "all_page" },
+											{ label: "自定义路径", value: "custom_header" },
+										]
+									},
+									{
+										"type": "input-array",
+										"name": "mulu_custom_header",
+										"label": "自定义路径",
+										"items": {
+											"type": "input-text",
+											"name": "/",
+											"label": "/",
+											"unique": true,
+										},
+										"addButtonText": "泛目录路径",
+										"minItems": 0,
+									},
+									{
+										"type": "input-array",
+										"name": "mulu_keywords_file",
+										"label": "关键词库",
+										"items": {
+											"type": "input-text",
+											"name": "词库路径",
+											"label": "词库路径",
+											"unique": true,
+										},
+										"addButtonText": "关键词库",
+										"minItems": 0,
+									},
+								]
+							}
+						}
+					},
+					{
+						"type": "button",
+						"label": "批量建站",
+						"icon": "fa fa-plus pull-left",
+						"primary": true,
+						"actionType": "drawer",
+						"drawer": {
+							"resizable": true,
+							"size": "lg",
+							"width": "90%",
+							"title": "批量建站",
+							"body": {
+								"type": "form",
+								"name": "sample-edit-form",
+								"api": "/_api_/website/create",
+								"reload": "crud-table",
+								"body": [
+									{
+										"type": "divider",
+										"title": "【建站策略】",
+										"titlePosition": "center"
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												"type": "select",
+												"name": "over_write",
+												"label": "建站模式",
+												"options": [
+													{
+														"label": "覆盖已有网站",
+														"value": true
+													},
+													{
+														"label": "跳过已有网站",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否覆盖"
+											},
+											{
+												"type": "select",
+												"name": "target_replace_over_write",
+												"label": "目标站替换词",
+												"options": [
+													{
+														"label": "存在则强制覆盖",
+														"value": true
+													},
+													{
+														"label": "存在则跳过",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否覆盖"
+											},]
+									},
+									{
+										"type": "divider",
+										"title": "【网站设置】",
+										"titlePosition": "center"
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												"type": "select",
+												"name": "replace_mode",
+												"label": "替换模式",
+												"options": [
+													{
+														"label": "0. 仅目标站替换",
+														"value": 0
+													},
+													{
+														"label": "1. 先 目标站替换 后 本站替换",
+														"value": 1
+													},
+													{
+														"label": "2. 仅本站替换",
+														"value": 2
+													},
+													{
+														"label": "3. 先 本站替换 后 目标站替换",
+														"value": 3
+													},
+												],
+												"value": 0,
+											},
+											{
+												"type": "select",
+												"name": "link_mapping",
+												"label": "链接映射",
+												"options": [
+													{
+														"label": "开启",
+														"value": true
+													},
+													{
+														"label": "关闭",
+														"value": false
+													}
+												],
+												"value": false,
+												"placeholder": "是否开启链接映射"
+											},
+											{
+												type: "input-number",
+												name: "homepage_update_time",
+												label: "首页更新时间",
+												required: true,
+												desc: "单位：天 填0关闭",
+												"value": 0,  // 设置默认值
+											},
+											{
+												"type": "select",
+												"name": "lang",
+												"label": "语言",
+												// "required": true,
+												"options": [
+													{
+														"label": "中文",
+														"value": "zh"
+													},
+													{
+														"label": "英文",
+														"value": "en"
+													}
+												],
+												"value": "zh",  // 设置默认值为 zh
+												"placeholder": "请选择语言"
+											},
+										]
+									},
+
 
 									// {
 									// 	"type": "alert",
@@ -402,6 +561,82 @@
 										"showIcon": true,
 										"body": "兼容格式： 间隔符为\"----------\"，多组分隔符为\"##########\"，如：关于我们----------{keyword}##########公司名称----------【关键词】"
 									}
+									,
+									{
+										"type": "divider",
+										"title": "【泛目录配置】",
+										"titlePosition": "center"
+									},
+									{
+										type: "checkboxes",
+										name: "mulu_mode",
+										label: "泛目录路由",
+										checkAll: true,
+										optionType: "button",
+										options: [
+											{ label: "404页面", value: "404" },
+											{ label: "非首页（所有页面）", value: "all_page" },
+											{ label: "自定义路径", value: "custom_header" },
+										]
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												name: "mulu_tem_max",
+												type: "input-number",
+												label: "生成模板数量",
+												required: true,
+												value: 0,
+												desc: "填写0则不会自动生成模板"
+											},
+											{
+												"type": "select",
+												"name": "mulu_static",
+												"label": "泛目录模式",
+												"options": [
+													{
+														"label": "静态",
+														"value": true
+													},
+													{
+														"label": "动态（蜘蛛池）",
+														"value": false
+													}
+												],
+												"value": true,
+											}]
+									},
+									{
+										"type": "group",
+										"body": [
+											{
+												"type": "input-array",
+												"name": "mulu_custom_header",
+												"label": "自定义路径",
+												"items": {
+													"type": "input-text",
+													"name": "/",
+													"label": "/",
+													"unique": true,
+												},
+												"addButtonText": "泛目录路径",
+												"minItems": 0,
+											},
+											{
+												"type": "input-array",
+												"name": "mulu_keywords_file",
+												"label": "关键词库",
+												"items": {
+													"type": "input-text",
+													"name": "词库路径",
+													"label": "词库路径",
+													"unique": true,
+												},
+												"addButtonText": "关键词库",
+												"minItems": 0,
+											},]
+									},
 								]
 							}
 						}
@@ -437,28 +672,8 @@
 				"columns": [
 					{
 						"type": "tpl",
-						"name": "index",
-						"label": "序号",
-						"width": 80,
-						"badge": {
-							"mode": "text",
-							// "animation": true,
-							"size": 12,
-							"offset": [
-								15,
-								0
-							],
-							"visibleOn": "this.children && this.children.length > 0",
-							"overflowCount": 999999,
-							"text": "${children.length}",
-						},
-
-						// "fixed": "left",
-						// "sortable": true,  // 启用排序功能
-					},
-					{
 						"name": "id",
-						"label": "文件路径",
+						"label": "ID",
 						"searchable": {
 							"type": "textarea",
 							"name": "search_term",
@@ -467,123 +682,161 @@
 							"maxLength": 10000,
 							"showCounter": true,
 						},
-						// "fixed": "left",
-						// "sortable": true,  // 启用排序功能
-						"visible": false
+						// "width": 80,
+						// "badge": {
+						// 	"mode": "text",
+						// 	// "animation": true,
+						// 	"size": 12,
+						// 	"offset": [
+						// 		15,
+						// 		0
+						// 	],
+						// 	"visibleOn": "this.children && this.children.length > 0",
+						// 	"overflowCount": 999999,
+						// 	"text": "${children.length}",
+						// },
+						"fixed": "left",
+						"sortable": true,  // 启用排序功能
 					},
+					// {
+					// 	"name": "id",
+					// 	"label": "文件路径",
+					// 	"searchable": {
+					// 		"type": "textarea",
+					// 		"name": "search_term",
+					// 		"label": "🔍搜索",
+					// 		"clearable": true,
+					// 		"maxLength": 10000,
+					// 		"showCounter": true,
+					// 	},
+					// 	// "fixed": "left",
+					// 	// "sortable": true,  // 启用排序功能
+					// 	"visible": false
+					// },
 					{
 						"type": "static-mapping",
-						"name": "is_www",
+						"name": "website_info.subdomain",
 						"label": "站点类型",
-						"map": {
-							"true": "主站",
-							"false": "泛站"
-						},
-						"visible": false
+						"visible": false,
 						// "sortable": true,
-						// "searchable": {
-						// 	"type": "select",
-						// 	"name": "is_www",
-						// 	"label": "站点类型",
-						// 	"options": [
-						// 		{
-						// 			"label": "主站+泛站",
-						// 			"value": 0
-						// 		},
-						// 		{
-						// 			"label": "主站",
-						// 			"value": 1
-						// 		},
-						// 		{
-						// 			"label": "泛站",
-						// 			"value": 2
-						// 		}
-						// 	],
-						// 	"value": 0,  // 默认值设置为 "主站+泛站"
-						// 	"placeholder": "选择站点类型"
-						// }
+						"searchable": {
+							"type": "select",
+							"name": "is_www",
+							"label": "站点类型",
+							"options": [
+								{
+									"label": "主站+泛站",
+									"value": 0
+								},
+								{
+									"label": "主站",
+									"value": 1
+								},
+								{
+									"label": "泛站",
+									"value": 2
+								}
+							],
+							"value": 0,  // 默认值设置为 "主站+泛站"
+							"placeholder": "选择站点类型"
+						}
 					},
 					{
 						"type": "tpl",
-						"tpl": "<a href='http://${domain}' target='_blank' class='link-style'>${domain}</a>",
-						"name": "domain",
+						"tpl": "<a href='http://${website_info.domain}' target='_blank' class='link-style'>${website_info.domain}</a>",
+						"name": "website_info.domain",
 						"label": "域名",
 						"fixed": "left",
-						"copyable": true
-						// "searchable": true,
+						"copyable": true,
+						"searchable": {
+							"name": "domain",
+							"clearable": true,
+							"maxLength": 1000,
+						},
 						// "sortable": true
 					},
 					{
-						"name": "lang",
+						"name": "website_info.to_lang",
 						"label": "语言",
 						// "sortable": true,  // 启用排序功能
 						// "searchable": true,
 					},
 					{
-						"name": "root_domain",
+						"name": "website_info.root_domain",
 						"label": "根域名",
 						"copyable": true,
 						"popOver": {
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "${root_domain} 查收录：<a href='https://www.google.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>谷歌</a> | <a href='https://www.bing.com/search?q=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>必应</a> | <a href='https://www.baidu.com/s?wd=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>百度</a> | <a href='https://www.sogou.com/web?query=site%3A${root_domain}' target='_blank' class='link-style' title='site:${root_domain}'>搜狗</a>"
+								"tpl": "${website_info.root_domain} 查收录：<a href='https://www.google.com/search?q=site%3A${website_info.root_domain}' target='_blank' class='link-style' title='site:${website_info.root_domain}'>谷歌</a> | <a href='https://www.bing.com/search?q=site%3A${website_info.root_domain}' target='_blank' class='link-style' title='site:${website_info.root_domain}'>必应</a> | <a href='https://www.baidu.com/s?wd=site%3A${website_info.root_domain}' target='_blank' class='link-style' title='site:${website_info.root_domain}'>百度</a> | <a href='https://www.sogou.com/web?query=site%3A${website_info.root_domain}' target='_blank' class='link-style' title='site:${website_info.root_domain}'>搜狗</a>"
 							}
-						}
-						// "sortable": true,  // 启用排序功能
-						// "searchable": true,
+						},
+						"sortable": {
+							"orderBy": "root_domain"
+						},
+						"searchable": {
+							"name": "root_domain",
+							"clearable": true,
+							"maxLength": 1000,
+						},
 					},
 					{
 						"type": "tpl",
-						"tpl": "<a href='javascript:void(0);' class='link-icon' target='_blank'>${target}</a>",
-						"name": "target",
+						"tpl": "<a href='javascript:void(0);' class='link-icon'>${website_info.target}</a>",
+						"name": "website_info.target",
 						"label": "目标站",
 						// "sortable": true,
-						"searchable": true,
+						"copyable": true,
+						"searchable": {
+							"name": "target",
+							"clearable": true,
+							"maxLength": 1000,
+						},
 						"onEvent": {
 							"click": {
 								"actions": [
 									{
 										"actionType": "custom",
-										"script": "const parts = event.data.target.split('|'); if(parts.length > 1) { const linkTarget = parts[1]; document.querySelector('.link-icon').setAttribute('href', 'http://' + linkTarget); window.open('http://' + linkTarget, '_blank'); }"
+										"script": "const parts = event.data.website_info.target.split('|'); if(parts.length > 1) { const linkTarget = parts[1]; window.open('http://' + linkTarget, '_blank'); }"
 									}
 								]
 							}
 						}
 					},
 					{
-						"name": "title",
+						"name": "website_info.title",
 						"label": "网站标题",
 						"popOver": {
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "${domain} 查标题排名：<a href='https://www.google.com/search?q=${title}' target='_blank' class='link-style' title='${title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${title}' target='_blank' class='link-style' title='${title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${title}' target='_blank' class='link-style' title='${title}'>百度</a> | <a href='https://www.sogou.com/web?query=${title}' target='_blank' class='link-style' title='${title}'>搜狗</a>"
+								"tpl": "${website_info.domain} 查标题排名：<a href='https://www.google.com/search?q=${website_info.title}' target='_blank' class='link-style' title='${website_info.title}'>谷歌</a> | <a href='https://www.bing.com/search?q=${website_info.title}' target='_blank' class='link-style' title='${website_info.title}'>必应</a> | <a href='https://www.baidu.com/s?wd=${website_info.title}' target='_blank' class='link-style' title='${website_info.title}'>百度</a> | <a href='https://www.sogou.com/web?query=${website_info.title}' target='_blank' class='link-style' title='${website_info.title}'>搜狗</a>"
 							}
 						}
 						// "sortable": true,  // 启用排序功能
 						// "searchable": true,
 					},
 					{
-						"name": "keywords",
+						"name": "website_info.keywords",
 						"label": "关键词",
 						"popOver": {
 							"trigger": "hover",
 							"body": {
 								"type": "tpl",
-								"tpl": "${domain} 查关键词排名：<a href='https://www.google.com/search?q=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>谷歌</a> | <a href='https://www.bing.com/search?q=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>必应</a> | <a href='https://www.baidu.com/s?wd=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>百度</a> | <a href='https://www.sogou.com/web?query=${keywords | split:',' | first}' target='_blank' class='link-style' title='${keywords | split:',' | first}>搜狗</a>"
+								"tpl": "${website_info.domain} 查关键词排名：<a href='https://www.google.com/search?q=${website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${website_info.keywords | split:',' | first}>谷歌</a> | <a href='https://www.bing.com/search?q=${website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${website_info.keywords | split:',' | first}>必应</a> | <a href='https://www.baidu.com/s?wd=${website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${website_info.keywords | split:',' | first}>百度</a> | <a href='https://www.sogou.com/web?query=${website_info.keywords | split:',' | first}' target='_blank' class='link-style' title='${website_info.keywords | split:',' | first}>搜狗</a>"
 							}
 						}
 					},
 					{
-						"name": "description",
+						"name": "website_info.description",
 						"label": "描述",
 					},
-					{
-						"name": "replace_string",
-						"label": "本站替换词",
-						"hidden": true  // 隐藏该字段
-					},
+					// {
+					// 	"name": "replace_string",
+					// 	"label": "本站替换词",
+					// 	"hidden": true  // 隐藏该字段
+					// },
 					{
 						"type": "datetime",  // 显示为日期时间类型
 						"name": "updated_at",
@@ -627,32 +880,49 @@
 									"resizable": true,
 									"size": "lg",
 									"width": "50%",
-									"title": "编辑",
+									"title": "编辑【$website_info.domain】",
 									"body": {
 										"type": "form",
 										"name": "sample-edit-form",
-										"api": "put:/_api_/website/update?file=$id",
+										"api": "put:/_api_/website/update?id=$id",
 										"reload": "crud-table", // 在提交后重新加载特定的组件
 										"body": [
 											{
+												"type": "static",
+												"name": "id",
+												"label": "ID",
+												"visible": false
+											},
+											{
+												"type": "divider",
+												"title": "【网站设置】",
+												"titlePosition": "center"
+											},
+
+											{
 												"type": "group",
 												"body": [
-
 													{
 														"type": "static",
-														"name": "domain",
+														"name": "website_info.domain",
 														"label": "域名",
 													},
 													{
-														"type": "static-mapping",
-														"name": "is_www",
-														"label": "站点类型",
-														"map": {
-															"true": "主站",
-															"false": "泛站"
-														}
+														"type": "select",
+														"name": "website_info.to_lang",
+														"label": "语言",
+														"options": [
+															{
+																"label": "中文",
+																"value": "zh"
+															},
+															{
+																"label": "英文",
+																"value": "en"
+															}
+														],
+														"placeholder": "请选择语言"
 													},
-
 												]
 											},
 											{
@@ -660,33 +930,32 @@
 												"body": [
 													{
 														"type": "static",
-														"name": "root_domain",
+														"name": "website_info.root_domain",
 														"label": "根域名",
 													},
 													{
-														"type": "static",
-														"name": "lang",
-														"label": "语言",
+														name: "homepage_update_time",
+														type: "input-number",
+														label: "首页更新时间",
+														required: true,
+														desc: "单位：天 填0关闭"
 													},
 												]
 											},
-
-
-
 											{
 												"type": "input-text",
-												"name": "title",
+												"name": "website_info.title",
 												"label": "网站标题",
 												"required": true
 											},
 											{
 												"type": "input-text",
-												"name": "keywords",
+												"name": "website_info.keywords",
 												"label": "关键词"
 											},
 											{
 												"type": "textarea",
-												"name": "description",
+												"name": "website_info.description",
 												"label": "描述"
 											},
 											{
@@ -694,7 +963,7 @@
 												"body": [
 													{
 														"type": "select",
-														"name": "replace_mode",
+														"name": "replace_rules.replace_mode",
 														"label": "替换模式",
 														"options": [
 															{
@@ -719,7 +988,7 @@
 													},
 													{
 														"type": "select",
-														"name": "link_mapping",
+														"name": "website_info.link_mapping",
 														"label": "链接映射",
 														"options": [
 															{
@@ -733,11 +1002,17 @@
 														],
 														// "value": "false",  // 设置默认值为 zh
 														// "placeholder": "是否开启链接映射"
-													},]
+													},
+												]
+											},
+											{
+												"type": "divider",
+												"title": "【替换规则】",
+												"titlePosition": "center"
 											},
 											{
 												"type": "input-text",
-												"name": "target",
+												"name": "website_info.target",
 												"label": "目标站",
 												"required": true,
 												"placeholder": "目标站格式: en|www.english.com",
@@ -752,13 +1027,13 @@
 											// 插入新的 service，用于加载 target_replace 数据
 											{
 												"type": "service",
-												"api": "/_api_/replace/query?domain=$target",  // 动态加载 target_replace 数据的 API
+												"api": "/_api_/replace/query?domain=$website_info.target",  // 动态加载 target_replace 数据的 API
 												"body": [
 													{
 														"type": "editor",
 														"language": "yaml",
 														"name": "target_replace",
-														"label": "目标站替换词",
+														"label": "目标站替换",
 														"value": "全局替换:\n  - '待替换字符串 -> {关键词}'\n首页替换:\n  - '待替换字符串 -> {关键词2}'\n内页替换:\n  - '待替换字符串 -> 替换词'"
 													}
 												]
@@ -770,16 +1045,139 @@
 												"body": "注意：替换词格式按照“先长后短”方式，如“hello world -> {关键词}”在上，“hello -> 你好”在下",
 											},
 
+											// {
+											// 	"type": "editor",
+											// 	"language": "yaml",
+											// 	"name": "replace_string",
+											// 	"label": "本站替换词"
+											// },
 											{
-												"type": "editor",
-												"language": "yaml",
-												"name": "replace_string",
-												"label": "本站替换词"
+												"type": "input-array",
+												"name": "replace_rules.replace_rules_all",
+												"label": "全局替换",
+												"items": {
+													"type": "input-text",
+													"name": "-",
+													"label": "-",
+													"unique": true
+												},
+												"addButtonText": "规则",
+												"scaffold": "待替换字符串 -> {keyword}",
+												"minItems": 0,
+											},
+											{
+												"type": "input-array",
+												"name": "replace_rules.replace_rules_index",
+												"label": "首页替换",
+												"items": {
+													"type": "input-text",
+													"name": "-",
+													"label": "-",
+													"unique": true
+												},
+												"addButtonText": "规则",
+												"minItems": 0,
+											},
+											{
+												"type": "input-array",
+												"name": "replace_rules.replace_rules_page",
+												"label": "内页替换",
+												"items": {
+													"type": "input-text",
+													"name": "-",
+													"label": "-",
+													"unique": true
+												},
+												"addButtonText": "规则",
+												"minItems": 0,
+											},
+											{
+												"type": "divider",
+												"title": "【泛目录配置】",
+												"titlePosition": "center"
+											},
+											{
+												name: "mulu_config.mulu_tem_max",
+												type: "input-number",
+												label: "生成模板数量",
+												required: true,
+												desc: "填写0则不会自动生成模板"
+											},
+											{
+												"type": "select",
+												"name": "mulu_config.mulu_static",
+												"label": "泛目录模式",
+												"options": [
+													{
+														"label": "静态",
+														"value": true
+													},
+													{
+														"label": "动态（蜘蛛池）",
+														"value": false
+													}
+												],
+											},
+											{
+												type: "checkboxes",
+												name: "mulu_config.mulu_mode",
+												label: "泛目录路由",
+												checkAll: true,
+												optionType: "button",
+												options: [
+													{ label: "404页面", value: "404" },
+													{ label: "非首页（所有页面）", value: "all_page" },
+													{ label: "自定义路径", value: "custom_header" },
+												]
+											},
+											{
+												"type": "input-array",
+												"name": "mulu_config.mulu_custom_header",
+												"label": "自定义路径",
+												"items": {
+													"type": "input-text",
+													"name": "/",
+													"label": "/",
+													"unique": true,
+												},
+												"addButtonText": "泛目录路径",
+												"minItems": 0,
+											},
+											{
+												"type": "input-array",
+												"name": "mulu_config.mulu_template",
+												"label": "泛目录模板",
+												"items": {
+													"type": "input-text",
+													"name": "",
+													"label": "",
+													"unique": true,
+												},
+												"addButtonText": "泛目录模板",
+												"minItems": 0,
+											},
+											{
+												"type": "input-array",
+												"name": "mulu_config.mulu_keywords_file",
+												"label": "关键词库",
+												"items": {
+													"type": "input-text",
+													"name": "词库路径",
+													"label": "词库路径",
+													"unique": true,
+												},
+												"addButtonText": "关键词库",
+												"minItems": 0,
 											},
 											{
 												"type": "static-datetime",
 												"name": "updated_at",
 												"label": "更新于"
+											},
+											{
+												"type": "static-datetime",
+												"name": "created_at",
+												"label": "创建于"
 											}
 										]
 									}
@@ -791,8 +1189,8 @@
 								"actionType": "ajax",
 								"tooltipPlacement": "top",
 								"tooltip": "清空缓存",
-								"confirmText": "确认清空【${domain}】 所有缓存数据？",
-								"api": "delete:/_api_/cache/delete?domain=$domain",
+								"confirmText": "确认清空【${website_info.domain}】 所有缓存数据？",
+								"api": "delete:/_api_/cache/delete?domains=$website_info.domain",
 								"reload": "none"
 							},
 							{

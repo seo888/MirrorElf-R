@@ -52,13 +52,15 @@
 <body>
   <div id="root" class="app-wrapper"></div>
   <script>
+
+
     (function () {
       // 检查 token 是否存在
       if (!localStorage.getItem("token")) {
         // 如果 token 不存在，则跳转到登录页面
         location.href = '/_/login';
       }
-      
+
       let amis = amisRequire("amis/embed");
       const match = amisRequire("path-to-regexp").match;
 
@@ -76,7 +78,6 @@
           className: "w-full",
           tpl: '<div class="flex justify-between"><div></div><div><a href="#" onclick="localStorage.clear();location.href = \'/_/login\';">退出登录</a></div></div>',
         },
-
         asideAfter: {
           type: "service",  // 使用 service 组件
           api: {
@@ -91,25 +92,29 @@
             }
           },  // 通过 API 获取版本号
           body: {
-      "type": "tpl",
-      "tpl": '<p title="${title}">— Mirror-Elf ® ${version}—</p>',
-      "className": "version-footer",
-      "style": {
-        "position": "fixed",
-        "left": "0",
-        "bottom": "0",
-        "textAlign": "center",
-        "width": "auto",
-        "margin": "0",
-        "padding": "16px",
-        "zIndex": 1000 // 确保在其他元素之上
-      }
-    }
+            "type": "tpl",
+            "tpl": '<p title="${title}">— Mirror-Elf ® ${version}—</p>',
+            "className": "version-footer",
+            "style": {
+              "position": "fixed",
+              "left": "0",
+              "bottom": "0",
+              "textAlign": "center",
+              "width": "auto",
+              "margin": "0",
+              "padding": "16px",
+              "zIndex": 1000 // 确保在其他元素之上
+            }
+          }
         },
         // asideBefore: '<div class="p-2 fixed-bottom text-center">菜单前面区域</div>',
         // asideAfter: '<div class="text-center fixed-bottom">版本: 1.0.1</div>',
         api: "/_/admin/pages/site.json",
+        data: {
+          titleSuffix: "@ mirror" // 定义全局标题后缀
+        }
       };
+
 
       function normalizeLink(to, location = history.location) {
         to = to || "";
@@ -193,6 +198,12 @@
           // watchRouteChange: fn => {
           //   return history.listen(fn);
           // },
+          // beforeRender: (schema) => {
+          //   if (schema.type === 'page' && schema.title) {
+          //     schema.title = `${schema.title} @ mirror`;
+          //   }
+          //   return schema;
+          // },
           updateLocation: (location, replace) => {
             location = normalizeLink(location);
             if (location === "goBack") {
@@ -246,12 +257,43 @@
           theme: "antd",
         }
       );
+      // 添加 rendered 事件监听
+      // amisInstance.on("rendered", () => {
+      //   // const currentPage = pageConfigs.find(
+      //   //   (page) =>
+      //   //     normalizeLink(page.path) === history.location.pathname ||
+      //   //     normalizeLink(page.path) === history.location.pathname + history.location.search
+      //   // );
+      //   // if (currentPage && currentPage.title) {
+      //   //   document.title = `${currentPage.title} @ mirror`;
+      //   // } else {
+      //     document.title = "镜像精灵 ® @ mirror";
+      //   // }
+      // });
 
+      // history.listen((state) => {
+      //   amisInstance.updateProps({
+      //     location: state.location || state,
+      //   });
+
+      //   // 同步更新标题
+      //   const currentPage = pageConfigs.find(
+      //     (page) =>
+      //       normalizeLink(page.path) === state.location.pathname ||
+      //       normalizeLink(page.path) === state.location.pathname + state.location.search
+      //   );
+      //   if (currentPage && currentPage.title) {
+      //     document.title = `${currentPage.title} @ mirror`;
+      //   } else {
+      //     document.title = "镜像精灵 ® @ mirror";
+      //   }
+      // });
       history.listen((state) => {
         amisInstance.updateProps({
           location: state.location || state,
         });
       });
+
     })();
   </script>
 </body>

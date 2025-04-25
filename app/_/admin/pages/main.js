@@ -2,6 +2,8 @@
 	const response = {
 		data:
 		{
+			"type": "page",
+			"label": "用户管理",
 			"title": "图表示例",
 			"body": [
 				{

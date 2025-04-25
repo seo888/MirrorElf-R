@@ -206,7 +206,7 @@
                                                     type: "input-number",
                                                     label: "首页更新时间",
                                                     required: true,
-                                                    desc: "单位：天 填写0则永不更新首页"
+                                                    desc: "单位：天 填0关闭"
                                                 },
                                                 {
                                                     name: "WebsiteSettings.target_static_save",
