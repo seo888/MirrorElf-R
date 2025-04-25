@@ -8,11 +8,152 @@
 					"type": "grid",
 					"columns": [
 						{
+							"type": "tpl",
+							"md": 2,
+							"tpl": ""
+						  },
+					
+						{
+							"type": "chart",
+							// align: "right",
+							"height": "455px",
+							"width": "450px",
+							xs: 2,
+							// valign: "middle",
+							// "md": 5,
+							// "style": {
+							// 	"flex": "2" // 占据 8 份
+							// },
+							"config": {
+								series: [
+									{
+										type: 'gauge',
+										startAngle: 90,
+										endAngle: -270,
+										pointer: {
+											show: false
+										},
+										progress: {
+											show: true,
+											overlap: true,
+											roundCap: true,
+											clip: false,
+											itemStyle: {
+												borderWidth: 1,
+												borderColor: '#464646'
+											}
+										},
+										// axisLine: {
+										// 	lineStyle: {
+										// 		width: 40
+										// 	}
+										// },
+										axisLine: {
+											lineStyle: {
+												width: 50,
+												// color: [
+												// 	[0.00, '#008000'], // 0% 为深绿色
+												// 	[0.05, '#0d8c0d'], // 5% 为稍浅的绿色
+												// 	[0.10, '#1a991a'], // 10% 为更浅的绿色
+												// 	[0.15, '#26a626'], // 15% 为浅绿色
+												// 	[0.20, '#33b333'], // 20% 为更浅的绿色
+												// 	[0.25, '#40bf40'], // 25% 为浅绿色
+												// 	[0.30, '#4dcc4d'], // 30% 为更浅的绿色
+												// 	[0.35, '#59d959'], // 35% 为浅绿色
+												// 	[0.40, '#66e566'], // 40% 为更浅的绿色
+												// 	[0.45, '#73f273'], // 45% 为浅绿色
+												// 	[0.50, '#80ff80'], // 50% 为非常浅的绿色
+												// 	[0.55, '#8cff8c'], // 55% 为接近白色的浅绿色
+												// 	[0.60, '#99ff99'], // 60% 为极浅的绿色
+												// 	[0.65, '#ff9999'], // 65% 为浅红色
+												// 	[0.70, '#ff6666'], // 70% 为稍深的浅红色
+												// 	[0.75, '#ff3333'], // 75% 为明亮的红色
+												// 	[0.80, '#ff0000'], // 80% 为标准红色
+												// 	[0.85, '#cc0000'], // 85% 为深红色
+												// 	[0.90, '#990000'], // 90% 为更深的红色
+												// 	[0.95, '#660000'], // 95% 为暗红色
+												// 	[1.00, '#330000']  // 100% 为接近黑色的深红色
+												// ]
+											}
+										},
+										splitLine: {
+											show: false,
+											distance: 0,
+											length: 10
+										},
+										axisTick: {
+											show: false
+										},
+										axisLabel: {
+											show: false,
+											distance: 50
+										},
+										data: [
+											{
+												value: 20,
+												name: 'CPU',
+												title: {
+													offsetCenter: ['0%', '-40%']
+												},
+												detail: {
+													valueAnimation: true,
+													offsetCenter: ['0%', '-25%']
+												}
+											},
+											{
+												value: 40,
+												name: '内存',
+												title: {
+													offsetCenter: ['0%', '-7.5%']
+												},
+												detail: {
+													valueAnimation: true,
+													offsetCenter: ['0%', '7.5%']
+												}
+											},
+											{
+												value: 10,
+												name: '硬盘',
+												title: {
+													offsetCenter: ['0%', '25%']
+												},
+												detail: {
+													valueAnimation: true,
+													offsetCenter: ['0%', '40%']
+												}
+											}
+										],
+										title: {
+											fontSize: 14
+										},
+										detail: {
+											width: 50,
+											height: 14,
+											fontSize: 14,
+											color: 'inherit',
+											borderColor: 'inherit',
+											borderRadius: 20,
+											borderWidth: 1,
+											formatter: '{value}%'
+										}
+									}
+								]
+							},
+							// "api": {
+							// 	"method": "GET",
+							// 	"url": "/_api_/info/spider_count?days=5",
+							// 	"autoLoad": true,
+							// 	// "adaptor": "function (payload) { return { data: payload.data }; }"
+							// }
+						},
+						{
 							"type": "chart",
 							"api": "/_api_/info/qps?count=5",
 							"interval": 10000,
 							"tracker": true,
-							xs: 7,
+							// xs: 7,
+							// xs: 5,
+							align: "right",
 							"height": "450px",
 							"config":
 							{
@@ -151,136 +292,6 @@
 									}
 								]
 							}
-						},
-						{
-							"type": "chart",
-							align: "right",
-							"height": "455px",
-							"width": "450px",
-							// "style": {
-							// 	"flex": "2" // 占据 8 份
-							// },
-							"config": {
-								series: [
-									{
-										type: 'gauge',
-										startAngle: 90,
-										endAngle: -270,
-										pointer: {
-											show: false
-										},
-										progress: {
-											show: true,
-											overlap: true,
-											roundCap: true,
-											clip: false,
-											itemStyle: {
-												borderWidth: 1,
-												borderColor: '#464646'
-											}
-										},
-										// axisLine: {
-										// 	lineStyle: {
-										// 		width: 40
-										// 	}
-										// },
-										axisLine: {
-											lineStyle: {
-												width: 50,
-												// color: [
-												// 	[0.00, '#008000'], // 0% 为深绿色
-												// 	[0.05, '#0d8c0d'], // 5% 为稍浅的绿色
-												// 	[0.10, '#1a991a'], // 10% 为更浅的绿色
-												// 	[0.15, '#26a626'], // 15% 为浅绿色
-												// 	[0.20, '#33b333'], // 20% 为更浅的绿色
-												// 	[0.25, '#40bf40'], // 25% 为浅绿色
-												// 	[0.30, '#4dcc4d'], // 30% 为更浅的绿色
-												// 	[0.35, '#59d959'], // 35% 为浅绿色
-												// 	[0.40, '#66e566'], // 40% 为更浅的绿色
-												// 	[0.45, '#73f273'], // 45% 为浅绿色
-												// 	[0.50, '#80ff80'], // 50% 为非常浅的绿色
-												// 	[0.55, '#8cff8c'], // 55% 为接近白色的浅绿色
-												// 	[0.60, '#99ff99'], // 60% 为极浅的绿色
-												// 	[0.65, '#ff9999'], // 65% 为浅红色
-												// 	[0.70, '#ff6666'], // 70% 为稍深的浅红色
-												// 	[0.75, '#ff3333'], // 75% 为明亮的红色
-												// 	[0.80, '#ff0000'], // 80% 为标准红色
-												// 	[0.85, '#cc0000'], // 85% 为深红色
-												// 	[0.90, '#990000'], // 90% 为更深的红色
-												// 	[0.95, '#660000'], // 95% 为暗红色
-												// 	[1.00, '#330000']  // 100% 为接近黑色的深红色
-												// ]
-											}
-										},
-										splitLine: {
-											show: false,
-											distance: 0,
-											length: 10
-										},
-										axisTick: {
-											show: false
-										},
-										axisLabel: {
-											show: false,
-											distance: 50
-										},
-										data: [
-											{
-												value: 20,
-												name: 'CPU',
-												title: {
-													offsetCenter: ['0%', '-40%']
-												},
-												detail: {
-													valueAnimation: true,
-													offsetCenter: ['0%', '-25%']
-												}
-											},
-											{
-												value: 40,
-												name: '内存',
-												title: {
-													offsetCenter: ['0%', '-7.5%']
-												},
-												detail: {
-													valueAnimation: true,
-													offsetCenter: ['0%', '7.5%']
-												}
-											},
-											{
-												value: 10,
-												name: '硬盘',
-												title: {
-													offsetCenter: ['0%', '25%']
-												},
-												detail: {
-													valueAnimation: true,
-													offsetCenter: ['0%', '40%']
-												}
-											}
-										],
-										title: {
-											fontSize: 14
-										},
-										detail: {
-											width: 50,
-											height: 14,
-											fontSize: 14,
-											color: 'inherit',
-											borderColor: 'inherit',
-											borderRadius: 20,
-											borderWidth: 1,
-											formatter: '{value}%'
-										}
-									}
-								]
-							},
-							// "api": {
-							// 	"method": "GET",
-							// 	"url": "/_api_/info/spider_count?days=5",
-							// 	"autoLoad": true,
-							// 	// "adaptor": "function (payload) { return { data: payload.data }; }"
-							// }
 						},
 						// {
 						// 	"title": "QPS",
