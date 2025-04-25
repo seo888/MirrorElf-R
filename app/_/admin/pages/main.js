@@ -3,8 +3,6 @@
 		data:
 		{
 			"type": "page",
-			"label": "用户管理",
-			"title": "图表示例",
 			"body": [
 				{
 					"type": "grid",
@@ -12,7 +10,7 @@
 						{
 							"type": "chart",
 							"api": "/_api_/info/qps?count=5",
-							"interval": 5000,
+							"interval": 10000,
 							"tracker": true,
 							xs: 7,
 							"height": "450px",
@@ -20,7 +18,32 @@
 							{
 								tooltip: {
 									trigger: 'item',
-									formatter: '{a} <br/>{b}: {c} ({d}%)'
+									formatter: function (params) {
+										// Get the urls array and format each URL on a new line
+										const urls = params.data.urls.length > 0
+											? params.data.urls.map(url => `  ${url}`).join('<br/>')
+											: '  无';
+										return (
+											`${params.seriesName}<br/>` +
+											`${params.name}: ${params.value} (${params.percent.toFixed(1)}%)<br/>` +
+											`<br/>${urls}`
+										);
+									}
+									// formatter: '{a} <br/>{b}: {c} ({d}%)'
+
+									// formatter: function (params) {
+									// 			// 获取 urls 数组并将每个 URL 格式化为单独一行
+									// 			const urls = params.data.urls.length > 0
+									// 				? params.data.urls.map(url => `{urls|${url}}`).join('\n')
+									// 				: '{urls|无}';
+									// 			return (
+									// 				'{a|' + params.seriesName + '}{abg|}\n' +
+									// 				'{hr|}\n' +
+									// 				'{b|' + params.name + '：}' + params.value + '  {per|' + params.percent.toFixed(1) + '%}\n' +
+									// 				'{urlLabel|URLs:}\n' +
+									// 				urls
+									// 			);
+									// 		},
 								},
 								legend: {
 									show: false,
@@ -57,6 +80,9 @@
 											position: 'inner',
 											fontSize: 14
 										},
+										tooltip: {
+											show: false  // 禁用这个series的tooltip
+										},
 										labelLine: {
 											show: true
 										},
@@ -68,7 +94,7 @@
 										]
 									},
 									{
-										name: '访问来源',
+										name: '访问详情 (5s)',
 										type: 'pie',
 										radius: ['45%', '60%'],
 										labelLine: {
@@ -76,6 +102,7 @@
 										},
 										label: {
 											formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+
 											backgroundColor: '#F6F8FC',
 											borderColor: '#8C8D8E',
 											borderWidth: 1,
