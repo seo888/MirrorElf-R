@@ -149,7 +149,7 @@
 						{
 							"type": "chart",
 							"api": "/_api_/info/qps?count=5",
-							"interval": 10000,
+							"interval": 5000,
 							"tracker": true,
 							// xs: 7,
 							// xs: 5,
