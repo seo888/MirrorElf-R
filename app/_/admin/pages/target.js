@@ -84,7 +84,7 @@
 																"actionType": "setValue",
 																"componentName": "domain",
 																"args": {
-																  "value": ""
+																	"value": ""
 																}
 															},
 															{
@@ -255,7 +255,7 @@
 																"actionType": "setValue",
 																"componentName": "search_term",
 																"args": {
-																  "value": ""
+																	"value": ""
 																}
 															},
 															{
@@ -440,7 +440,58 @@
 										{
 											"type": "operation",
 											"fixed": "right",
+											"label": "操作",
+											"width": 70,
 											"buttons": [
+												{
+													"type": "button",
+													"icon": "fa fa-pencil",
+													"tooltipPlacement": "top",
+													"tooltip": "编辑",
+													"actionType": "drawer",
+													"drawer": {
+														"resizable": true,
+														"size": "lg",
+														"width": "90%",
+														"title": "编辑",
+														"body": {
+															"type": "form",
+															"name": "sample-edit-form",
+															"api": "put:/_api_/target/update?target_lib=$target_lib&file=$id",
+															"reload": "crud-table", // 在提交后重新加载特定的组件
+															"body": [
+																{
+																	"type": "static",
+																	"name": "id",
+																	"label": "ID",
+																	"visible": false
+																},
+																{
+																	"type": "service",
+																	"api": "/_api_/target/source?target_lib=$target_lib&file=$id",  // 动态加载 target_replace 数据的 API
+																	"body": [
+																		{
+																			"type": "editor",
+																			"language": "html",
+																			"name": "source",
+																			"id": "editor1",
+																			"label": "目标源码",
+																			"size": "xxl",
+																			"options": {
+																				"minimap": {
+																					"enabled": true
+																				},
+																				"wordWrap": "on",  // 绑定开关值
+																				"automaticLayout": true
+																			},
+																			"placeholder": "空",
+																		}
+																	]
+																}
+															]
+														}
+													}
+												},
 												{
 													"icon": "fa fa-trash text-danger",
 													"actionType": "ajax",

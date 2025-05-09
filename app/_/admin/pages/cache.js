@@ -13,7 +13,7 @@
 							"body": {
 								"type": "crud",
 								"id": "crud-table0",
-								"primaryField":"domain",
+								"primaryField": "domain",
 								"perPageAvailable": [
 									10,
 									20,
@@ -430,17 +430,17 @@
 									{
 										name: "title",
 										label: "标题",
-										width:"25%"
+										width: "25%"
 									},
 									{
 										name: "keywords",
 										label: "关键词",
-										width:"15%"
+										width: "15%"
 									},
 									{
 										name: "description",
 										label: "描述",
-										width:"30%"
+										width: "30%"
 									},
 									{
 										name: "domain",
@@ -514,7 +514,7 @@
 									// 	"name": "target",
 									// 	"label": "目标路径",
 									// },
-									
+
 									{
 										"type": "datetime",  // 显示为日期时间类型
 										"name": "updated_at",
@@ -525,7 +525,64 @@
 									{
 										"type": "operation",
 										"fixed": "right",
+										"label": "操作",
+										"width": 70,
 										"buttons": [
+											{
+												"type": "button",
+												"icon": "fa fa-pencil",
+												"tooltipPlacement": "top",
+												"tooltip": "编辑",
+												"actionType": "drawer",
+												"drawer": {
+													"resizable": true,
+													"size": "lg",
+													"width": "90%",
+													"title": "编辑",
+													"body": {
+														"type": "form",
+														"name": "sample-edit-form",
+														"api": "put:/_api_/cache/update?domain=$domain&id=$id",
+														"reload": "crud-table", // 在提交后重新加载特定的组件
+														"body": [
+															{
+																"type": "alert",
+																"level": "info",
+																"showIcon": true,
+																"body": "注意：缓存数据清空后，此次编辑会失效。(编辑站点配置会自动清空缓存数据)",
+															},
+															{
+																"type": "static",
+																"name": "id",
+																"label": "ID",
+																"visible": false
+															},
+															{
+																"type": "service",
+																"api": "/_api_/cache/source?domain=$domain&id=$id",  // 动态加载 target_replace 数据的 API
+																"body": [
+																	{
+																		"type": "editor",
+																		"language": "html",
+																		"name": "source",
+																		"id": "editor1",
+																		"label": "缓存源码",
+																		"size": "xxl",
+																		"options": {
+																			"minimap": {
+																				"enabled": true
+																			},
+																			"wordWrap": "on",  // 绑定开关值
+																			"automaticLayout": true
+																		},
+																		"placeholder": "空",
+																	}
+																]
+															}
+														]
+													}
+												}
+											},
 											{
 												"icon": "fa fa-trash text-danger",
 												"actionType": "ajax",
