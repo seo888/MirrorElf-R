@@ -9,7 +9,7 @@
 					"type": "grid",
 					"columns": [
 						{
-							"md": 2,  // 左侧占 3 份宽度（25%）
+							"md": 3,  // 左侧占 3 份宽度（25%）
 							"body": {
 								"type": "crud",
 								"id": "crud-table0",
@@ -20,7 +20,7 @@
 									100,
 									500,
 								],
-								"perPage": 10,
+								"perPage": 5,
 								"keepItemSelectionOnPageChange": true,
 								"autoFillHeight": true,
 								"itemBadge": {
@@ -140,6 +140,13 @@
 									"actionType": "reload",
 									"target": "detailCRUD?domain=${domain}&page=1"
 								},
+								"footerToolbar": [
+									"statistics",
+									{
+										"type": "pagination",
+										"layout": "perPage,pager"
+									}
+								],
 								"columns": [
 									{
 										"name": "index",
@@ -182,7 +189,7 @@
 							}
 						},
 						{
-							"md": 10,  // 右侧占 9 份宽度（75%）
+							"md": 9,  // 右侧占 9 份宽度（75%）
 							"body": {
 								"type": "crud",
 								"name": "detailCRUD",
