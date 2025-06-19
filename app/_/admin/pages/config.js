@@ -345,18 +345,25 @@
                                                     ]
                                                 },
                                                 {
-                                                    name: "SEOFunctions.random_class_attributes",
+                                                    name: "SEOFunctions.h1_seo",
                                                     type: "switch",
                                                     onText: "开启",
                                                     offText: "关闭",
-                                                    label: "随机class属性"
+                                                    label: "H1标签插入"
                                                 },
                                                 {
-                                                    name: "SEOFunctions.random_meta_and_link",
+                                                    name: "SEOFunctions.random_div_attributes",
                                                     type: "switch",
                                                     onText: "开启",
                                                     offText: "关闭",
-                                                    label: "随机meta&link"
+                                                    label: "div标签随机属性"
+                                                },
+                                                {
+                                                    name: "SEOFunctions.meta_information",
+                                                    type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
+                                                    label: "OG协议"
                                                 },
                                             ]
                                         }

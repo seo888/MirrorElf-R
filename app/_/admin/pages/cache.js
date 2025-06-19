@@ -20,7 +20,7 @@
 									100,
 									500,
 								],
-								"perPage": 5,
+								"perPage": 10,
 								"keepItemSelectionOnPageChange": true,
 								"autoFillHeight": true,
 								"itemBadge": {

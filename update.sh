@@ -147,5 +147,13 @@ if [ ! -d "$POSTGRES_DATA_DIR" ]; then
     chmod 700 "$POSTGRES_DATA_DIR"
 fi
 
+# 检查并config.yml
+app="/www/MirrorElf/app"
+sed -i 's/random_meta_and_link/meta_information/g' '$app/config/config.yml'
+sed -i 's/random_class_attributes/random_div_attributes/g' '$app/config/config.yml'
+if ! grep -q "h1_seo" '$app/config/config.yml'; then
+    sed -i 's/AccessPolicy/  h1_seo: false\nAccessPolicy/g' '$app/config/config.yml'
+fi
+
 # 重启容器
 docker compose down && docker compose up -d || exit 1
