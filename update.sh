@@ -91,6 +91,10 @@ new="/www/MirrorElf_New/app/config/IP2LOCATION-LITE-DB3.BIN"
 old="/www/MirrorElf/app/config/IP2LOCATION-LITE-DB3.BIN"
 mv -f "$new" "$old"
 
+new="/www/MirrorElf_New/app/config/china.json"
+old="/www/MirrorElf/app/config/china.json"
+mv -f "$new" "$old"
+
 new="/www/MirrorElf_New/docker-compose.yml"
 old="/www/MirrorElf/docker-compose.yml"
 mv -f "$new" "$old"
