@@ -5,8 +5,3 @@ app/.gitignore
 app/Cargo.lock
 app/Cargo.toml
 minio
-app/doc/ad.txt
-app/doc/keyword.txt
-app/doc/keywords/keyword.txt
-app/doc/kongge.txt
-app/doc/ad.txt
