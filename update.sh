@@ -163,10 +163,9 @@ replacement_text=$'  external_filter:\n    - .gov.cn\n  external_links:\n    - \
 # 写入临时文件
 printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
 
-
-# 检查临时文件内容（调试用）
-echo "临时文件内容："
-cat /tmp/temp_replacement.txt
+# # 检查临时文件内容（调试用）
+# echo "临时文件内容："
+# cat /tmp/temp_replacement.txt
 
 # 检查配置文件是否包含必要标记
 if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_file"; then
