@@ -159,7 +159,7 @@ config_file="/www/MirrorElf/app/config/config.yml"
 
 # 定义要插入的新内容
 read -r -d '' replacement_text <<'EOF'
-  external_filter:
+    external_filter:
     - .gov.cn
   external_links:
     - '{随机网址}'
