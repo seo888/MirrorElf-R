@@ -154,13 +154,13 @@ fi
 # 检查并config.yml
 app="/www/MirrorElf/app"
 
-# 定义替换文本
+# 定义替换文本，规范化 YAML 格式
 read -r -d '' replacement_text << 'EOF'
 SEOFunctions:
   external_filter:
-  - .gov.cn
+    - .gov.cn
   external_links:
-  - '{随机网址}'
+    - '{随机网址}'
   meta_information: false
   random_div_attributes: true
   random_class_name: false
@@ -168,19 +168,18 @@ SEOFunctions:
   html_entities: false
   friend_link_count: 5
   friend_links:
-  - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
+    - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
   seo_404_page: false
 AccessPolicy:
 EOF
 
 # 使用 sed 替换
 echo "$replacement_text" > /tmp/temp_replacement.txt
-sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/{
+sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/ {
   r /tmp/temp_replacement.txt
   d
 }" "$app/config/config.yml"
 
-# 清理临时文件
 rm -f /tmp/temp_replacement.txt
 
 # 重启容器
