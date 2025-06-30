@@ -157,11 +157,11 @@ app="/www/MirrorElf/app"
 # 定义配置文件路径
 config_file="/www/MirrorElf/app/config/config.yml"
 
-# 定义要插入的新内容
+# 定义替换文本
 read -r -d '' replacement_text <<'EOF'
-    external_filter:
+  external_filter:
     - .gov.cn
-  external_links:
+  links:
     - '{随机网址}'
   meta_information: false
   random_div_attributes: true
@@ -174,12 +174,16 @@ read -r -d '' replacement_text <<'EOF'
   seo_404_page: false
 EOF
 
-# 将新内容写入临时文件
-echo "$replacement_text" > /tmp/temp_replacement.txt
+# 写入临时文件
+printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
 
-# 检查文件是否包含必要的标记行
+# 检查临时文件内容（调试用）
+echo "临时文件内容："
+cat /tmp/temp_replacement.txt
+
+# 检查配置文件是否包含必要标记
 if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_file"; then
-  # 使用 sed 替换内容
+  # 替换内容
   sed -i.bak '
     /^SEOFunctions:/,/^AccessPolicy:/ {
       /^SEOFunctions:/ {
@@ -194,7 +198,7 @@ if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_
       d
     }
   ' "$config_file"
-  echo "替换完成，重复行已移除"
+  echo "替换完成"
 else
   echo "错误：配置文件中未找到 SEOFunctions 或 AccessPolicy"
   rm -f /tmp/temp_replacement.txt
