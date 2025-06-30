@@ -153,9 +153,8 @@ fi
 
 app="/www/MirrorElf/app"
 
-# 定义替换文本，规范化 YAML 格式
+# 定义替换文本，仅包含 SEOFunctions 和 AccessPolicy 之间的内容
 read -r -d '' replacement_text <<'EOF'
-SEOFunctions:
   external_filter:
     - .gov.cn
   external_links:
@@ -169,7 +168,6 @@ SEOFunctions:
   friend_links:
     - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
   seo_404_page: false
-AccessPolicy:
 EOF
 
 # 将替换文本写入临时文件
@@ -177,11 +175,8 @@ echo "$replacement_text" > /tmp/temp_replacement.txt
 
 # 检查文件中是否包含 SEOFunctions 和 AccessPolicy
 if grep -q "^SEOFunctions:" "$app/config/config.yml" && grep -q "^AccessPolicy:" "$app/config/config.yml"; then
-  # 使用 sed 替换 SEOFunctions: 到 AccessPolicy: 之间的内容
-  sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/ {
-    r /tmp/temp_replacement.txt
-    d
-  }" "$app/config/config.yml"
+  # 使用 sed 替换 SEOFunctions: 和 AccessPolicy: 之间的内容，保留头尾标记
+  sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/ { /^SEOFunctions:/n; /^AccessPolicy:/!d; /^SEOFunctions:/r /tmp/temp_replacement.txt" "$app/config/config.yml"
 else
   echo "错误：config.yml 中未找到 SEOFunctions 或 AccessPolicy"
   rm -f /tmp/temp_replacement.txt
