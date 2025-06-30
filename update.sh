@@ -154,7 +154,7 @@ fi
 # 检查并config.yml
 app="/www/MirrorElf/app"
 
-# 使用 here-document 定义 replacement_text，保留换行和格式
+# 定义替换文本
 read -r -d '' replacement_text << 'EOF'
 SEOFunctions:
   external_filter:
@@ -173,9 +173,15 @@ SEOFunctions:
 AccessPolicy:
 EOF
 
-# 使用 sed 替换 SEOFunctions: 到 AccessPolicy: 之间的内容
-# 通过 printf 和 cat 安全处理多行文本
-printf '%s\n' "$replacement_text" | sed -i "/^SEOFunctions:/,/^AccessPolicy:/c\\$(cat)" "$app/config/config.yml"
+# 使用 sed 替换
+echo "$replacement_text" > /tmp/temp_replacement.txt
+sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/{
+  r /tmp/temp_replacement.txt
+  d
+}" "$app/config/config.yml"
+
+# 清理临时文件
+rm -f /tmp/temp_replacement.txt
 
 # 重启容器
 docker compose down && docker compose up -d || exit 1
