@@ -158,24 +158,11 @@ app="/www/MirrorElf/app"
 config_file="/www/MirrorElf/app/config/config.yml"
 
 # 定义替换文本
-read -r -d '' replacement_text <<'EOF'
-  external_filter:
-    - .gov.cn
-  links:
-    - '{随机网址}'
-  meta_information: false
-  random_div_attributes: true
-  random_class_name: false
-  h1_seo: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>
-  html_entities: false
-  friend_link_count: 5
-  friend_links:
-    - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
-  seo_404_page: false
-EOF
+replacement_text=$'  external_filter:\n    - .gov.cn\n  links:\n    - \'{随机网址}\'\n  meta_information: false\n  random_div_attributes: true\n  random_class_name: false\n  h1_seo: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>\n  html_entities: false\n  friend_link_count: 5\n  friend_links:\n    - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>\n  seo_404_page: false'
 
 # 写入临时文件
 printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
+
 
 # 检查临时文件内容（调试用）
 echo "临时文件内容："
