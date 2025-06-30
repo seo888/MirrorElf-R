@@ -154,25 +154,28 @@ fi
 # 检查并config.yml
 app="/www/MirrorElf/app"
 
-# 定义替换文本（对特殊字符进行转义）
-replacement_text='SEOFunctions:
+# 使用 here-document 定义 replacement_text，保留换行和格式
+read -r -d '' replacement_text << 'EOF'
+SEOFunctions:
   external_filter:
   - .gov.cn
   external_links:
-  - '\''\{随机网址\}'\''
+  - '{随机网址}'
   meta_information: false
   random_div_attributes: true
   random_class_name: false
-  h1_seo: <h1><a target="_blank" title="\{标题\}" href="\{首页\}">\{核心词\}</a></h1>
+  h1_seo: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>
   html_entities: false
   friend_link_count: 5
   friend_links:
-  - <a target="_blank" title="\{*主站.标题#1001\}" href="\{*主站.首页#1001\}">\{*主站.核心词#1001\}</a>
+  - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
   seo_404_page: false
-AccessPolicy:'
+AccessPolicy:
+EOF
 
-# 使用 sed 替换
-sed -i "/^SEOFunctions:/,/^AccessPolicy:/c\\$replacement_text" "$app/config/config.yml"
+# 使用 sed 替换 SEOFunctions: 到 AccessPolicy: 之间的内容
+# 通过 printf 和 cat 安全处理多行文本
+printf '%s\n' "$replacement_text" | sed -i "/^SEOFunctions:/,/^AccessPolicy:/c\\$(cat)" "$app/config/config.yml"
 
 # 重启容器
 docker compose down && docker compose up -d || exit 1
