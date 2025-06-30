@@ -179,8 +179,17 @@ if grep -q "^SEOFunctions:" "$app/config/config.yml" && grep -q "^AccessPolicy:"
   # 检查 SEOFunctions 和 AccessPolicy 之间是否已包含 friend_links
   if ! sed -n "/^SEOFunctions:/,/^AccessPolicy:/p" "$app/config/config.yml" | grep -q "friend_links"; then
     # 使用 sed 替换内容
-    sed -i.bak "/^SEOFunctions:/,/^AccessPolicy:/ { /^SEOFunctions:/p; /^SEOFunctions:/r /tmp/temp_replacement.txt
-      /^SEOFunctions:/n; /^AccessPolicy:/p; d; }" "$app/config/config.yml"
+    sed -i.bak '
+      /^SEOFunctions:/,/^AccessPolicy:/ {
+        /^SEOFunctions:/ {
+          p
+          r /tmp/temp_replacement.txt
+          n
+        }
+        /^AccessPolicy:/ !d
+        /^AccessPolicy:/ p
+      }
+    ' "$app/config/config.yml"
     echo "替换完成"
   else
     echo "跳过替换：friend_links 已存在"
