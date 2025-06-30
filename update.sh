@@ -153,20 +153,21 @@ fi
 
 # 检查并config.yml
 app="/www/MirrorElf/app"
-# 定义要替换的文本（注意特殊字符的转义）
+
+# 定义替换文本（对特殊字符进行转义）
 replacement_text='SEOFunctions:
   external_filter:
   - .gov.cn
   external_links:
-  - '\''{随机网址}'\''
+  - '\''\{随机网址\}'\''
   meta_information: false
   random_div_attributes: true
   random_class_name: false
-  h1_seo: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>
+  h1_seo: <h1><a target="_blank" title="\{标题\}" href="\{首页\}">\{核心词\}</a></h1>
   html_entities: false
   friend_link_count: 5
   friend_links:
-  - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
+  - <a target="_blank" title="\{*主站.标题#1001\}" href="\{*主站.首页#1001\}">\{*主站.核心词#1001\}</a>
   seo_404_page: false
 AccessPolicy:'
 
