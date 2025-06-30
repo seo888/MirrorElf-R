@@ -154,7 +154,10 @@ fi
 # 检查并config.yml
 app="/www/MirrorElf/app"
 
-# 定义替换文本
+# 定义配置文件路径
+config_file="/www/MirrorElf/app/config/config.yml"
+
+# 定义要插入的新内容
 read -r -d '' replacement_text <<'EOF'
   external_filter:
     - .gov.cn
@@ -171,36 +174,34 @@ read -r -d '' replacement_text <<'EOF'
   seo_404_page: false
 EOF
 
-# 将替换文本写入临时文件
+# 将新内容写入临时文件
 echo "$replacement_text" > /tmp/temp_replacement.txt
 
-# 检查文件中是否包含 SEOFunctions 和 AccessPolicy
-if grep -q "^SEOFunctions:" "$app/config/config.yml" && grep -q "^AccessPolicy:" "$app/config/config.yml"; then
-  # 检查 SEOFunctions 和 AccessPolicy 之间是否已包含 friend_links
-  if ! sed -n "/^SEOFunctions:/,/^AccessPolicy:/p" "$app/config/config.yml" | grep -q "friend_links"; then
-    # 使用 sed 替换内容
-    sed -i.bak '
-      /^SEOFunctions:/,/^AccessPolicy:/ {
-        /^SEOFunctions:/ {
-          p
-          r /tmp/temp_replacement.txt
-          n
-        }
-        /^AccessPolicy:/ !d
-        /^AccessPolicy:/ p
+# 检查文件是否包含必要的标记行
+if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_file"; then
+  # 使用 sed 替换内容
+  sed -i.bak '
+    /^SEOFunctions:/,/^AccessPolicy:/ {
+      /^SEOFunctions:/ {
+        p
+        r /tmp/temp_replacement.txt
+        d
       }
-    ' "$app/config/config.yml"
-    echo "替换完成"
-  else
-    echo "跳过替换：friend_links 已存在"
-  fi
+      /^AccessPolicy:/ {
+        p
+        d
+      }
+      d
+    }
+  ' "$config_file"
+  echo "替换完成，重复行已移除"
 else
-  echo "错误：config.yml 中未找到 SEOFunctions 或 AccessPolicy"
+  echo "错误：配置文件中未找到 SEOFunctions 或 AccessPolicy"
   rm -f /tmp/temp_replacement.txt
   exit 1
 fi
 
-# 删除临时文件
+# 清理临时文件
 rm -f /tmp/temp_replacement.txt
 
 # 重启容器
