@@ -187,8 +187,6 @@ if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_
   echo "替换完成"
 else
   echo "错误：配置文件中未找到 SEOFunctions 或 AccessPolicy"
-  rm -f /tmp/temp_replacement.txt
-  exit 1
 fi
 
 # 清理临时文件
