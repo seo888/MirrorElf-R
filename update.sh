@@ -4,20 +4,20 @@ cd /www
 
 # 检查是否已经存在 "MirrorElf" 目录
 if [ -d "MirrorElf" ]; then
-    echo "目录 'MirrorElf' 存在，开始更新"
+  echo "目录 'MirrorElf' 存在，开始更新"
 else
-    echo "目录 'MirrorElf' 不存在，请先安装程序。"
-    exit 0
-    # 在这里添加你需要执行的命令
+  echo "目录 'MirrorElf' 不存在，请先安装程序。"
+  exit 0
+  # 在这里添加你需要执行的命令
 fi
 
 # 安装 jq 和 tar，如果它们尚未安装
-if command -v yum &> /dev/null; then
-    echo "CentOS系统"
-    yum install -y jq tar
+if command -v yum &>/dev/null; then
+  echo "CentOS系统"
+  yum install -y jq tar
 else
-    echo "Debian/Ubuntu系统"
-    apt install -y jq tar
+  echo "Debian/Ubuntu系统"
+  apt install -y jq tar
 fi
 
 # 从 GitHub API 获取最新的发布信息
@@ -54,7 +54,7 @@ fi
 #   echo "错误：文件 $TAR_FILE 不存在"
 #   exit 1
 # fi
-            
+
 rm -rf "$TARGET_DIR"
 
 # 创建目标目录
@@ -114,17 +114,17 @@ mv -f "$new" "$old"
 
 new="/www/MirrorElf_New/app/_"
 old="/www/MirrorElf/app/_"
-backup_dir="/tmp/js_backup"  # 临时备份目录
+backup_dir="/tmp/js_backup" # 临时备份目录
 
 # 1. 备份原 js 目录
 if [ -d "$old/static/js" ]; then
-    mkdir -p "$backup_dir"
-    cp -r "$old/static/js" "$backup_dir/"
+  mkdir -p "$backup_dir"
+  cp -r "$old/static/js" "$backup_dir/"
 fi
 
 # 2. 完全清空目标目录
 if [ -d "$old" ]; then
-    find "$old" -mindepth 1 -delete
+  find "$old" -mindepth 1 -delete
 fi
 
 # 3. 复制新内容
@@ -132,9 +132,9 @@ cp -r "$new"/* "$old/"
 
 # 4. 恢复原 js 目录
 if [ -d "$backup_dir/js" ]; then
-    mkdir -p "$old/static/"
-    cp -r "$backup_dir/js" "$old/static/"
-    rm -rf "$backup_dir"  # 清理备份
+  mkdir -p "$old/static/"
+  cp -r "$backup_dir/js" "$old/static/"
+  rm -rf "$backup_dir" # 清理备份
 fi
 
 PROJECT_DIR="/www/MirrorElf"
@@ -144,18 +144,18 @@ cd "$PROJECT_DIR" || exit 1
 # 检查并创建 postgres_data 目录（如果不存在）
 POSTGRES_DATA_DIR="/www/MirrorElf/postgres_data"
 if [ ! -d "$POSTGRES_DATA_DIR" ]; then
-    echo "创建 PostgreSQL 数据目录: $POSTGRES_DATA_DIR"
-    mkdir -p "$POSTGRES_DATA_DIR"
-    # 设置权限为 PostgreSQL 用户（UID 999）
-    chown 999:999 "$POSTGRES_DATA_DIR"
-    chmod 700 "$POSTGRES_DATA_DIR"
+  echo "创建 PostgreSQL 数据目录: $POSTGRES_DATA_DIR"
+  mkdir -p "$POSTGRES_DATA_DIR"
+  # 设置权限为 PostgreSQL 用户（UID 999）
+  chown 999:999 "$POSTGRES_DATA_DIR"
+  chmod 700 "$POSTGRES_DATA_DIR"
 fi
 
 # 检查并config.yml
 app="/www/MirrorElf/app"
 
 # 定义替换文本，规范化 YAML 格式
-read -r -d '' replacement_text << 'EOF'
+read -r -d '' replacement_text <<'EOF'
 SEOFunctions:
   external_filter:
     - .gov.cn
@@ -174,11 +174,14 @@ AccessPolicy:
 EOF
 
 # 使用 sed 替换
-echo "$replacement_text" > /tmp/temp_replacement.txt
-sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/ {
+echo "$replacement_text" >/tmp/temp_replacement.txt
+
+if ! grep -q "friend_links" "$app/config/config.yml"; then
+  sed -i'' "/^SEOFunctions:/,/^AccessPolicy:/ {
   r /tmp/temp_replacement.txt
   d
 }" "$app/config/config.yml"
+fi
 
 rm -f /tmp/temp_replacement.txt
 
