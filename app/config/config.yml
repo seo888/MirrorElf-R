@@ -1,6 +1,6 @@
 ProgramInfo:
   program_name: web1 - Mirror-Elf by TG@seo898
-  authorization_code: 31N7wDBlgpcfM8lBtvlTPhy9w0roq9RE9hQxic_Kg8XbM0gRZmJyH-naag1PSfdjSujVgyxr-iS9OR--w3dyi0BN3qHd
+  authorization_code: mZ-UvplRzhFndDULG3NAjz8ublsDooT4FagtJZ-W3l1wRauu7XcetXcOIbR0u4cJgdw2x3bRUbVOBzhJhYNGTPrZyg5T
   login_account: admin
   login_password: admin
   amazon_s3_api: minio:minio123@localhost:9000
@@ -27,7 +27,7 @@ SEOFunctions:
   friend_link_count: 5
   friend_links:
   - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
-  seo_404_page: false
+  seo_404_page: true
 AccessPolicy:
   forced_domain_binding: false
   ip_site_referrer: true
