@@ -185,8 +185,6 @@ if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_
     }
   ' "$config_file"
   echo "替换完成"
-else
-  echo "错误：配置文件中未找到 SEOFunctions 或 AccessPolicy"
 fi
 
 # 清理临时文件
