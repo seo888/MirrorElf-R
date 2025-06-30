@@ -1,6 +1,6 @@
 ProgramInfo:
   program_name: web1 - Mirror-Elf by TG@seo898
-  authorization_code: PoPA82deWgg8bzSD_IKTFlMcqGvMLScuc1aVrwXmi91AElsShTlD0jMxZK7XaAzFlExoARerly98h8-yVhpR6v0S0PeG
+  authorization_code: 31N7wDBlgpcfM8lBtvlTPhy9w0roq9RE9hQxic_Kg8XbM0gRZmJyH-naag1PSfdjSujVgyxr-iS9OR--w3dyi0BN3qHd
   login_account: admin
   login_password: admin
   amazon_s3_api: minio:minio123@localhost:9000
@@ -13,12 +13,21 @@ WebsiteSettings:
   language: zh
   link_mapping: true
   homepage_update_time: 3
-  target_static_save: ''
+  target_static_save: .js,.css
 SEOFunctions:
-  external_link_strategy: '1'
-  meta_information: true
+  external_filter:
+  - .gov.cn
+  external_links:
+  - '{随机网址}'
+  meta_information: false
   random_div_attributes: true
-  h1_seo: true
+  random_class_name: false
+  h1_seo: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>
+  html_entities: false
+  friend_link_count: 5
+  friend_links:
+  - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
+  seo_404_page: false
 AccessPolicy:
   forced_domain_binding: false
   ip_site_referrer: true

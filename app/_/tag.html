@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror-Elf® 标签文档</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* 目录样式 */
+        #toc {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        #toc h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 1.2em;
+        }
+
+        #toc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        #toc li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        #toc a {
+            color: #0366d6;
+            text-decoration: none;
+            display: block;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+
+        #toc a:hover {
+            color: #0056b3;
+        }
+
+        #toc .toc-h2 {
+            padding-left: 10px;
+        }
+
+        #toc .toc-h3 {
+            padding-left: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        /* 内容区域样式 */
+        #content {
+            padding-bottom: 50px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            scroll-margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            border-left: 4px solid #0366d6;
+            padding-left: 10px;
+        }
+
+        h3 {
+            font-size: 1.25em;
+            border-left: 2px solid #ddd;
+            padding-left: 10px;
+        }
+
+        code {
+            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            background-color: #ebebeb;
+            color: #de3434;
+            border-radius: 3px;
+            padding: 0.2em 0.4em;
+            font-size: 85%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+
+        code:hover {
+            background-color: #e9ecef;
+        }
+
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            padding: 16px;
+            overflow: auto;
+            line-height: 1.45;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        pre code {
+            background-color: #f8f9fa;
+            color: #3b82f6;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        blockquote {
+            border-left: 4px solid #dfe2e5;
+            color: #6a737d;
+            padding: 0 1em;
+            margin: 0 0 16px 0;
+        }
+
+        ul,
+        ol {
+            padding-left: 2em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .tag-section {
+            margin-bottom: 2em;
+        }
+
+        .tag-example {
+            background-color: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 3px;
+            padding: 16px;
+            margin: 10px 0;
+        }
+
+        .tag-description {
+            margin-bottom: 10px;
+        }
+
+        .tag-prefix {
+            font-weight: bold;
+            color: #d73a49;
+        }
+
+        /* 返回顶部按钮样式 */
+        .scroll-top {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
+        }
+
+        /* 刷新按钮样式 */
+        .refresh-btn {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
+        }
+
+        .scroll-top:hover,
+        .refresh-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 复制成功气泡样式 */
+        .copy-tip {
+            position: fixed;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: none;
+            animation: fadeInOut 1s;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            75% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+
+            #toc {
+                position: static;
+                max-height: none;
+                margin-bottom: 30px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 20px;
+            }
+
+            .scroll-top {
+                right: 10px;
+                bottom: 10px;
+            }
+
+            .refresh-btn {
+                right: 10px;
+                top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="refresh-btn" title="刷新页面"><b>↻</b></button>
+    <button class="scroll-top" title="回到顶部">⬆</button>
+    <h1>Mirror-Elf® 标签文档</h1>
+
+    <!-- 目录导航 -->
+    <div id="toc">
+        <h2>目录</h2>
+        <ul>
+            <li><a href="#intro">文档说明</a></li>
+
+            <li class="toc-h2"><a href="#special-functions">【特殊功能】</a>
+                <ul>
+                    <li class="toc-h3"><a href="#explicit-sampling">显式随机抽样</a></li>
+                    <li class="toc-h3"><a href="#id-grouping">id分组功能</a></li>
+                </ul>
+            </li>
+
+            <li class="toc-h2"><a href="#fixed-tags">【固定标签】</a>
+                <ul>
+                    <li class="toc-h3"><a href="#root-domain">域名</a></li>
+                    <!-- <li class="toc-h3"><a href="#domain">域名</a></li> -->
+                    <li class="toc-h3"><a href="#random-url">网址</a></li>
+                    <!-- <li class="toc-h3"><a href="#url">网址</a></li> -->
+                    <li class="toc-h3"><a href="#index">首页</a></li>
+                    <li class="toc-h3"><a href="#title">标题</a></li>
+                    <li class="toc-h3"><a href="#keywords">关键词组</a></li>
+                    <li class="toc-h3"><a href="#keyword">关键词</a></li>
+                    <li class="toc-h3"><a href="#coreword">核心词</a></li>
+                    <li class="toc-h3"><a href="#description">描述</a></li>
+                </ul>
+            </li>
+
+            <li class="toc-h2"><a href="#function-tags">【函数标签】</a></li>
+
+            <li class="toc-h2"><a href="#sample-tags">【抽样标签】</a>
+                <ul>
+                    <li class="toc-h3"><a href="#basic-sampling">基本抽样</a></li>
+                    <li class="toc-h3"><a href="#param-sampling">带参数抽样</a></li>
+                    <li class="toc-h3"><a href="#char-sampling">字符抽样</a></li>
+                    <li class="toc-h3"><a href="#file-sampling">文件名抽样</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 内容区域 -->
+    <div id="content">
+        <div id="intro" class="tag-description">
+            📌导航 安装文档 → <a href="https://dynalist.io/d/q6lSdWqvIBsuK56HNq4d1nxN#theme=light">Mirror-Elf®安装文档</a>
+            <p>所有标签支持<code>多级嵌套</code>，支持在<code>文档中的写标签</code>然后用【抽样标签】获取的文档内容。</p>
+        </div>
+
+        <div id="special-functions" class="tag-section">
+            <h2>【特殊功能】</h2>
+            <div class="tag-description">
+                <code>特殊前缀和符号</code>，id分组后缀<code>#</code>，显式单字符抽样前缀<code>^</code>，显式多字符抽样符号<code>|</code>。
+            </div>
+
+            <div id="explicit-sampling">
+                <h3><code>&#123;^字符串..&#125; | &#123;字符串|字符串|..&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>显式随机抽样</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;^字符串..&#125;</code>功能前缀<code>^</code>显式随机抽样，随机抽取单个字符
+                        </div>
+                        <pre><code>&#123;^1234567890&#125;</code> ➡ {^1234567890}<br><code>&#123;^abcdefg&#125;</code> ➡ {^abcdefg}</pre>
+                        <div class="tag-description">
+                            <code>&#123;字符串|字符串|..&#125;</code>功能符号<code>|</code>显式随机抽样，随机抽取以<code>|</code>分隔的字符串</div>
+                        <pre><code>&#123;apple|orange|banana&#125;</code> ➡ {apple|orange|banana}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="id-grouping">
+                <h3><code>&#123;标签#99&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>功能后缀<code>#</code>加数字，id分组功能（全标签通用）</h4>
+                    <div class="tag-example">
+                        <div class="tag-description">id相同则表示同一个对象</div>
+                        <pre><code>&#123;^1234567890&#125;</code> ➡ {^1234567890}<br><code>&#123;^1234567890#99&#125;</code> ➡ {^1234567890#99} | <code>&#123;^1234567890#99&#125;</code> ➡ {^1234567890#99}</pre>
+                        <pre><code>&#123;^abcdefg&#125;</code> ➡ {^abcdefg}<br><code>&#123;^abcdefg#88&#125;</code> ➡ {^abcdefg#88} | <code>&#123;^abcdefg#88&#125;</code> ➡ {^abcdefg#88}</pre>
+                        <pre><code>&#123;apple|orange|banana&#125;</code> ➡ {apple|orange|banana}<br><code>&#123;apple|orange|banana#66&#125;</code> ➡ {apple|orange|banana#66} | <code>&#123;apple|orange|banana#66&#125;</code> ➡ {apple|orange|banana#66}</pre>
+
+                    </div>
+                    <div class="tag-example">
+                        <div class="tag-description">同id可以获取一个站点的信息</div>
+                        <pre><code>&#123;*域名#18&#125;</code> ➡ {*域名#18}</pre>
+                        <pre><code>&#123;*标题#18&#125;</code> ➡ {*标题#18}</pre>
+                        <pre><code>&#123;*描述#18&#125;</code> ➡ {*描述#18}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="fixed-tags" class="tag-section">
+            <h2>【固定标签】</h2>
+            <div class="tag-description">
+                <code>&#123;固定标签&#125;</code>，无参数。<br>
+                功能前缀：<code>*</code>表示获取范围扩展到全服务器所有站点。<br>
+                字符前缀：<code>&#123;主站.***&#125; | &#123;main.***&#125;</code>表示指定获取主站（以www.开头）<br>
+                字符前缀：<code>&#123;泛站.***&#125; | &#123;sub.***&#125;</code>表示指定获取泛站（非www）<br>
+            </div>
+
+            <div id="root-domain">
+                <h3><code>&#123;根域名&#125; | &#123;root_domain&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点根域名</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;根域名&#125;</code>获取当前<code>站点</code>的<code>根域名</code>
+                        </div>
+                        <pre><code>&#123;根域名&#125;</code> ➡ {根域名}<br><code>&#123;root_domain&#125;</code> ➡ {root_domain}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*根域名&#125;</code>随机从<code>所有站点</code>中抽取一个网站，获取此站的<code>根域名</code></div>
+                        <pre><code>&#123;*根域名&#125;</code> ➡ {*根域名}<br><code>&#123;*root_domain&#125;</code> ➡ {*root_domain}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="domain">
+                <h3><code>&#123;域名&#125; | &#123;domain&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点域名</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;域名&#125;</code>获取当前<code>站点</code>的<code>域名</code>
+                        </div>
+                        <pre><code>&#123;域名&#125;</code> ➡ {域名}<br><code>&#123;domain&#125;</code> ➡ {domain}</pre>
+                        <div class="tag-description"><code>&#123;主站.域名&#125;</code>获取当前域名<code>主站</code>的<code>域名</code>
+                        </div>
+                        <pre><code>&#123;主站.域名&#125;</code> ➡ {主站.域名}<br><code>&#123;main.domain&#125;</code> ➡ {main.domain}</pre>
+                        <div class="tag-description">
+                            <code>&#123;泛站.域名&#125;</code>获取当前域名<code>随机泛站</code>的<code>域名</code></div>
+                        <pre><code>&#123;泛站.域名&#125;</code> ➡ {泛站.域名}<br><code>&#123;sub.domain&#125;</code> ➡ {sub.domain}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*域名&#125;</code>随机从<code>所有站点</code>中抽取一个网站，获取此站的<code>域名</code></div>
+                        <pre><code>&#123;*域名&#125;</code> ➡ {*域名}<br><code>&#123;*domain&#125;</code> ➡ {*domain}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.域名&#125;</code>随机从<code>所有主站</code>中抽取一个网站，获取此站的<code>域名</code></div>
+                        <pre><code>&#123;*主站.域名&#125;</code> ➡ {*主站.域名}<br><code>&#123;*main.domain&#125;</code> ➡ {*main.domain}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.域名&#125;</code>随机从<code>所有泛站</code>中抽取一个网站，获取此站的<code>域名</code></div>
+                        <pre><code>&#123;*泛站.域名&#125;</code> ➡ {*泛站.域名}<br><code>&#123;*sub.domain&#125;</code> ➡ {*sub.domain}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="random-url">
+                <h3><code>&#123;随机网址&#125; | &#123;rand_url&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取当前站点随机网址</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;随机网址&#125;</code>获取当前站点的<code>随机网址</code></div>
+                        <pre><code>&#123;随机网址&#125;</code> ➡ {随机网址}<br><code>&#123;rand_url&#125;</code> ➡ {rand_url}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="url">
+                <h3><code>&#123;网址&#125; | &#123;url&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点网址</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;网址&#125;</code>获取当前页面的<code>网址</code></div>
+                        <pre><code>&#123;网址&#125;</code> ➡ {网址}<br><code>&#123;url&#125;</code> ➡ {url}</pre>
+                        <div class="tag-description"><code>&#123;主站.网址&#125;</code>获取当前域名主站的<code>随机网址</code></div>
+                        <pre><code>&#123;主站.网址&#125;</code> ➡ {主站.网址}<br><code>&#123;main.url&#125;</code> ➡ {main.url}</pre>
+                        <div class="tag-description"><code>&#123;泛站.网址&#125;</code>获取当前域名的<code>随机泛站网址</code></div>
+                        <pre><code>&#123;泛站.网址&#125;</code> ➡ {泛站.网址}<br><code>&#123;sub.url&#125;</code> ➡ {sub.url}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*网址&#125;</code>随机从<code>所有站点</code>中抽取一个网站，获取此站的<code>随机网址</code></div>
+                        <pre><code>&#123;*网址&#125;</code> ➡ {*网址}<br><code>&#123;*url&#125;</code> ➡ {*url}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.网址&#125;</code>随机从<code>所有主站</code>中抽取一个网站，获取此站的<code>随机网址</code></div>
+                        <pre><code>&#123;*主站.网址&#125;</code> ➡ {*主站.网址}<br><code>&#123;*main.url&#125;</code> ➡ {*main.url}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.网址&#125;</code>随机从<code>所有泛站</code>中抽取一个网站，获取此站的<code>随机网址</code></div>
+                        <pre><code>&#123;*泛站.网址&#125;</code> ➡ {*泛站.网址}<br><code>&#123;*sub.url&#125;</code> ➡ {*sub.url}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="index">
+                <h3><code>&#123;首页&#125; | &#123;index&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点首页</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;首页&#125;</code>获取当前站点的<code>首页网址</code></div>
+                        <pre><code>&#123;首页&#125;</code> ➡ {首页}<br><code>&#123;index&#125;</code> ➡ {index}</pre>
+                        <div class="tag-description"><code>&#123;主站.首页&#125;</code>获取当前域名主站的<code>首页网址</code></div>
+                        <pre><code>&#123;主站.首页&#125;</code> ➡ {主站.首页}<br><code>&#123;main.index&#125;</code> ➡ {main.index}</pre>
+                        <div class="tag-description"><code>&#123;泛站.首页&#125;</code>获取当前域名的<code>随机泛站首页网址</code></div>
+                        <pre><code>&#123;泛站.首页&#125;</code> ➡ {泛站.首页}<br><code>&#123;sub.index&#125;</code> ➡ {sub.index}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*首页&#125;</code>随机从<code>所有站点</code>中抽取一个网站，获取此站的<code>首页网址</code></div>
+                        <pre><code>&#123;*首页&#125;</code> ➡ {*首页}<br><code>&#123;*index&#125;</code> ➡ {*index}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.首页&#125;</code>随机从<code>所有主站</code>中抽取一个网站，获取此站的<code>首页网址</code></div>
+                        <pre><code>&#123;*主站.首页&#125;</code> ➡ {*主站.首页}<br><code>&#123;*main.index&#125;</code> ➡ {*main.index}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.首页&#125;</code>随机从<code>所有泛站</code>中抽取一个网站，获取此站的<code>首页网址</code></div>
+                        <pre><code>&#123;*泛站.首页&#125;</code> ➡ {*泛站.首页}<br><code>&#123;*sub.index&#125;</code> ➡ {*sub.index}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="title">
+                <h3><code>&#123;标题&#125; | &#123;title&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点标题</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;标题&#125;</code>获取当前站点的<code>标题</code></div>
+                        <pre><code>&#123;标题&#125;</code> ➡ {标题}<br><code>&#123;title&#125;</code> ➡ {title}</pre>
+                        <div class="tag-description"><code>&#123;主站.标题&#125;</code>获取当前域名主站的<code>标题</code></div>
+                        <pre><code>&#123;主站.标题&#125;</code> ➡ {主站.标题}<br><code>&#123;main.title&#125;</code> ➡ {main.title}</pre>
+                        <div class="tag-description"><code>&#123;泛站.标题&#125;</code>获取当前域名的<code>随机泛站标题</code></div>
+                        <pre><code>&#123;泛站.标题&#125;</code> ➡ {泛站.标题}<br><code>&#123;sub.title&#125;</code> ➡ {sub.title}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*标题&#125;</code>随机从<code>所有站点</code>中抽取一个网站，获取此站的<code>标题</code></div>
+                        <pre><code>&#123;*标题&#125;</code> ➡ {*标题}<br><code>&#123;*title&#125;</code> ➡ {*title}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.标题&#125;</code>随机从<code>所有主站</code>中抽取一个网站，获取此站的<code>标题</code></div>
+                        <pre><code>&#123;*主站.标题&#125;</code> ➡ {*主站.标题}<br><code>&#123;*main.title&#125;</code> ➡ {*main.title}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.标题&#125;</code>随机从<code>所有泛站</code>中抽取一个网站，获取此站的<code>标题</code></div>
+                        <pre><code>&#123;*泛站.标题&#125;</code> ➡ {*泛站.标题}<br><code>&#123;*sub.title&#125;</code> ➡ {*sub.title}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="keywords">
+                <h3><code>&#123;关键词组&#125; | &#123;keywords&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点keywords</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;关键词组&#125;</code>获取当前站点的<code>关键词组（keywords）</code>
+                        </div>
+                        <pre><code>&#123;关键词组&#125;</code> ➡ {关键词组}<br><code>&#123;keywords&#125;</code> ➡ {keywords}</pre>
+                        <div class="tag-description">
+                            <code>&#123;主站.关键词组&#125;</code>获取当前域名主站的<code>关键词组（keywords）</code></div>
+                        <pre><code>&#123;主站.关键词组&#125;</code> ➡ {主站.关键词组}<br><code>&#123;main.keywords&#125;</code> ➡ {main.keywords}</pre>
+                        <div class="tag-description">
+                            <code>&#123;泛站.关键词组&#125;</code>获取当前域名的<code>随机泛站关键词组（keywords）</code></div>
+                        <pre><code>&#123;泛站.关键词组&#125;</code> ➡ {泛站.关键词组}<br><code>&#123;sub.keywords&#125;</code> ➡ {sub.keywords}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*关键词组&#125;</code>随机从<code>所有站点</code>中抽取一个网站，获取此站的<code>关键词组（keywords）</code>
+                        </div>
+                        <pre><code>&#123;*关键词组&#125;</code> ➡ {*关键词组}<br><code>&#123;*keywords&#125;</code> ➡ {*keywords}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.关键词组&#125;</code>随机从<code>所有主站</code>中抽取一个网站，获取此站的<code>关键词组（keywords）</code>
+                        </div>
+                        <pre><code>&#123;*主站.关键词组&#125;</code> ➡ {*主站.关键词组}<br><code>&#123;*main.keywords&#125;</code> ➡ {*main.keywords}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.关键词组&#125;</code>随机从<code>所有泛站</code>中抽取一个网站，获取此站的<code>关键词组（keywords）</code>
+                        </div>
+                        <pre><code>&#123;*泛站.关键词组&#125;</code> ➡ {*泛站.关键词组}<br><code>&#123;*sub.keywords&#125;</code> ➡ {*sub.keywords}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="keyword">
+                <h3><code>&#123;关键词&#125; | &#123;keyword&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点关键词</h4>
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;关键词&#125;</code>随机从当前站点的<code>keywords</code>中获取一个<code>关键词</code></div>
+                        <pre><code>&#123;关键词&#125;</code> ➡ {关键词}<br><code>&#123;keyword&#125;</code> ➡ {keyword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;主站.关键词&#125;</code>随机从当前域名主站的<code>keywords</code>中获取一个<code>关键词</code></div>
+                        <pre><code>&#123;主站.关键词&#125;</code> ➡ {主站.关键词}<br><code>&#123;main.keyword&#125;</code> ➡ {main.keyword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;泛站.关键词&#125;</code>随机从当前域名的<code>随机泛站</code>的<code>keywords</code>中获取一个<code>关键词</code>
+                        </div>
+                        <pre><code>&#123;泛站.关键词&#125;</code> ➡ {泛站.关键词}<br><code>&#123;sub.keyword&#125;</code> ➡ {sub.keyword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*关键词&#125;</code>随机从<code>所有站点</code>中抽取一个网站，然后随机从此站点的<code>keywords</code>中获取一个<code>关键词</code>
+                        </div>
+                        <pre><code>&#123;*关键词&#125;</code> ➡ {*关键词}<br><code>&#123;*keyword&#125;</code> ➡ {*keyword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.关键词&#125;</code>随机从<code>所有主站</code>中抽取一个网站，然后随机从此站点的<code>keywords</code>中获取一个<code>关键词</code>
+                        </div>
+                        <pre><code>&#123;*主站.关键词&#125;</code> ➡ {*主站.关键词}<br><code>&#123;*main.keyword&#125;</code> ➡ {*main.keyword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.关键词&#125;</code>随机从<code>所有泛站</code>中抽取一个网站，然后随机从此站点的<code>keywords</code>中获取一个<code>关键词</code>
+                        </div>
+                        <pre><code>&#123;*泛站.关键词&#125;</code> ➡ {*泛站.关键词}<br><code>&#123;*sub.keyword&#125;</code> ➡ {*sub.keyword}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="coreword">
+                <h3><code>&#123;核心词&#125; | &#123;coreword&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点核心词</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;核心词&#125;</code>获取当前站点的<code>核心关键词（keywords的第一个）</code>
+                        </div>
+                        <pre><code>&#123;核心词&#125;</code> ➡ {核心词}<br><code>&#123;coreword&#125;</code> ➡ {coreword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;主站.核心词&#125;</code>获取当前域名主站的<code>核心关键词（keywords的第一个）</code></div>
+                        <pre><code>&#123;主站.核心词&#125;</code> ➡ {主站.核心词}<br><code>&#123;main.coreword&#125;</code> ➡ {main.coreword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;泛站.核心词&#125;</code>获取当前域名的<code>随机泛站</code>的<code>核心关键词（keywords的第一个）</code>
+                        </div>
+                        <pre><code>&#123;泛站.核心词&#125;</code> ➡ {泛站.核心词}<br><code>&#123;sub.coreword&#125;</code> ➡ {sub.coreword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*核心词&#125;</code>随机抽取<code>所有站点</code>的<code>核心关键词（keywords的第一个）</code></div>
+                        <pre><code>&#123;*核心词&#125;</code> ➡ {*核心词}<br><code>&#123;*coreword&#125;</code> ➡ {*coreword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.核心词&#125;</code>随机抽取<code>所有主站</code>的<code>核心关键词（keywords的第一个）</code></div>
+                        <pre><code>&#123;*主站.核心词&#125;</code> ➡ {*主站.核心词}<br><code>&#123;*main.coreword&#125;</code> ➡ {*main.coreword}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.核心词&#125;</code>随机抽取<code>所有泛站</code>的<code>核心关键词（keywords的第一个）</code></div>
+                        <pre><code>&#123;*泛站.核心词&#125;</code> ➡ {*泛站.核心词}<br><code>&#123;*sub.coreword&#125;</code> ➡ {*sub.coreword}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="description">
+                <h3><code>&#123;描述&#125; | &#123;description&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>获取站点描述</h4>
+                    <div class="tag-example">
+                        <div class="tag-description"><code>&#123;描述&#125;</code>获取当前站点的<code>描述</code></div>
+                        <pre><code>&#123;描述&#125;</code> ➡ {描述}<br><code>&#123;description&#125;</code> ➡ {description}</pre>
+                        <div class="tag-description"><code>&#123;主站.描述&#125;</code>获取当前域名主站的<code>描述</code></div>
+                        <pre><code>&#123;主站.描述&#125;</code> ➡ {主站.描述}<br><code>&#123;main.description&#125;</code> ➡ {main.description}</pre>
+                        <div class="tag-description">
+                            <code>&#123;泛站.描述&#125;</code>获取当前域名的<code>随机泛站</code>的<code>描述</code></div>
+                        <pre><code>&#123;泛站.描述&#125;</code> ➡ {泛站.描述}<br><code>&#123;sub.description&#125;</code> ➡ {sub.description}</pre>
+                        <div class="tag-description"><code>&#123;*描述&#125;</code>随机抽取<code>所有站点</code>的<code>描述</code>
+                        </div>
+                        <pre><code>&#123;*描述&#125;</code> ➡ {*描述}<br><code>&#123;*description&#125;</code> ➡ {*description}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*主站.描述&#125;</code>随机抽取<code>所有主站</code>的<code>描述</code></div>
+                        <pre><code>&#123;*主站.描述&#125;</code> ➡ {*主站.描述}<br><code>&#123;*main.description&#125;</code> ➡ {*main.description}</pre>
+                        <div class="tag-description">
+                            <code>&#123;*泛站.描述&#125;</code>随机抽取<code>所有泛站</code>的<code>描述</code></div>
+                        <pre><code>&#123;*泛站.描述&#125;</code> ➡ {*泛站.描述}<br><code>&#123;*sub.description&#125;</code> ➡ {*sub.description}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="function-tags" class="tag-section">
+            <h2>【函数标签】</h2>
+            <div class="tag-description">
+                <code>&#123;!函数标签(参数1,参数2...)&#125;</code>，符号"!"为前缀，后面写函数名称与参数。
+            </div>
+        </div>
+
+        <div id="sample-tags" class="tag-section">
+            <h2>【抽样标签】</h2>
+            <div class="tag-description">
+                <code>&#123;@文件路径(参数1,参数2)&#125;</code>，符号"@"为前缀，后面写文档名(不带".txt")，功能是从<code>doc目录</code>下找到此txt文档获取数据。
+            </div>
+
+            <div id="basic-sampling">
+                <h3><code>&#123;@文件路径&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>随机抽取文档中的一行数据</h4>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;@keyword&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中的关键词
+                        </div>
+                        <pre><code>&#123;@keyword&#125;</code> ➡ {@keyword}</pre>
+                    </div>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;@names/person_name&#125;</code>随机抽取<code>doc/names/person_name.txt</code>文档中的数据
+                        </div>
+                        <pre><code>&#123;@names/person_name&#125;</code> ➡ {@names/person_name}</pre>
+                    </div>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;@names&#125;</code>优先从<code>doc/names.txt</code>文档中的随机抽取数据，如果names.txt不存在并且names是一个文件夹，则程序会自动从<code>doc/names</code>文件夹中随机抽取一个文档，再从这个文档中获取数据。
+                        </div>
+                        <pre><code>&#123;@names&#125;</code> ➡ {@names}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="param-sampling">
+                <h3><code>&#123;@文件路径(参数1,参数2)&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>参数1: <code>抽取数量</code> 参数2: <code>拼接符号</code> 随机抽取文档中的多行数据，用拼接符号拼接起来</h4>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;@keyword(2_5,'\n')&#125;</code>随机抽取<code>2至5</code>个<code>doc/keyword.txt</code>文档中的关键词，以回车符号<code>\n</code>拼接
+                        </div>
+                        <pre><code>&#123;@keyword(2_5,'\n')&#125;</code> ➡ {@keyword(2_5,'\n')}</pre>
+                        <div class="tag-description">
+                            <code>&#123;@keyword(3,',')&#125;</code>真实使用场景，用<code>,</code>拼接
+                        </div>
+                        <pre><code>&lt;meta name="keywords" content="&#123;@keyword(3,',')&#125;"&gt;</code> ➡ &lt;meta name="keywords" content="{@keyword(3,',')}"&gt;</pre>
+                    </div>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;@article(2_4,'&lt;p&gt;...&lt;/p&gt;\n')&#125;</code>随机抽取<code>doc/article.txt</code>文档中的<code>2至4</code>条数据，用p标签<code>&lt;p&gt;...&lt;/p&gt;</code>包裹起来
+                        </div>
+                        <pre><code>&#123;@article(2_4,'&lt;p&gt;...&lt;/p&gt;\n')&#125;</code> ➡ {@article(2_4,'&lt;p&gt;...&lt;/p&gt;\n')}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="char-sampling">
+                <h3><code>&#123;^@文件路径&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>功能前缀: <code>^</code> 字符抽样，随机抽取文档中单个字符</h4>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;^@emoji&#125;</code>随机抽取<code>doc/emoji符号.txt</code>文档中的1个字符
+                        </div>
+                        <pre><code>&#123;^@emoji&#125;</code> ➡ {^@emoji}</pre>
+                    </div>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;^@大小写字母(5_8)&#125;</code>随机抽取<code>doc/大小写字母.txt</code>文档中的<code>5到8</code>个字符
+                        </div>
+                        <pre><code>&#123;^@大小写字母(5_8)&#125;</code> ➡ {^@大小写字母(5_8)}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="file-sampling">
+                <h3><code>&#123;:@文件路径&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4>功能前缀: <code>:</code> 文件名抽样，随机抽取文件夹中的文件名（仅支持填写目录路径）</h4>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;:@_/static/images&#125;</code>随机抽取<code>_/static/images</code>图片文件夹中的文件名
+                        </div>
+                        <pre><code>&#123;:@_/static/images&#125;</code> ➡ {:@_/static/images}</pre>
+                        <div class="tag-description">
+                            <code>&#123;:@_/static/images/头像&#125;</code>使用场景
+                        </div>
+                        <pre><code>&lt;img src="/&#123;:@_/static/images/头像&#125;" /&gt;</code> ➡ &lt;img src="/{:@_/static/images/头像}" /&gt;</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 平滑滚动效果
+        document.querySelectorAll('#toc a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                window.scrollTo({
+                    top: targetElement.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+
+                // 更新URL哈希而不触发跳转
+                history.pushState(null, null, targetId);
+            });
+        });
+
+        // 高亮当前查看的目录项
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                if (entry.intersectionRatio > 0) {
+                    document.querySelectorAll('#toc a').forEach(a => {
+                        a.classList.remove('active');
+                        if (a.getAttribute('href') === `#${id}`) {
+                            a.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // 观察所有章节标题
+        document.querySelectorAll('#content h2, #content h3').forEach(section => {
+            observer.observe(section);
+        });
+
+        // 返回顶部按钮
+        const scrollTopButton = document.querySelector('.scroll-top');
+        scrollTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 刷新按钮功能
+        const refreshButton = document.querySelector('.refresh-btn');
+        refreshButton.addEventListener('click', () => {
+            location.reload();
+        });
+
+        // 是否显示返回顶部按钮
+        const showScrollTop = () => {
+            if (window.scrollY > 200) {
+                scrollTopButton.style.display = 'flex';
+            } else {
+                scrollTopButton.style.display = 'none';
+            }
+        };
+
+        window.addEventListener('scroll', showScrollTop);
+        showScrollTop(); // 初始化
+
+        // 代码块点击复制
+        document.querySelectorAll('code').forEach(codeBlock => {
+            codeBlock.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(codeBlock.textContent);
+                    // 简单的复制成功反馈
+                    codeBlock.style.backgroundColor = '#e6ffe6';
+                    setTimeout(() => {
+                        codeBlock.style.backgroundColor = '#ebebeb';
+                    }, 1000);
+
+                    // 创建气泡提示
+                    const tip = document.createElement('div');
+                    tip.className = 'copy-tip';
+                    tip.textContent = '复制成功！';
+                    tip.style.left = `${codeBlock.getBoundingClientRect().right + 10}px`;
+                    tip.style.top = `${codeBlock.getBoundingClientRect().top - 30}px`;
+                    document.body.appendChild(tip);
+                    // 显示气泡并在1秒后移除
+                    tip.style.display = 'block';
+                    setTimeout(() => {
+                        tip.style.display = 'none';
+                        setTimeout(() => {
+                            document.body.removeChild(tip);
+                        }, 500);
+                    }, 1000);
+                } catch (err) {
+                    console.error('无法复制内容：', err);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -327,36 +327,96 @@
                                             collapsable: true,
                                             title: "SEO功能",
                                             body: [
+                                                // {
+                                                //     name: "SEOFunctions.external_link_strategy",
+                                                //     type: "checkboxes",
+                                                //     label: "外链替换策略",
+                                                //     checkAll: true,
+                                                //     optionType: "button",
+                                                //     options: [
+                                                //         { label: "当前域名·内链", value: "1" },
+                                                //         { label: "主站·内链", value: "2" },
+                                                //         { label: "泛站·首页", value: "3" },
+                                                //         { label: "泛站·内链", value: "4" },
+                                                //         { label: "【全服】主站·首页", value: "5" },
+                                                //         { label: "【全服】主站·内链", value: "6" },
+                                                //         { label: "【全服】泛站·首页", value: "7" },
+                                                //         { label: "【全服】泛站·内链", value: "8" },
+                                                //     ]
+                                                // },
+
+                                                // {
+                                                //     name: "SEOFunctions.h1_seo",
+                                                //     type: "switch",
+                                                //     onText: "开启",
+                                                //     offText: "关闭",
+                                                //     label: "插入H1标签"
+                                                // },
+                                                
                                                 {
-                                                    name: "SEOFunctions.external_link_strategy",
-                                                    type: "checkboxes",
-                                                    label: "外链替换策略",
-                                                    checkAll: true,
-                                                    optionType: "button",
-                                                    options: [
-                                                        { label: "当前域名·内链", value: "1" },
-                                                        { label: "主站·内链", value: "2" },
-                                                        { label: "泛站·首页", value: "3" },
-                                                        { label: "泛站·内链", value: "4" },
-                                                        { label: "【全服】主站·首页", value: "5" },
-                                                        { label: "【全服】主站·内链", value: "6" },
-                                                        { label: "【全服】泛站·首页", value: "7" },
-                                                        { label: "【全服】泛站·内链", value: "8" },
-                                                    ]
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            "type": "input-array",
+                                                            "name": "SEOFunctions.external_links",
+                                                            "label": "外链替换样式",
+                                                            "desc": "添加多个样式随机使用。标签：{随机网址} {*首页} {*网址}，更多标签详情请查看《标签文档》",
+                                                            "items": {
+                                                                "type": "input-text",
+                                                                "maxLength": 100,
+                                                            },
+                                                            "addButtonText": "样式",
+                                                            "scaffold": '{随机网址}',
+                                                            "minItems": 0,
+                                                            "unique": true,
+                                                            "validationErrors": {
+                                                                "unique": "外链替换样式 不能重复"
+                                                            }
+                                                        }, {
+                                                            "type": "input-array",
+                                                            "name": "SEOFunctions.external_filter",
+                                                            "label": "外链替换过滤",
+                                                            "desc": "填写如 .gov.cn .edu.cn .org.cn 等后缀，这些后缀的链接将不会被替换。",
+                                                            "items": {
+                                                                "type": "input-text",
+                                                                "maxLength": 100,
+                                                            },
+                                                            "addButtonText": "样式",
+                                                            "scaffold": '.gov.cn',
+                                                            "minItems": 0,
+                                                            "unique": true,
+                                                            "validationErrors": {
+                                                                "unique": "不能重复"
+                                                            }
+                                                        },]
                                                 },
                                                 {
                                                     name: "SEOFunctions.h1_seo",
+                                                    type: "textarea",
+                                                    label: "插入全局代码（H1标签seo）",
+                                                    placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
+                                                    desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
+                                                },
+                                                {
+                                                    name: "SEOFunctions.seo_404_page",
                                                     type: "switch",
                                                     onText: "开启",
                                                     offText: "关闭",
-                                                    label: "H1标签插入"
+                                                    label: "404页面SEO"
                                                 },
                                                 {
                                                     name: "SEOFunctions.random_div_attributes",
                                                     type: "switch",
                                                     onText: "开启",
                                                     offText: "关闭",
-                                                    label: "div标签随机属性"
+                                                    label: "Div随机属性"
+                                                },
+                                                {
+                                                    name: "SEOFunctions.random_class_name",
+                                                    type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
+                                                    label: "Class随机类名"
                                                 },
                                                 {
                                                     name: "SEOFunctions.meta_information",
@@ -364,6 +424,54 @@
                                                     onText: "开启",
                                                     offText: "关闭",
                                                     label: "OG协议"
+                                                },
+                                                {
+                                                    name: "SEOFunctions.html_entities",
+                                                    type: "switch",
+                                                    onText: "开启",
+                                                    offText: "关闭",
+                                                    label: "TDK转码",
+                                                },
+                                                {
+                                                    name: "SEOFunctions.friend_link_count",
+                                                    type: "input-number",
+                                                    label: "自动友链数量",
+                                                    required: true,
+                                                    desc: "填0关闭"
+                                                },
+                                                // {
+                                                //     name: "SEOFunctions.friend_link_mode",
+                                                //     type: "radios",
+                                                //     label: "友链样式",
+                                                //     // checkAll: true,
+                                                //     // optionType: "button",
+                                                //     options: [
+                                                //         { label: '<a target="_blank" title="{标题}" href="{网址}">{标题}</a>', value: "1" },
+                                                //         { label: '<a target="_blank" title="{核心词}" href="{网址}">{核心词}</a>', value: "2" },
+                                                //         { label: '<a target="_blank" href="{网址}">{标题}</a>', value: "3" },
+                                                //         { label: '<a target="_blank" href="{网址}">{核心词}</a>', value: "4" },
+                                                //     ]
+                                                // },
+                                                {
+                                                    "type": "input-array",
+                                                    "name": "SEOFunctions.friend_links",
+                                                    "label": "友链样式",
+                                                    "desc": "添加多个样式随机使用。标签：{*主站.标题#1001} {*主站.首页#1001} {*主站.核心词#1001}，更多标签详情请查看《标签文档》",
+                                                    "items": {
+                                                        "type": "input-text",
+                                                        "maxLength": 100,
+                                                    },
+                                                    "addButtonText": "样式",
+                                                    "scaffold": '<a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>',
+                                                    "minItems": 0,
+                                                    "unique": true,
+                                                    "validations": {
+                                                        "matchRegexp": "<a\\s+[^>]*href\\s*=\\s*[\"'][^\"']*[\"'][^>]*>.*</a>"
+                                                    },
+                                                    "validationErrors": {
+                                                        "matchRegexp": "请输入有效的HTML链接格式（必须包含完整a标签）",
+                                                        "unique": "友链样式 不能重复"
+                                                    }
                                                 },
                                             ]
                                         }
@@ -416,7 +524,7 @@
                                                                 "name": "ua",
                                                                 "label": "ua",
                                                             },
-                                                            "addButtonText": "添加 UA",
+                                                            "addButtonText": "UA",
                                                             "minItems": 0,
                                                             "unique": true,
                                                             "validationErrors": {
@@ -433,7 +541,7 @@
                                                                 "label": "ip",
                                                                 "maxLength": 15,
                                                             },
-                                                            "addButtonText": "添加 IP",
+                                                            "addButtonText": "IP",
                                                             "minItems": 0,
                                                             "unique": true,
                                                             "validationErrors": {
@@ -488,6 +596,7 @@
                                                     "type": "input-array",
                                                     "name": "GlobalCodeInsertion.filter_ip",
                                                     "label": "过滤地址",
+                                                    "desc": "可添加多个IP地址，访问时这些IP地址的请求将不会加载全局JS代码。（注意：搜索引擎蜘蛛不加载全局JS代码）",
                                                     "items": {
                                                         "type": "input-text",
                                                         "name": "ip",
@@ -495,7 +604,7 @@
                                                         "maxLength": 15,
                                                     }
                                                     ,
-                                                    "addButtonText": "添加 IP",
+                                                    "addButtonText": "IP",
                                                     "minItems": 0,
                                                     "unique": true,
                                                     "validationErrors": {

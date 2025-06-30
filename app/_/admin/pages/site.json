@@ -59,10 +59,16 @@
             "icon": "fa fa-spider"
           },
           {
-            "label": "查询工具",
+            "label": "常用工具",
             "url": "/tool",
             "schemaApi": "jsonp:/_/admin/pages/tool.js?callback=jsonpCallback",
             "icon": "fa fa-magnifying-glass"
+          },
+          {
+            "label": "标签文档",
+            "url": "/tag",
+            "schemaApi": "jsonp:/_/admin/pages/tag.js?callback=jsonpCallback",
+            "icon": "fa fa-file-text"
           },
           {
             "label": "设置",

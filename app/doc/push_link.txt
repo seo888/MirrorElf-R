@@ -1,0 +1,4 @@
+https://www.facebook.com/watch/explore/{@keyword} {@ad}
+https://www.facebook.com/public/{@keyword} {@ad}
+https://map.360.cn/?k={@keyword} {@ad}
+http://app.lifeweek.com.cn/?app=search&controller=index&action=search&type=all&wd={keyword} {@ad}

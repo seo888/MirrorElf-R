@@ -1,0 +1,10 @@
+https://www.i4.cn/index_search.action?type=3&k={@keyword} {@ad}
+https://m.suning.com/search/{@keyword} {@ad}/
+https://www.nigeriapostcode.com/search/?keyword={@keyword} {@ad}
+https://www.bing.com/search?q={@keyword} {@ad}&qs=HS&sc=20-0&cvid=【uuid】&FORM=QBLH&sp=1&lq=0
+https://tieba.baidu.com/hottopic/browse/hottopic?topic_name={@keyword} {@ad}
+https://c.m.163.com/news/search?keyword={@keyword} {@ad}
+https://www.bing.com/dict/?q={@keyword} {@ad}&FORM=HDRSC6
+https://sf.163.com/search/{@keyword} {@ad}
+https://dict.youdao.com/w/{@keyword} {@ad}
+https://twistynoodle.com/search/?q={@keyword} {@ad}
