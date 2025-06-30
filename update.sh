@@ -154,7 +154,7 @@ fi
 # 检查并config.yml
 app="/www/MirrorElf/app"
 
-# 定义替换文本，仅包含 SEOFunctions 和 AccessPolicy 之间的内容
+# 定义替换文本
 read -r -d '' replacement_text <<'EOF'
   external_filter:
     - .gov.cn
@@ -176,10 +176,12 @@ echo "$replacement_text" > /tmp/temp_replacement.txt
 
 # 检查文件中是否包含 SEOFunctions 和 AccessPolicy
 if grep -q "^SEOFunctions:" "$app/config/config.yml" && grep -q "^AccessPolicy:" "$app/config/config.yml"; then
-  # 检查 SEOFunctions 和 AccessPolicy 之间是否包含 friend_links
+  # 检查 SEOFunctions 和 AccessPolicy 之间是否已包含 friend_links
   if ! sed -n "/^SEOFunctions:/,/^AccessPolicy:/p" "$app/config/config.yml" | grep -q "friend_links"; then
-    # 使用 sed 替换 SEOFunctions: 和 AccessPolicy: 之间的内容，保留头尾标记
-    sed -i.bak "/^SEOFunctions:/,/^AccessPolicy:/ { /^SEOFunctions:/n; /^SEOFunctions:/!{/^AccessPolicy:/!d}; /^SEOFunctions:/r /tmp/temp_replacement.txt; }" "$app/config/config.yml"
+    # 使用 sed 替换内容
+    sed -i.bak "/^SEOFunctions:/,/^AccessPolicy:/ { /^SEOFunctions:/p; /^SEOFunctions:/r /tmp/temp_replacement.txt
+      /^SEOFunctions:/n; /^AccessPolicy:/p; d; }" "$app/config/config.yml"
+    echo "替换完成"
   else
     echo "跳过替换：friend_links 已存在"
   fi
