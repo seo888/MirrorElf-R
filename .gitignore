@@ -5,6 +5,6 @@ app/.gitignore
 app/Cargo.lock
 app/Cargo.toml
 minio
-app/doc/keywords.txt
+app/doc/keyword.txt
 app/doc/keywords
 app/doc/ad.txt
