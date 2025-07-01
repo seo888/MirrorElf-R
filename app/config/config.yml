@@ -1,6 +1,6 @@
 ProgramInfo:
   program_name: web1 - Mirror-Elf by TG@seo898
-  authorization_code: mZ-UvplRzhFndDULG3NAjz8ublsDooT4FagtJZ-W3l1wRauu7XcetXcOIbR0u4cJgdw2x3bRUbVOBzhJhYNGTPrZyg5T
+  authorization_code: PIvoWJVFxieOgYGs4RGXPFFdt_8tvkaZWykcjvYX56Mu0c-RJu22GFFB8_D9roIHpCi1vnLKX_6KFGUZsjJWEXlu3RSs
   login_account: admin
   login_password: admin
   amazon_s3_api: minio:minio123@localhost:9000
@@ -13,7 +13,7 @@ WebsiteSettings:
   language: zh
   link_mapping: true
   homepage_update_time: 3
-  target_static_save: .js,.css
+  target_static_save: .js,.css,.jpg,.png
 SEOFunctions:
   external_filter:
   - .gov.cn
