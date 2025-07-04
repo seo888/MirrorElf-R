@@ -807,6 +807,7 @@
 					{
 						"name": "website_info.title",
 						"label": "网站标题",
+						"copyable": true,
 						"popOver": {
 							"trigger": "hover",
 							"body": {
@@ -820,6 +821,7 @@
 					{
 						"name": "website_info.keywords",
 						"label": "关键词",
+						"copyable": true,
 						"popOver": {
 							"trigger": "hover",
 							"body": {
@@ -831,6 +833,7 @@
 					{
 						"name": "website_info.description",
 						"label": "描述",
+						"copyable": true,
 					},
 					// {
 					// 	"name": "replace_string",
