@@ -352,7 +352,7 @@
                                                 //     offText: "关闭",
                                                 //     label: "插入H1标签"
                                                 // },
-                                                
+
                                                 {
                                                     "type": "group",
                                                     "body": [
@@ -390,12 +390,58 @@
                                                             }
                                                         },]
                                                 },
+                                                // {
+                                                //     name: "SEOFunctions.h1_seo",
+                                                //     type: "textarea",
+                                                //     label: "插入全局代码（H1标签seo）",
+                                                //     placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
+                                                //     desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
+                                                // },
+                                                //                                 {
+                                                //   "type": "children",
+                                                //   "title": "插入全局代码",
+                                                //   "body": [
+                                                //     {
+                                                //       "name": "SEOFunctions.head_header",
+                                                //       "type": "textarea",
+                                                //       "label": "head头部"
+                                                //     },
+                                                //     {
+                                                //       "name": "SEOFunctions.head_footer",
+                                                //       "type": "textarea",
+                                                //       "label": "head尾部"
+                                                //     }
+                                                //   ]
+                                                // },
                                                 {
-                                                    name: "SEOFunctions.h1_seo",
-                                                    type: "textarea",
-                                                    label: "插入全局代码（H1标签seo）",
-                                                    placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
-                                                    desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "SEOFunctions.head_header",
+                                                            type: "textarea",
+                                                            label: "全局代码 &lt;head&gt;***"
+                                                        },
+                                                        {
+                                                            name: "SEOFunctions.head_footer",
+                                                            type: "textarea",
+                                                            label: "全局代码 ***&lt;/head&gt;"
+                                                        }]
+                                                },
+                                                {
+                                                    "type": "group",
+                                                    "body": [
+                                                        {
+                                                            name: "SEOFunctions.body_header",
+                                                            type: "textarea",
+                                                            label: "全局代码 &lt;body&gt;***",
+                                                            placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
+                                                            desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
+                                                        },
+                                                        {
+                                                            name: "SEOFunctions.body_footer",
+                                                            type: "textarea",
+                                                            label: "全局代码 ***&lt;/body&gt;"
+                                                        }]
                                                 },
                                                 {
                                                     name: "SEOFunctions.seo_404_page",
