@@ -168,7 +168,7 @@ printf "%s\n" "$replacement_text" > /tmp/temp_replacement.txt
 # cat /tmp/temp_replacement.txt
 
 # 检查配置文件是否包含必要标记
-if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_file" && ! grep -q "head_footer" "$config_file"; then
+if grep -q "^SEOFunctions:" "$config_file" && grep -q "^AccessPolicy:" "$config_file" && ! grep -q "push_link" "$config_file"; then
   # 替换内容
   sed -i.bak '
     /^SEOFunctions:/,/^AccessPolicy:/ {
