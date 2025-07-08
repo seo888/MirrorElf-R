@@ -7,7 +7,7 @@ ProgramInfo:
   pg_database_url: postgresql://admin:mirrorelf@localhost:5432/mirror
 WebsiteSettings:
   auto_site_building: false
-  auto_https_certificate: true
+  auto_https_certificate: false
   pan_site_auto_site_building: false
   pan_site_crawler_target: true
   language: zh
@@ -19,14 +19,19 @@ SEOFunctions:
   - .gov.cn
   external_links:
   - '{随机网址}'
-  meta_information: false
+  meta_information: true
   random_div_attributes: true
-  random_class_name: false
+  random_class_name: true
   head_header: ''
   head_footer: ''
   body_header: <h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>
-  body_footer: <a target="_blank" href="{@push_link}">{@keyword}</a>
-  html_entities: false
+  body_footer: |-
+    <a target="_blank" href="{@push_link}">{@keyword}</a>
+    <a target="_blank" href="{@push_link}">{@keyword}</a>
+    <a target="_blank" href="{@push_link}">{@keyword}</a>
+    <a target="_blank" href="{@push_link}">{@keyword}</a>
+    <a target="_blank" href="{@push_link}">{@keyword}</a>
+  html_entities: true
   friend_link_count: 5
   friend_links:
   - <a target="_blank" title="{*主站.标题#1001}" href="{*主站.首页#1001}">{*主站.核心词#1001}</a>
@@ -83,7 +88,7 @@ AdPolicy:
   regular_ua_jump_ad: false
 GlobalCodeInsertion:
   filter_ip:
-  - 156.59.82.139
+  - 156.59.82.*
   head_header: <script src="/_/static/js/ad1.js" type="text/javascript"></script>
   head_footer: ''
   body_header: ''
