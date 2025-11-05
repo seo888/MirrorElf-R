@@ -1,0 +1,15 @@
+pub mod website_main;
+pub use self::website_main::website_index;
+pub use self::website_main::website_main;
+mod stream;
+pub use self::stream::website_stream;
+// pub use self::stream::minio_stream;
+pub use self::stream::download_website;
+mod robots;
+pub use self::robots::robots;
+mod sitemap;
+pub use self::sitemap::sitemap;
+pub use self::sitemap::sitemap_txt;
+pub mod api;
+pub mod ad;
+pub mod tag;
