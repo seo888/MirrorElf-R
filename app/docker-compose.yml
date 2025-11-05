@@ -29,6 +29,8 @@ services:
       interval: 10s # 每 10 秒检查一次
       timeout: 5s # 超时时间
       retries: 10 # 重试次数
+  ############ PostgreSQL 服务配置 ############
+  ############ 使用以下命令可在本地运行 PostgreSQL 容器 ############
   # docker run --name my-postgres \
   #   -e POSTGRES_USER=admin \
   #   -e POSTGRES_PASSWORD=mirrorelf \
