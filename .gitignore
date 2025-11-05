@@ -8,3 +8,5 @@ minio
 app/doc/keyword.txt
 app/doc/keywords
 app/doc/ad.txt
+_tmp_clone
+download.sh
