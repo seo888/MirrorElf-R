@@ -419,12 +419,12 @@
                                                         {
                                                             name: "SEOFunctions.head_header",
                                                             type: "textarea",
-                                                            label: "全局代码 &lt;head&gt;***"
+                                                            label: "全局动态 &lt;head&gt;后"
                                                         },
                                                         {
                                                             name: "SEOFunctions.head_footer",
                                                             type: "textarea",
-                                                            label: "全局代码 ***&lt;/head&gt;"
+                                                            label: "全局动态 &lt;/head&gt;前"
                                                         }]
                                                 },
                                                 {
@@ -433,14 +433,14 @@
                                                         {
                                                             name: "SEOFunctions.body_header",
                                                             type: "textarea",
-                                                            label: "全局代码 &lt;body&gt;***",
+                                                            label: "全局动态 &lt;body&gt;后",
                                                             placeholder: '<h1><a target="_blank" title="{标题}" href="{首页}">{核心词}</a></h1>',
                                                             desc: 'body起始处插入html代码，一般用于插入H1标签。&lt;h1&gt;&lt;a target="_blank" title="{标题}" href="{首页}">{核心词}&lt;/a&gt;&lt;/h1&gt;，更多标签详情请查看《标签文档》（搜索引擎蜘蛛正常加载）',
                                                         },
                                                         {
                                                             name: "SEOFunctions.body_footer",
                                                             type: "textarea",
-                                                            label: "全局代码 ***&lt;/body&gt;"
+                                                            label: "全局动态 &lt;/body&gt;前"
                                                         }]
                                                 },
                                                 {

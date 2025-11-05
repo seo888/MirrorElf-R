@@ -316,6 +316,7 @@
                     <li class="toc-h3"><a href="#keyword">关键词</a></li>
                     <li class="toc-h3"><a href="#coreword">核心词</a></li>
                     <li class="toc-h3"><a href="#description">描述</a></li>
+                    <li class="toc-h3"><a href="#path_keyword">路径关键词</a></li>
                 </ul>
             </li>
 
@@ -626,6 +627,18 @@
                             <code>&#123;*泛站.描述&#125;</code>随机抽取<code>所有泛站</code>的<code>描述</code></div>
                         <pre><code>&#123;*泛站.描述&#125;</code> ➡ {*泛站.描述}<br><code>&#123;*sub.description&#125;</code> ➡ {*sub.description}</pre>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="path_keyword">
+            <h3><code>&#123;路径关键词&#125; | &#123;path_keyword&#125;</code></h3>
+            <div class="tag-subsection">
+                <h4>获取当前网址路径以“/”分隔的最后一截的中文</h4>
+                <div class="tag-example">
+                    <div class="tag-description"><code>&#123;路径关键词&#125;</code>，例如：http://www.example.com/tag/镜像站群软件<br>获取中文：镜像站群软件</div>
+                    <div class="tag-description"><code>&#123;path_keyword&#125;</code>，例如：http://www.example.com/tag/abcd<br>最后一段不是中文，则标签变为：&#123;@keyword#911&#125;，获取文档中的关键词，当前演示就是这种。</div>
+                    <pre><code>&#123;路径关键词&#125;</code> ➡ {路径关键词}<br><code>&#123;path_keyword&#125;</code> ➡ {path_keyword}</pre>
                 </div>
             </div>
         </div>
