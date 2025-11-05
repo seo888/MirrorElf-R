@@ -103,26 +103,14 @@ new="/www/MirrorElf_New/update.sh"
 old="/www/MirrorElf/update.sh"
 mv -f "$new" "$old"
 
-new="/www/MirrorElf_New/app/src"
-old="/www/MirrorElf/app/src"
-# 确保目标目录存在
-if [ -d "$old" ]; then
-    rm -rf "$old"/*  # 删除目标目录中的所有内容
-fi
-# 使用 cp 命令复制新目录的内容到目标目录
-cp -r "$new"/* "$old"/
-
-new="/www/MirrorElf_New/app/Cargo.toml"
-old="/www/MirrorElf/app/Cargo.toml"
-mv -f "$new" "$old"
-
-new="/www/MirrorElf_New/app/Cargo.lock"
-old="/www/MirrorElf/app/Cargo.lock"
-mv -f "$new" "$old"
-
-new="/www/MirrorElf_New/app/Dockerfile"
-old="/www/MirrorElf/app/Dockerfile"
-mv -f "$new" "$old"
+# new="/www/MirrorElf_New/app/_"
+# old="/www/MirrorElf/app/_"
+# # 确保目标目录存在
+# if [ -d "$old" ]; then
+#     rm -rf "$old"/*  # 删除目标目录中的所有内容
+# fi
+# # 使用 cp 命令复制新目录的内容到目标目录
+# cp -r "$new"/* "$old"/
 
 new="/www/MirrorElf_New/app/_"
 old="/www/MirrorElf/app/_"
