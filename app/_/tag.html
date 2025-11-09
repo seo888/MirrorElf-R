@@ -321,6 +321,9 @@
             </li>
 
             <li class="toc-h2"><a href="#function-tags">【函数标签】</a></li>
+                <ul>
+                    <li class="toc-h3"><a href="#get-related">抽相关词</a></li>
+                </ul>
 
             <li class="toc-h2"><a href="#sample-tags">【抽样标签】</a>
                 <ul>
@@ -647,6 +650,29 @@
             <h2>【函数标签】</h2>
             <div class="tag-description">
                 <code>&#123;!函数标签(参数1,参数2...)&#125;</code>，符号"!"为前缀，后面写函数名称与参数。
+            </div>
+
+            <div id="get-related">
+                <h3><code>&#123;!抽相关词(参数1,参数2,参数3)&#125; | &#123;!get_related(参数1,参数2,参数3)&#125;</code></h3>
+                <div class="tag-subsection">
+                    <h4></h4>
+                    <h4>参数1: <code>文档名称</code> 参数2: <code>关键词</code> 参数3[可选]: <code>限制至少存在相关词数量（默认1，大于此数才从中抽取相关词，否则直接返回文档中的随机数据）</code>传入一个关键词，随机抽取文档中与此匹配的相关词</h4>
+                    
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;!抽相关词(keyword.txt,官方)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“官方”相关的关键词
+                        </div>
+                        <pre><code>&#123;!抽相关词(keyword.txt,官方)&#125;</code> ➡ {!抽相关词(keyword.txt,官方)}</pre>
+                    </div>
+
+                    <div class="tag-example">
+                        <div class="tag-description">
+                            <code>&#123;!get_related(keyword.txt,app下载,50)&#125;</code>随机抽取<code>doc/keyword.txt</code>文档中与“app下载”相关的关键词，且至少存在相关词数量50个才从中抽取相关词，否则直接返回文档中的随机数据
+                        </div>
+                        <pre><code>&#123;!get_related(keyword.txt,app下载,50)&#125;</code> ➡ {!get_related(keyword.txt,app下载,50)}</pre>
+                    </div>
+
+                </div>
             </div>
         </div>
 
