@@ -80,6 +80,16 @@
 					"export-excel",
 					{
 						"type": "button",
+						"label": "数据备份",
+						"level": "primary",
+						"actionType": "ajax", // 使用 ajax 类型动作发送请求
+						"api": {
+							"method": "get", // 定义请求方法为 POST
+							"url": "/_api_/data/download", // 替换成您实际的 API 地址
+						},
+					},
+					{
+						"type": "button",
 						"actionType": "dialog",
 						"label": "建站",
 						"icon": "fa fa-plus pull-left",
